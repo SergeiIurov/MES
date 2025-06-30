@@ -142,11 +142,13 @@ INSERT INTO Stations (Name, Description,Created,LastUpdated, IsDeleted,AreaId) V
 INSERT INTO Stations (Name, Description,Created,LastUpdated, IsDeleted,AreaId) VALUES ('Улица 30','',GETDATE(), GETDATE(),0, @id)
 
 --Заполнение справочника ProductTypes(тип кабины/шасси)
-INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('ДКС','',GETDATE(), GETDATE(),0)
-INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('ККС','',GETDATE(), GETDATE(),0)
-INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('ДКВ','',GETDATE(), GETDATE(),0)
 INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('ККН','',GETDATE(), GETDATE(),0)
-INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('Тягач','',GETDATE(), GETDATE(),0)
-INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('Самосвал','',GETDATE(), GETDATE(),0)
+INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('ККС','',GETDATE(), GETDATE(),0)
+INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('ДКН','',GETDATE(), GETDATE(),0)
+INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('ДКС','',GETDATE(), GETDATE(),0)
+INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('ДКВ','',GETDATE(), GETDATE(),0)
 INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('Шасси','',GETDATE(), GETDATE(),0)
+INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('Тягач','',GETDATE(), GETDATE(),0)
+INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('Борт','',GETDATE(), GETDATE(),0)
+INSERT INTO ProductTypes (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('Самосвал','',GETDATE(), GETDATE(),0)
 

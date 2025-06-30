@@ -165,13 +165,15 @@ namespace ControlBoard.Web.Data
                 {
                     context.ProductTypes.AddRange(new List<ProductType>()
             {
-                new() { Name = "ДКС", Created = DateTime.Now, LastUpdated = DateTime.Now },
-                new() { Name = "ККС", Created = DateTime.Now, LastUpdated = DateTime.Now },
-                new() { Name = "ДКВ", Created = DateTime.Now, LastUpdated = DateTime.Now },
                 new() { Name = "ККН", Created = DateTime.Now, LastUpdated = DateTime.Now },
-                new() { Name = "Тягач", Created = DateTime.Now, LastUpdated = DateTime.Now },
-                new() { Name = "Самосвал", Created = DateTime.Now, LastUpdated = DateTime.Now },
+                new() { Name = "ККС", Created = DateTime.Now, LastUpdated = DateTime.Now },
+                new() { Name = "ДКН", Created = DateTime.Now, LastUpdated = DateTime.Now },
+                new() { Name = "ДКС", Created = DateTime.Now, LastUpdated = DateTime.Now },
+                new() { Name = "ДКВ", Created = DateTime.Now, LastUpdated = DateTime.Now },
                 new() { Name = "Шасси", Created = DateTime.Now, LastUpdated = DateTime.Now },
+                new() { Name = "Тягач", Created = DateTime.Now, LastUpdated = DateTime.Now },
+                new() { Name = "Борт", Created = DateTime.Now, LastUpdated = DateTime.Now },
+                new() { Name = "Самосвал", Created = DateTime.Now, LastUpdated = DateTime.Now },
             });
                 }
 

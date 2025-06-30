@@ -1,0 +1,8 @@
+Создание миграции:
+dotnet ef migrations add Init --project ControlBoard.db --startup-project ControlBoard.web
+
+Обновление БД:
+dotnet ef database update --project ControlBoard.db --startup-project ControlBoard.web
+
+Получение скриптов для формирования БД
+dotnet ef migrations --project ControlBoard.db --startup-project ControlBoard.web  script

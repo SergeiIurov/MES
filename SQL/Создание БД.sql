@@ -1,0 +1,87 @@
+IF DB_ID('MesDB') IS NULL
+BEGIN
+    CREATE DATABASE MesDB
+END
+GO
+
+USE MesDb
+GO
+
+IF OBJECT_ID('dbo.Areas') IS NULL
+BEGIN
+CREATE TABLE [Areas] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(150) NOT NULL,
+    [Description] nvarchar(max) NULL,
+    [Created] datetime2 NOT NULL,
+    [LastUpdated] datetime2 NOT NULL,
+    [IsDeleted] bit NOT NULL DEFAULT CAST(0 AS bit),
+    CONSTRAINT [PK_Areas] PRIMARY KEY ([Id])
+);
+END
+GO
+
+IF OBJECT_ID('dbo.Stations') IS NULL
+BEGIN
+CREATE TABLE [Stations] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(150) NOT NULL,
+    [Description] nvarchar(max) NULL,
+    [Created] datetime2 NOT NULL,
+    [LastUpdated] datetime2 NOT NULL,
+    [IsDeleted] bit NOT NULL DEFAULT CAST(0 AS bit),
+    [AreaId] int NOT NULL,
+    CONSTRAINT [PK_Stations] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Stations_Areas_AreaId] FOREIGN KEY ([AreaId]) REFERENCES [Areas] ([Id]) ON DELETE CASCADE
+);
+END
+GO
+
+IF OBJECT_ID('dbo.ProductTypes') IS NULL
+BEGIN
+CREATE TABLE [ProductTypes] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(150) NOT NULL,
+    [Description] nvarchar(max) NULL,
+    [Created] datetime2 NOT NULL,
+    [LastUpdated] datetime2 NOT NULL,
+    [IsDeleted] bit NOT NULL DEFAULT CAST(0 AS bit),
+    CONSTRAINT [PK_ProductTypes] PRIMARY KEY ([Id])
+);
+END
+GO
+
+IF OBJECT_ID('dbo.ProcessStates') IS NULL
+BEGIN
+CREATE TABLE [ProcessStates] (
+    [Id] int NOT NULL IDENTITY,
+    [Value] nvarchar(150) NOT NULL,
+    [Description] nvarchar(max) NULL,
+    [Created] datetime2 NOT NULL,
+    [LastUpdated] datetime2 NOT NULL,
+    [IsDeleted] bit NOT NULL DEFAULT CAST(0 AS bit),
+    [StationId] int NOT NULL,
+    [ProductTypeId] int NULL,
+    CONSTRAINT [PK_ProcessStates] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_ProcessStates_ProductTypes_ProductTypeId] FOREIGN KEY ([ProductTypeId]) REFERENCES [ProductTypes] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_ProcessStates_Stations_StationId] FOREIGN KEY ([StationId]) REFERENCES [Stations] ([Id]) ON DELETE CASCADE
+);
+END
+GO
+
+IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'IX_ProcessStates_ProductTypeId' AND object_id = OBJECT_ID('dbo.ProcessStates'))
+BEGIN
+    CREATE INDEX [IX_ProcessStates_ProductTypeId] ON [ProcessStates] ([ProductTypeId]);
+END
+
+IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'IX_ProcessStates_StationId' AND object_id = OBJECT_ID('dbo.ProcessStates'))
+BEGIN
+    CREATE INDEX [IX_ProcessStates_StationId] ON [ProcessStates] ([StationId]);
+END
+
+IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'IX_Stations_AreaId' AND object_id = OBJECT_ID('dbo.Stations'))
+BEGIN
+    CREATE INDEX [IX_Stations_AreaId] ON [Stations] ([AreaId]);
+END
+
+

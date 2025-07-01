@@ -25,7 +25,7 @@ namespace FileWatcherService
                 {
 
                     await SendPictureAsync();
-                    logger.LogInformation("Обновление");
+                    logger.LogInformation("РћР±РЅРѕРІР»РµРЅРёРµ");
 
                 }
             };
@@ -34,7 +34,7 @@ namespace FileWatcherService
             {
                 isSending = true;
                 await SendPictureAsync();
-                Console.WriteLine("Создан");
+                Console.WriteLine("РЎРѕР·РґР°РЅ");
             };
 
             jpgWatcher.EnableRaisingEvents = true;
@@ -52,7 +52,7 @@ namespace FileWatcherService
                 {
 
                     await SendDataAsync();
-                    logger.LogInformation("Обновление");
+                    logger.LogInformation("РћР±РЅРѕРІР»РµРЅРёРµ");
 
                 }
             };
@@ -61,7 +61,7 @@ namespace FileWatcherService
             {
                 isSending = true;
                 await SendDataAsync();
-                Console.WriteLine("Создан");
+                Console.WriteLine("РЎРѕР·РґР°РЅ");
             };
 
             excelWatcher.EnableRaisingEvents = true;

@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.Json;
+using ClosedXML.Excel;
 using ControlBoard.Domain.Dto;
-using OfficeOpenXml;
 
 namespace FileWatcherService
 {
@@ -12,6 +12,7 @@ namespace FileWatcherService
         {
             WatchJpgFiles();
             WatchExcelFiles();
+
         }
 
         private void WatchJpgFiles()
@@ -43,7 +44,7 @@ namespace FileWatcherService
         private void WatchExcelFiles()
         {
             bool isSending = false;
-            FileSystemWatcher excelWatcher = new(config["excelDirectoryName"] ?? string.Empty, "*.xlsx");
+            FileSystemWatcher excelWatcher = new(config["excelDirectoryName"] ?? string.Empty, "*.csv");
 
             excelWatcher.Changed += async (o, e) =>
             {
@@ -104,17 +105,16 @@ namespace FileWatcherService
                 }
                 string serverAddress = $"{config?["url"]}/excel-data";
                 await Task.Delay(2000);
-                ExcelPackage.License.SetNonCommercialPersonal("grey");
-                ExcelPackage package = new ExcelPackage(new FileInfo(fileName));
 
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-                for (var row = 1; row <= worksheet.Rows.Count(); row++)
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                foreach (var line in File.ReadLines(fileName, Encoding.GetEncoding(1251)))
                 {
+                    string[] str = line.Split(';');
                     list.Add(new()
                     {
-                        StationName = worksheet.Cells[row, 1].Value.ToString(),
-                        Value = worksheet.Cells[row, 2].Value.ToString(),
-                        ProductTypeName = worksheet.Cells[row, 3].Value.ToString()
+                        StationName = str[0],
+                        Value = str[1],
+                        ProductTypeName = str[2]
                     });
                 }
 

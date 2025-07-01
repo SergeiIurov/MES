@@ -1,4 +1,9 @@
-﻿using ControlBoard.DB;
+﻿using AutoMapper;
+using ControlBoard.DB;
+using ControlBoard.DB.Entities;
+using ControlBoard.Domain.Dto;
+using ControlBoard.Domain.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -6,7 +11,7 @@ namespace ControlBoard.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControlBoardController(IHubContext<MesHub> hub, IWebHostEnvironment env) : Controller
+    public class ControlBoardController(IHubContext<MesHub> hub, IWebHostEnvironment env, IProcessStateService processStateService) : Controller
     {
         [HttpPost]
         //[Authorize]
@@ -15,7 +20,14 @@ namespace ControlBoard.Web.Controllers
 
             using FileStream fs = System.IO.File.Create($"{env.WebRootPath}/files/board.jpg");
             file.CopyTo(fs);
-            hub.Clients.All.SendAsync("notifyAll");
+            await hub.Clients.All.SendAsync("notifyAll");
+        }
+
+        [HttpPost("excel-data")]
+        //[Authorize]
+        public async Task UploadData(List<ProcessStateDto> list)
+        {
+           await processStateService.SaveListAsync(list);
         }
 
         [HttpGet("image")]

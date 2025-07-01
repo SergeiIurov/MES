@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlBoard.DB.Migrations
 {
     [DbContext(typeof(MesDbContext))]
-    [Migration("20250701063820_Init")]
+    [Migration("20250701094120_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -73,6 +73,9 @@ namespace ControlBoard.DB.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()

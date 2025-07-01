@@ -61,6 +61,7 @@ CREATE TABLE [ProcessStates] (
     [LastUpdated] datetime2 NOT NULL,
     [IsDeleted] bit NOT NULL DEFAULT CAST(0 AS bit),
     [StationId] int NOT NULL,
+    [GroupId] uniqueidentifier NOT NULL,
     [ProductTypeId] int NULL,
     CONSTRAINT [PK_ProcessStates] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_ProcessStates_ProductTypes_ProductTypeId] FOREIGN KEY ([ProductTypeId]) REFERENCES [ProductTypes] ([Id]) ON DELETE CASCADE,

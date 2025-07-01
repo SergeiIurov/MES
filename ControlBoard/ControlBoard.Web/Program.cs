@@ -1,6 +1,11 @@
 using ControlBoard.DB;
 using ControlBoard.DB.Entities;
+using ControlBoard.DB.Repositories.Abstract;
+using ControlBoard.DB.Repositories.Concrete;
+using ControlBoard.Domain.Services.Abstract;
+using ControlBoard.Domain.Services.Concrete;
 using ControlBoard.Web;
+using ControlBoard.Web.AutoMapperProfiles;
 using ControlBoard.Web.Data;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +28,9 @@ builder.Services.AddDbContext<MesDbContext>(ctx =>
         .UseLazyLoadingProxies();
 
 });
+
+builder.Services.AddScoped<IProcessStateRepository, ProcessStateRepository>();
+builder.Services.AddTransient<IProcessStateService, ProcessStateService>();
 
 builder.Services.AddCors(options =>
 {

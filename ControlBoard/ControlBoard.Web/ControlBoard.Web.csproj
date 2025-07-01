@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="9.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
@@ -22,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ControlBoard.DB\ControlBoard.DB.csproj" />
+    <ProjectReference Include="..\ControlBoard.Domain\ControlBoard.Domain.csproj" />
   </ItemGroup>
 
 </Project>

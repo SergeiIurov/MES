@@ -1,3 +1,6 @@
+USE MES
+GO
+
 DECLARE @id INT
 --Заполнение справочника Areas(Участки) и Stations(Станции)
 INSERT INTO Areas (Name, Description, Created,LastUpdated,IsDeleted) VALUES ('Сварка','',GETDATE(), GETDATE(),0)

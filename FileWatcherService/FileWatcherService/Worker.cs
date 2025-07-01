@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using ClosedXML.Excel;
 using ControlBoard.Domain.Dto;
 
 namespace FileWatcherService
@@ -12,7 +11,6 @@ namespace FileWatcherService
         {
             WatchJpgFiles();
             WatchExcelFiles();
-
         }
 
         private void WatchJpgFiles()
@@ -24,10 +22,8 @@ namespace FileWatcherService
                 isSending = !isSending;
                 if (isSending)
                 {
-
                     await SendPictureAsync();
                     logger.LogInformation("Обновление");
-
                 }
             };
 

@@ -53,11 +53,11 @@ rng.Select
     
     
     
-    
+
 
   'newWorkbook.Sheets(1).PasteSpecial _
   'Operation:=xlPasteSpecialOperationAdd
-  newWorkbook.SaveAs Filename:="E:\Info\test\PUBLIC\excel\Проверка.xlsx"
+  newWorkbook.SaveAs Filename:="E:\Info\test\PUBLIC\excel\Проверка.csv", FileFormat:=xlCSV, Local:=True
   newWorkbook.Close SaveChanges:=True
   
   Application.DisplayAlerts = True

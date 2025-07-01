@@ -1,0 +1,88 @@
+Sub takeScreen()
+    Dim currentTime As Date
+    currentTime = Now ' Получаем текущее время
+
+    'Время "9:00" в утренний интервал
+    If TimeValue(currentTime) >= TimeValue("00:00:00") And TimeValue(currentTime) <= TimeValue("08:59:59") Then
+        Range("M6").Value = "9:00"
+    End If
+    'Время "12:00" в обеденный интервал
+    If TimeValue(currentTime) >= TimeValue("09:00:00") And TimeValue(currentTime) <= TimeValue("11:59:59") Then
+        Range("M6").Value = "12:00"
+    End If
+    'Время "15:00" в вечерний интервал
+    If TimeValue(currentTime) >= TimeValue("12:00:00") And TimeValue(currentTime) <= TimeValue("23:59:59") Then
+        Range("M6").Value = "15:00"
+    End If
+
+    'Сохранение скрина
+    Dim rng As Range, oChart As ChartObject
+
+
+    Application.ScreenUpdating = False
+    ActiveWindow.Zoom = 300
+
+
+    If Dir("E:\Info\test\PUBLIC\image\", vbDirectory) = "" Then
+        MsgBox "Папка ScreenShots не найдена. Невозможно сохранить файл."
+        Exit Sub
+    End If
+
+
+Set rng = Range("P1:BZ34")
+
+rng.Select
+
+
+
+
+  Set rng2 = Range("B2:D108")
+  Application.DisplayAlerts = False
+  rng2.Copy
+  ' Создание новой книги
+  Dim newWorkbook As Workbook
+  Set newWorkbook = Workbooks.Add
+
+  
+  newWorkbook.Activate
+  
+  'newWorkbook.Paste
+  Range("A1").Select
+  Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    
+    
+    
+
+  'newWorkbook.Sheets(1).PasteSpecial _
+  'Operation:=xlPasteSpecialOperationAdd
+  newWorkbook.SaveAs Filename:="E:\Info\test\PUBLIC\excel\Проверка.xlsx"
+  newWorkbook.Close SaveChanges:=True
+  
+  Application.DisplayAlerts = True
+
+
+With rng
+    DoEvents
+    .Copy
+    Application.CutCopyMode = False
+    DoEvents
+    .CopyPicture xlPrinter, xlPicture
+    DoEvents
+    
+    Set oChart = ActiveSheet.ChartObjects.Add(.Left, .Top, 1920, 1080)
+    oChart.Activate
+    With oChart.Chart
+        .ChartArea.Border.LineStyle = 0
+        .Paste
+        .Export Filename:="E:\Info\test\PUBLIC\image\" & "Доска контроля производства.jpg", Filtername:="jpg"
+        .Parent.Delete
+    End With
+End With
+    ActiveWindow.Zoom = 70
+    Application.ScreenUpdating = True
+    
+Range("A1").Select
+
+End Sub

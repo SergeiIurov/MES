@@ -88,7 +88,7 @@ app.MapControllers();
 app.MapHub<MesHub>("/api/mes-hub");
 
 app.MapFallbackToFile("/index.html");
-TestData.LoadData(app.Services);
+//TestData.LoadData(app.Services);
 
 app.Run();
 

@@ -20,19 +20,20 @@ namespace ControlBoard.Domain.Services.Concrete
         {
             Guid uid = Guid.NewGuid();
             await repository.SaveProcessStates(list.Select(s =>
-              {
-                  return new ProcessState()
-                  {
-                      Value = s.Value,
-                      Description = "",
-                      Created = DateTime.Now,
-                      LastUpdated = DateTime.Now,
-                      IsDeleted = false,
-                      StationId = _stationMapper[s.StationName],
-                      ProductTypeId = _productTypeMapper[s.ProductTypeName],
-                      GroupId = uid
-                  };
-              }).ToList());
+            {
+                _productTypeMapper.TryGetValue(s.ProductTypeName, out int id);
+                return new ProcessState()
+                {
+                    Value = s?.Value ?? "",
+                    Description = "",
+                    Created = DateTime.Now,
+                    LastUpdated = DateTime.Now,
+                    IsDeleted = false,
+                    StationId = _stationMapper[s.StationName],
+                    ProductTypeId = id != 0 ? id : null,
+                    GroupId = uid
+                };
+            }).ToList());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ControlBoard.Domain.Dto
+﻿namespace FileWatcherService
 {
     public class ProcessStateDto
     {
@@ -9,7 +9,17 @@
         {
             get => _value;
 
-            set => _value = value?.PadLeft(3, '0');
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    _value = value;
+                }
+                else
+                {
+                    _value = value.PadLeft(3, '0');
+                }
+            }
         }
         public string? ProductTypeName { get; set; }
     }

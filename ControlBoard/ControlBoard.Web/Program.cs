@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.OpenApi.Models;
+using NLog.Extensions.Logging;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +44,7 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
         });
 });
-builder.Services.AddHttpLogging(opt => opt.LoggingFields = HttpLoggingFields.All);
+//builder.Services.AddHttpLogging(opt => opt.LoggingFields = HttpLoggingFields.Request);
 builder.Services.AddSignalR();
 
 builder.Services.AddControllers();
@@ -57,8 +59,12 @@ builder.Services.AddSwaggerGen(options =>
         Description = "An ASP.NET Core Web API for managing MES App",
     });
 });
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 var app = builder.Build();
+
+
 
 app.UseDefaultFiles();
 app.MapStaticAssets();
@@ -73,7 +79,7 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty;
     });
 
-    app.UseHttpLogging();
+    //app.UseHttpLogging();
 }
 
 app.UseStaticFiles();

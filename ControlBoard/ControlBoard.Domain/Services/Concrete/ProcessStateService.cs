@@ -9,22 +9,24 @@ using System.Threading.Tasks;
 using ControlBoard.DB;
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Services.Abstract;
+using Microsoft.Extensions.Logging;
 
 namespace ControlBoard.Domain.Services.Concrete
 {
-    public class ProcessStateService(IProcessStateRepository repository, MesDbContext context) : IProcessStateService
+    public class ProcessStateService(IProcessStateRepository repository, MesDbContext context, ILogger<ProcessStateService> logger) : IProcessStateService
     {
         private Dictionary<string, int> _stationMapper = context.Stations.ToDictionary(s => s.Name, s => s.Id, new CaseInsensitiveValueComparer());
         private Dictionary<string, int> _productTypeMapper = context.ProductTypes.ToDictionary(p => p.Name, p => p.Id, new CaseInsensitiveValueComparer());
         public async Task SaveListAsync(List<ProcessStateDto> list)
         {
+            logger.LogInformation("Подготовка информации к сохранению в БД");
             Guid uid = Guid.NewGuid();
             await repository.SaveProcessStates(list.Select(s =>
             {
                 _productTypeMapper.TryGetValue(s.ProductTypeName, out int id);
                 return new ProcessState()
                 {
-                    Value = s?.Value ?? "",
+                    Value = s.Value ?? "",
                     Description = "",
                     Created = DateTime.Now,
                     LastUpdated = DateTime.Now,
@@ -34,6 +36,8 @@ namespace ControlBoard.Domain.Services.Concrete
                     GroupId = uid
                 };
             }).ToList());
+
+            logger.LogInformation("Информация сохранена в БД");
         }
     }
 }

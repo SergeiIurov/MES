@@ -6,39 +6,68 @@ using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 
 namespace ControlBoard.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControlBoardController(IHubContext<MesHub> hub, IWebHostEnvironment env, IProcessStateService processStateService) : Controller
+    public class ControlBoardController(IHubContext<MesHub> hub, IWebHostEnvironment env, IProcessStateService processStateService, ILogger<ControlBoardController> logger) : Controller
     {
         [HttpPost]
         //[Authorize]
-        public async Task UploadPicture(IFormFile file)
+        public async Task UploadJpgFile(IFormFile file)
         {
-
-            using FileStream fs = System.IO.File.Create($"{env.WebRootPath}/files/board.jpg");
-            file.CopyTo(fs);
-            await hub.Clients.All.SendAsync("notifyAll");
+            try
+            {
+                logger.LogInformation($"Действие {nameof(UploadJpgFile)} запущено.");
+                using FileStream fs = System.IO.File.Create($"{env.WebRootPath}/files/board.jpg");
+                file.CopyTo(fs);
+                await hub.Clients.All.SendAsync("notifyAll");
+                logger.LogInformation($"Действие {nameof(UploadJpgFile)} завершено.");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
         }
 
-        [HttpPost("excel-data")]
+        [HttpPost("csv-data")]
         //[Authorize]
-        public async Task UploadData(List<ProcessStateDto> list)
+        public async Task UploadCsvFile(List<ProcessStateDto> list)
         {
-           await processStateService.SaveListAsync(list);
+            try
+            {
+                logger.LogInformation($"Действие {nameof(UploadCsvFile)} запущено.");
+                await processStateService.SaveListAsync(list);
+                logger.LogInformation($"Действие {nameof(UploadCsvFile)} завершено.");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
         }
 
         [HttpGet("image")]
         //[Authorize]
         public string GetPicture()
         {
-            using FileStream fs = System.IO.File.OpenRead($"{env.WebRootPath}/files/board.jpg");
-            MemoryStream ms = new MemoryStream();
-            fs.CopyTo(ms);
-            string str = Convert.ToBase64String(ms.ToArray());
-            return $"data:image/image/jpg;base64,{str}";
+            try
+            {
+                logger.LogInformation($"Действие {nameof(GetPicture)} запущено.");
+                using FileStream fs = System.IO.File.OpenRead($"{env.WebRootPath}/files/board.jpg");
+                MemoryStream ms = new MemoryStream();
+                fs.CopyTo(ms);
+                string str = Convert.ToBase64String(ms.ToArray());
+                logger.LogInformation($"Действие {nameof(GetPicture)} завершено. Готова отправка скриншота.");
+                return $"data:image/image/jpg;base64,{str}";
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                throw;
+            }
         }
     }
 }

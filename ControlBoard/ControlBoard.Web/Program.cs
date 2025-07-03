@@ -26,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<MesDbContext>(ctx =>
 {
-    ctx.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    ctx.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
         .UseLazyLoadingProxies();
 
 });

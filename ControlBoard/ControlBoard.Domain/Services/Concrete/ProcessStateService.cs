@@ -19,25 +19,32 @@ namespace ControlBoard.Domain.Services.Concrete
         private Dictionary<string, int> _productTypeMapper = context.ProductTypes.ToDictionary(p => p.Name, p => p.Id, new CaseInsensitiveValueComparer());
         public async Task SaveListAsync(List<ProcessStateDto> list)
         {
-            logger.LogInformation("Подготовка информации к сохранению в БД");
-            Guid uid = Guid.NewGuid();
-            await repository.SaveProcessStates(list.Select(s =>
+            try
             {
-                _productTypeMapper.TryGetValue(s.ProductTypeName, out int id);
-                return new ProcessState()
+                logger.LogInformation("Подготовка информации к сохранению в БД");
+                Guid uid = Guid.NewGuid();
+                await repository.SaveProcessStates(list.Select(s =>
                 {
-                    Value = s.Value ?? "",
-                    Description = "",
-                    Created = DateTime.Now,
-                    LastUpdated = DateTime.Now,
-                    IsDeleted = false,
-                    StationId = _stationMapper[s.StationName],
-                    ProductTypeId = id != 0 ? id : null,
-                    GroupId = uid
-                };
-            }).ToList());
+                    _productTypeMapper.TryGetValue(s.ProductTypeName, out int id);
+                    return new ProcessState()
+                    {
+                        Value = s.Value ?? "",
+                        Description = "",
+                        Created = DateTime.Now.ToUniversalTime(),
+                        LastUpdated = DateTime.Now.ToUniversalTime(),
+                        IsDeleted = false,
+                        StationId = _stationMapper[s.StationName],
+                        ProductTypeId = id != 0 ? id : null,
+                        GroupId = uid
+                    };
+                }).ToList());
 
-            logger.LogInformation("Информация сохранена в БД");
+                logger.LogInformation("Информация сохранена в БД");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, ex);
+            }
         }
     }
 }

@@ -13,11 +13,13 @@ namespace ControlBoard.DB.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductType> builder)
         {
-            builder.ToTable("ProductTypes").HasQueryFilter(f => !f.IsDeleted);
-            builder.Property(p => p.IsDeleted).HasDefaultValue(false).IsRequired();
-            builder.Property(p => p.Name).HasMaxLength(150).IsRequired();
-            builder.Property(p => p.Created).IsRequired();
-            builder.Property(p => p.LastUpdated).IsRequired();
+            builder.ToTable("product_types").HasQueryFilter(f => !f.IsDeleted);
+            builder.Property(p => p.Id).HasColumnName("id");
+            builder.Property(p => p.Name).HasMaxLength(150).HasColumnName("name");
+            builder.Property(p => p.Description).HasColumnName("description");
+            builder.Property(p => p.Created).HasColumnName("created");
+            builder.Property(p => p.LastUpdated).HasColumnName("last_updated");
+            builder.Property(p => p.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
         }
     }
 }

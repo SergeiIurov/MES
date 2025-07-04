@@ -21,7 +21,6 @@ export class ControlBoard implements OnInit {
   updateUrl() {
     this.http.get(this.url, {responseType: "text"}).subscribe(data => {
       this.src = data;
-      console.log(this.src)
     })
   }
 

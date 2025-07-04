@@ -1,14 +1,25 @@
 import {Component} from '@angular/core';
-import {ControlBoard} from './components/control-board/control-board';
+import {RouterLink, RouterOutlet} from '@angular/router';
+import {AuthService} from './services/auth-service';
 
 @Component({
   selector: 'app-root',
   imports: [
-    ControlBoard
+    RouterOutlet,
+    RouterLink
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
+  constructor(protected auth: AuthService) {
+  }
 
+  login() {
+    //this.showLogin = true;
+  }
+
+  logout() {
+    this.auth.logout();
+  }
 }

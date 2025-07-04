@@ -1,3 +1,25 @@
-<div>
-  <app-control-board></app-control-board>
-</div>
+@if (auth.isAuthenticated) {
+  <div>
+    <a class="navbar navbar-dark bg-secondary" variant="dark" [routerLink]="['/']">
+      <a class="navbar-brand">MES</a>
+      <a>
+        @if (auth.isAuthenticated) {
+          <button class="btn btn-secondary" (click)="logout()">Sign Out</button>
+        }
+      </a>
+    </a>
+    <div class="row">
+<!--      <div class="col-2">-->
+<!--        <a class="btn btn-lg btn-primary" [routerLink]="['/']" [routerLinkActive]="'btn-success'"-->
+<!--           [routerLinkActiveOptions]="{exact:true}">Доска контроля производства</a>-->
+<!--      </div>-->
+<!--      <div class="col-10">-->
+        <router-outlet></router-outlet>
+<!--      </div>-->
+    </div>
+  </div>
+} @else {
+  <router-outlet></router-outlet>
+}
+
+

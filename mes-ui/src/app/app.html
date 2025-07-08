@@ -1,21 +1,21 @@
 <!--@if (auth.isAuthenticated) {-->
   <div>
-    <a class="navbar navbar-dark bg-secondary" variant="dark" [routerLink]="['/']">
+    <a class="navbar navbar-dark  bg-success" variant="dark" [routerLink]="['/']">
       <a class="navbar-brand">MES</a>
       <a>
         @if (auth.isAuthenticated) {
-          <button class="btn btn-secondary" (click)="logout()">Sign Out</button>
+          <button class="btn btn-primary" (click)="logout()">Sign Out</button>
         }
       </a>
     </a>
     <div class="row">
       <div class="col-2">
         <div>
-          <button class="btn btn-primary" [routerLink]="['/']" [routerLinkActive]="'active'"
+          <button class="btn btn-success" [routerLink]="['/']" [routerLinkActive]="'active'"
              [routerLinkActiveOptions]="{exact:true}">Доска контроля производства</button>
         </div>
         <div>
-          <button class="btn btn-primary" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'"
+          <button class="btn btn-success" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'"
              [routerLinkActiveOptions]="{exact:true}">Конструктор</button>
         </div>
       </div>

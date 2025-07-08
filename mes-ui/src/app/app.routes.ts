@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 import {ControlBoard} from './components/control-board/control-board';
 import {authGuard} from './services/auth-guard';
 import {Login} from './components/login/login';
-import {Constructor} from './components/constructor/constructor';
+import {BoardConstructor} from './components/constructor/board-constructor';
 
 export const routes: Routes = [
   {
@@ -12,6 +12,6 @@ export const routes: Routes = [
     path: 'login', component: Login
   },
   {
-    path: 'constructor', component: Constructor
+    path: 'board-constructor', component: BoardConstructor
   }
 ];

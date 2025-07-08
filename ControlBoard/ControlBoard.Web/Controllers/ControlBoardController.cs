@@ -12,7 +12,7 @@ namespace ControlBoard.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControlBoardController(IHubContext<MesHub> hub, IWebHostEnvironment env, IProcessStateService processStateService, ILogger<ControlBoardController> logger) : Controller
+    public class ControlBoardController(IHubContext<MesHub> hub, IWebHostEnvironment env, IProcessStateService processStateService, ILogger<ControlBoardController> logger) : ControllerBase
     {
         [HttpPost]
         //[Authorize]

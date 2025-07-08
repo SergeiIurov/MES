@@ -33,6 +33,13 @@ builder.Services.AddDbContext<MesDbContext>(ctx =>
 
 builder.Services.AddScoped<IProcessStateRepository, ProcessStateRepository>();
 builder.Services.AddTransient<IProcessStateService, ProcessStateService>();
+builder.Services.AddScoped<StationRepository>();
+builder.Services.AddTransient<IStationService, StationService>();
+
+builder.Services.AddAutoMapper(configAction =>
+{
+    configAction.AddProfile<StationMapperProfile>();
+});
 
 builder.Services.AddCors(options =>
 {

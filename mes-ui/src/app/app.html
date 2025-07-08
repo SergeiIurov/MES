@@ -1,4 +1,4 @@
-@if (auth.isAuthenticated) {
+<!--@if (auth.isAuthenticated) {-->
   <div>
     <a class="navbar navbar-dark bg-secondary" variant="dark" [routerLink]="['/']">
       <a class="navbar-brand">MES</a>
@@ -9,17 +9,23 @@
       </a>
     </a>
     <div class="row">
-<!--      <div class="col-2">-->
-<!--        <a class="btn btn-lg btn-primary" [routerLink]="['/']" [routerLinkActive]="'btn-success'"-->
-<!--           [routerLinkActiveOptions]="{exact:true}">Доска контроля производства</a>-->
-<!--      </div>-->
-<!--      <div class="col-10">-->
+      <div class="col-2">
+        <div>
+          <button class="btn btn-primary" [routerLink]="['/']" [routerLinkActive]="'btn-success'"
+             [routerLinkActiveOptions]="{exact:true}">Доска контроля производства</button>
+        </div>
+        <div>
+          <button class="btn btn-primary" [routerLink]="['/constructor']" [routerLinkActive]="'btn-success'"
+             [routerLinkActiveOptions]="{exact:true}">Конструктор</button>
+        </div>
+      </div>
+      <div class="col-10">
         <router-outlet></router-outlet>
-<!--      </div>-->
+      </div>
     </div>
   </div>
-} @else {
-  <router-outlet></router-outlet>
-}
+<!--} @else {-->
+<!--  <router-outlet></router-outlet>-->
+<!--}-->
 
 

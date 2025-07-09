@@ -30,8 +30,8 @@ namespace ControlBoard.Domain.Services.Concrete
                     {
                         Value = s.Value ?? "",
                         Description = "",
-                        Created = DateTime.Now.ToUniversalTime(),
-                        LastUpdated = DateTime.Now.ToUniversalTime(),
+                        Created = DateTime.UtcNow,
+                        LastUpdated = DateTime.UtcNow,
                         IsDeleted = false,
                         StationId = _stationMapper[s.StationName],
                         ProductTypeId = id != 0 ? id : null,

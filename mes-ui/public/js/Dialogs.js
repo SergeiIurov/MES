@@ -1190,6 +1190,52 @@ ExportDialog.exportFile = function(editorUi, name, format, bg, s, b, dpi)
 {
   var graph = editorUi.editor.graph;
 
+ // debugger;
+  var parent = graph.getDefaultParent();
+
+  graph.getModel().beginUpdate();
+  // try {
+  //   var v1 = graph.insertVertex(parent, null, 'Hello,', 20, 20, 80, 30);
+  //   var v2 = graph.insertVertex(parent, null, 'World!', 200, 150, 80, 30);
+  //   var e1 = graph.insertEdge(parent, null, '', v1, v2);
+  // } finally {
+  //   graph.getModel().endUpdate();
+  // }
+
+  var codec = new mxCodec();
+  var xml = codec.encode(graph.getModel());
+
+// debugger;
+  //console.log(JSON.parse(xml));
+  var data = codec.decode(xml);
+  var xmlDocument = mxUtils.getXml(xml);
+
+  var svg = Graph.createSvgImage(graph, graph.view.getGraphBounds(), 1, '#fff', null);
+
+//   var svgString = new XMLSerializer().serializeToString(svg.node());
+
+  const container = window.parent.document.getElementById('graphContainer');
+  const g = new mxGraph(container,graph.getModel());
+  // g.setModel(graph.getModel());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   if (format == 'xml')
   {
     ExportDialog.saveLocalFile(editorUi, mxUtils.getXml(editorUi.editor.getGraphXml()), name, format);
@@ -1197,6 +1243,10 @@ ExportDialog.exportFile = function(editorUi, name, format, bg, s, b, dpi)
   else if (format == 'svg')
   {
     ExportDialog.saveLocalFile(editorUi, mxUtils.getXml(graph.getSvg(bg, s, b)), name, format);
+    console.log(graph.getSvg(bg, s, b));
+    console.log(editorUi.editor.getGraphXml())
+
+
   }
   else
   {

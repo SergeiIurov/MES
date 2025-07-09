@@ -63,6 +63,39 @@ namespace ControlBoard.DB.Migrations
                     b.ToTable("areas", (string)null);
                 });
 
+            modelBuilder.Entity("ControlBoard.DB.Entities.ControlBoardData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("data");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("control_board_data", (string)null);
+                });
+
             modelBuilder.Entity("ControlBoard.DB.Entities.ProcessState", b =>
                 {
                     b.Property<int>("Id")

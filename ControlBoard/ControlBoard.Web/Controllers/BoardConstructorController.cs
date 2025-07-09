@@ -6,15 +6,58 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControlBoard.Web.Controllers
 {
+    public class ConstructorData
+    {
+        public string Data { get; set; }
+    }
+
     [ApiController]
     [Route("api/[controller]")]
-    public class BoardConstructorController(ILogger<BoardConstructorController> logger, IMapper mapper, IStationService stationService):ControllerBase
+    public class BoardConstructorController(ILogger<BoardConstructorController> logger, IMapper mapper, IStationService stationService, IBoardConstructorService boardConstructorService) : ControllerBase
     {
 
         [HttpGet]
-        public async Task<IEnumerable<StationDto>> GetAllStationsDbo()
+        public async Task<ActionResult<IEnumerable<StationDto>>> GetAllStationsDbo()
         {
-            return mapper.Map<IEnumerable<Station>, IEnumerable<StationDto>>(await stationService.GetStationsAsync());
+            try
+            {
+                logger.LogInformation($"Действие {nameof(GetAllStationsDbo)} запущено.");
+                return Ok(mapper.Map<IEnumerable<Station>, IEnumerable<StationDto>>(await stationService.GetStationsAsync()));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateConstructor(ConstructorData data)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(UpdateConstructor)} запущено.");
+                return Ok(await boardConstructorService.UpdateLastDataOrCreateAsync(data.Data));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpGet("chart")]
+        public async Task<ActionResult> GetLastControlBoardData()
+        {
+            try
+            {
+                return Ok(await boardConstructorService.GetLastDataAsync());
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
         }
     }
 }

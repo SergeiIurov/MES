@@ -12,6 +12,7 @@ namespace ControlBoard.DB
         public DbSet<Station> Stations { get; set; }
         public DbSet<ProcessState> ProcessStates { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ControlBoardData> ControlBoardData { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,6 +20,7 @@ namespace ControlBoard.DB
             modelBuilder.ApplyConfiguration(new StationConfiguration());
             modelBuilder.ApplyConfiguration(new ProcessStateConfiguration());
             modelBuilder.ApplyConfiguration(new ProductTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ControlBoardDataConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

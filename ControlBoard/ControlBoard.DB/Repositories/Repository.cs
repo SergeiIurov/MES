@@ -5,7 +5,7 @@ namespace ControlBoard.DB.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly MesDbContext _db;
+        protected readonly MesDbContext _db;
         private readonly DbSet<T> _dbSet;
         public Repository(MesDbContext db)
         {

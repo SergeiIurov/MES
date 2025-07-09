@@ -35,6 +35,8 @@ builder.Services.AddScoped<IProcessStateRepository, ProcessStateRepository>();
 builder.Services.AddTransient<IProcessStateService, ProcessStateService>();
 builder.Services.AddScoped<StationRepository>();
 builder.Services.AddTransient<IStationService, StationService>();
+builder.Services.AddScoped<BoardConstructorRepository>();
+builder.Services.AddTransient<IBoardConstructorService, BoardConstructorService>();
 
 builder.Services.AddAutoMapper(configAction =>
 {

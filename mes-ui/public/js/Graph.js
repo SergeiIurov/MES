@@ -8468,7 +8468,6 @@ if (typeof mxVertexHandler != 'undefined')
         var group = (svgDoc.createElementNS != null) ?
           svgDoc.createElementNS(mxConstants.NS_SVG, 'g') : svgDoc.createElement('g');
         root.appendChild(group);
-
         var svgCanvas = this.createSvgCanvas(group);
         svgCanvas.foOffset = (crisp) ? -0.5 : 0;
         svgCanvas.textOffset = (crisp) ? -0.5 : 0;

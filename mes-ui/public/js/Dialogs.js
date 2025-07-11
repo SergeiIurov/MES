@@ -1220,22 +1220,6 @@ ExportDialog.exportFile = function(editorUi, name, format, bg, s, b, dpi)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   if (format == 'xml')
   {
     ExportDialog.saveLocalFile(editorUi, mxUtils.getXml(editorUi.editor.getGraphXml()), name, format);

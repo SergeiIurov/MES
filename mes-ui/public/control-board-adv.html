@@ -63,49 +63,16 @@
       editorUiInit.apply(this, arguments);
       this.actions.get('export').setEnabled(false);
 
-      // Updates action states which require a backend
       if (!Editor.useLocalStorage) {
-        // debugger;
         fetch(`${BASE_URL}${OPEN_URL}`).then(data => data.text()).then(info => {
           this.actions.get('export').setEnabled(true);
+          this.editor.graph.editable = false;
+          this.editor.editable = false;
+          console.log(this.editor)
 
-          var codec = new mxCodec();
-          var xmlData = mxUtils.parseXml(info);
-          // var xmlData1 = mxUtils.getXml(info);
-          // console.log(xmlData1)
 
-          var doc = codec.decode(xmlData.documentElement);
           this.editor.setGraphXml(mxUtils.parseXml(info).documentElement)
-
-          /*
-          * var xml = {xml};
-var ui = new EditorUi(new Editor());
-var doc = mxUtils.parseXml(xml);
-ui.editor.setGraphXml(doc.documentElement);
-          * */
-
-          /*
-     var xmlData = mxUtils.parseXml(xmlString);
-     console.log(xml)
-     console.log(xmlData)
-     var doc = codec.decode(xmlData.documentElement);
-
-
-     debugger;*/
-          //const container = window.parent.document.getElementById('graphContainer');
-          //const g = new mxGraph(container,doc);
-
-
         })
-        // mxUtils.post(OPEN_URL, '', mxUtils.bind(this, function (req) {
-        //   let enabled = req.getStatus() != 404;
-        //   enabled = true;
-        //   this.actions.get('open').setEnabled(enabled || Graph.fileSupport);
-        //   this.actions.get('import').setEnabled(enabled || Graph.fileSupport);
-        //   this.actions.get('save').setEnabled(enabled);
-        //   this.actions.get('saveAs').setEnabled(enabled);
-        //   this.actions.get('export').setEnabled(enabled);
-        // }));
       }
     };
 
@@ -126,7 +93,13 @@ ui.editor.setGraphXml(doc.documentElement);
 
       // Main
       // new EditorUi(new Editor(urlParams['chrome'] == '0', themes));
-      new EditorUi();
+      let e = new EditorUi(undefined, undefined, undefined, {
+        disableToolbar: true,
+        disableMenubar: true,
+        disableSidebar: true,
+        disableFormat: true
+      });
+
     }, function () {
       document.body.innerHTML = '<center style="margin-top:10%;">Error loading resource files. Please check browser console.</center>';
     });

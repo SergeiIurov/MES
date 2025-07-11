@@ -58,46 +58,36 @@ Actions.prototype.init = function () {
     });
   }).isEnabled = isGraphEnabled;
 
-  this.addAction('save', function () {
+  this.addAction('save', /*function () {
     ui.saveFile(false);
-  }, null, null, Editor.ctrlKey + '+S').isEnabled = isGraphEnabled;
+  }*/exportChart, null, null, Editor.ctrlKey + '+S').isEnabled = isGraphEnabled;
   this.addAction('saveAs...', function () {
     ui.saveFile(true);
   }, null, null, Editor.ctrlKey + '+Shift+S').isEnabled = isGraphEnabled;
-  this.addAction('export...',
-    function () {
-      var codec = new mxCodec();
-      var xml = codec.encode(graph.getModel());
-      const xmlString = mxUtils.getXml(xml);
-      console.log("sending")
-      fetch("api/BoardConstructor", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({data:xmlString})
-      }).then(data => {
-        console.log('Success:', data); // Handle the successful response data
-      })
-        .catch(error => {
-          console.error('Error:', error); // Handle any errors during the request
-        });
-      console.log('after sending')
-      /*
-      var xmlData = mxUtils.parseXml(xmlString);
-      console.log(xml)
-      console.log(xmlData)
-      var doc = codec.decode(xmlData.documentElement);
+
+  //Сохранение схемы в базе данных
+  function exportChart() {
+    var codec = new mxCodec();
+    var xml = codec.encode(graph.getModel());
+    const xmlString = mxUtils.getXml(xml);
 
 
-      debugger;*/
-      //const container = window.parent.document.getElementById('graphContainer');
-      //const g = new mxGraph(container,doc);
+    fetch("api/BoardConstructor", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({data:xmlString})
+    }).then(data => {
+      console.log('Success:', data); // Handle the successful response data
+    })
+      .catch(error => {
+        console.error('Error:', error); // Handle any errors during the request
+      });
 
-// debugger;
-      // ui.showDialog(new ExportDialog(ui).container, 300, 296, true, true);
-    }
-  );
+  }
+
+  this.addAction('export...', exportChart);
   this.addAction('editDiagram...', function () {
     var dlg = new EditDiagramDialog(ui);
     ui.showDialog(dlg.container, 620, 420, true, false);

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections;
+using AutoMapper;
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
@@ -13,7 +14,7 @@ namespace ControlBoard.Web.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class BoardConstructorController(ILogger<BoardConstructorController> logger, IMapper mapper, IStationService stationService, IBoardConstructorService boardConstructorService) : ControllerBase
+    public class BoardConstructorController(ILogger<BoardConstructorController> logger, IMapper mapper, IStationService stationService,IAreaService areaService, IBoardConstructorService boardConstructorService) : ControllerBase
     {
 
         [HttpGet]
@@ -30,7 +31,7 @@ namespace ControlBoard.Web.Controllers
                 return BadRequest(ModelState);
             }
         }
-
+        
         [HttpPost]
         public async Task<ActionResult> UpdateConstructor(ConstructorData data)
         {

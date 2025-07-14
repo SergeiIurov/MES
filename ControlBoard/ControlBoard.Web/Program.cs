@@ -37,10 +37,14 @@ builder.Services.AddScoped<StationRepository>();
 builder.Services.AddTransient<IStationService, StationService>();
 builder.Services.AddScoped<BoardConstructorRepository>();
 builder.Services.AddTransient<IBoardConstructorService, BoardConstructorService>();
+builder.Services.AddScoped<AreaRepository>();
+builder.Services.AddTransient<IAreaService, AreaService>();
+
 
 builder.Services.AddAutoMapper(configAction =>
 {
     configAction.AddProfile<StationMapperProfile>();
+    configAction.AddProfile<AreaMapperProfile>();
 });
 
 builder.Services.AddCors(options =>

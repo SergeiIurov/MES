@@ -1,22 +1,47 @@
 <div class="border-card">
   <h1>Ввод данных для доски контроля производства</h1>
   <form (ngSubmit)="submitData()" [formGroup]="form">
-    <div class="box">
-      @for (s of stations; track s.id) {
-        <div>
-          <label [for]="s.id">{{ s.name }}</label>
-          <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">
+    <!--    <div class="box">-->
+    <!--      @for (s of stations; track s.id) {-->
+    <!--        <div>-->
+    <!--          <label [for]="s.id">{{ s.name }}</label>-->
+    <!--          <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">-->
 
-          @if (form.get(s.id.toString()).invalid && form.get(s.id.toString()).touched) {
-            <div class="validation">
-              @if (form.get(s.id.toString()).errors['required']) {
-                Поле {{ s.name }} является обязательным.
-              }
-            </div>
-          }
-        </div>
+    <!--          @if (form.get(s.id.toString()).invalid && form.get(s.id.toString()).touched) {-->
+    <!--            <div class="validation">-->
+    <!--              @if (form.get(s.id.toString()).errors['required']) {-->
+    <!--                Поле {{ s.name }} является обязательным.-->
+    <!--              }-->
+    <!--            </div>-->
+    <!--          }-->
+    <!--        </div>-->
+    <!--      }-->
+
+    <mat-tab-group>
+      @for (a of areas; track a.name) {
+        <mat-tab [label]=a.name>
+          <div class="box">
+            @for (s of a.stations; track s.id) {
+              <div>
+                <label [for]="s.id">{{ s.name }}</label>
+                <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">
+
+                @if (form.get(s.id.toString()).invalid && form.get(s.id.toString()).touched) {
+                  <div class="validation">
+                    @if (form.get(s.id.toString()).errors['required']) {
+                      Поле {{ s.name }} является обязательным.
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </mat-tab>
       }
-    </div>
+    </mat-tab-group>
+
+
+    <!--    </div>-->
     <div>
       <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
     </div>

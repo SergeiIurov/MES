@@ -2,21 +2,27 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StationDto} from '../../Entities/StationDto';
 import {ConstructorService} from '../../services/constructor-service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {DirectoryService} from '../../services/directory-service';
+import {AreaDto} from '../../Entities/AreaDto';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-input-form',
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTabGroup,
+    MatTab
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
 })
 export class InputForm implements OnInit, OnDestroy {
-  stations: StationDto[]
+  stations: StationDto[];
+  areas: AreaDto[];
   form: FormGroup;
 
-  constructor(private service: ConstructorService) {
+  constructor(private service: ConstructorService, private directoryService: DirectoryService) {
     this.form = new FormGroup({})
 
   }
@@ -38,6 +44,12 @@ export class InputForm implements OnInit, OnDestroy {
         this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       }
     });
+
+
+    this.directoryService.getAreaList().subscribe(areas=>{
+      this.areas = areas;
+      console.log(this.areas);
+    })
 
   }
 

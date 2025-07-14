@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {ControlBoardService} from '../../services/ControlBoardService';
+import {ControlBoardService} from '../../services/control-board-service';
 import mx from '../../../mxgraph';                       // <- import values from factory()
 import type {mxGraph, mxGraphModel} from 'mxgraph';  // <- import types only, "import type" is a TypeScript 3.8+ syntax
 

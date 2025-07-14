@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ControlBoardService} from '../../services/ControlBoardService';
+import {ControlBoardService} from '../../services/control-board-service';
 import {Environment} from '../../environments/environment';
 
 @Component({

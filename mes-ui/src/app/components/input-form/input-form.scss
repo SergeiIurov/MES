@@ -4,6 +4,7 @@ label::after {
 
 label {
   font-weight: bold;
+  font-size: 1em;
 }
 
 input {
@@ -47,4 +48,9 @@ button[type="submit"] {
   display: block;
   width: 250px;
   margin: auto;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  font-weight: bold;
+  font-size: 1.5em;
 }

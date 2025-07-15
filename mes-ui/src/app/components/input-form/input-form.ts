@@ -49,7 +49,6 @@ export class InputForm implements OnInit, OnDestroy {
 
     this.directoryService.getAreaList().subscribe(areas => {
       this.areas = areas;
-      console.log(this.areas);
     })
 
   }

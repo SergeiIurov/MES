@@ -3,6 +3,7 @@ using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ControlBoard.Web.Controllers
 {
@@ -13,16 +14,22 @@ namespace ControlBoard.Web.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class BoardConstructorController(ILogger<BoardConstructorController> logger, IMapper mapper, IStationService stationService,IAreaService areaService, IBoardConstructorService boardConstructorService) : ControllerBase
+    public class BoardConstructorController(
+        IHubContext<MesHub> hub,
+        ILogger<BoardConstructorController> logger,
+        IMapper mapper,
+        IStationService stationService,
+        IBoardConstructorService boardConstructorService
+    ) : ControllerBase
     {
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StationDto>>> GetAllStationsDbo()
         {
             try
             {
                 logger.LogInformation($"Действие {nameof(GetAllStationsDbo)} запущено.");
-                return Ok(mapper.Map<IEnumerable<Station>, IEnumerable<StationDto>>(await stationService.GetStationsAsync()));
+                return Ok(mapper.Map<IEnumerable<Station>, IEnumerable<StationDto>>(
+                    await stationService.GetStationsAsync()));
             }
             catch (Exception e)
             {
@@ -30,14 +37,16 @@ namespace ControlBoard.Web.Controllers
                 return BadRequest(ModelState);
             }
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> UpdateConstructor(ConstructorData data)
         {
             try
             {
                 logger.LogInformation($"Действие {nameof(UpdateConstructor)} запущено.");
-                return Ok(await boardConstructorService.UpdateLastDataOrCreateAsync(data.Data));
+                int id = await boardConstructorService.UpdateLastDataOrCreateAsync(data.Data);
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+                return Ok(id);
             }
             catch (Exception e)
             {

@@ -16,7 +16,7 @@ namespace ControlBoard.Domain.Services.Concrete
             {
                 logger.LogInformation("Подготовка информации к сохранению в БД");
                 Guid uid = Guid.NewGuid();
-                await repository.SaveProcessStates(list.Select(s =>
+                await repository.SaveProcessStatesAsync(list.Select(s =>
                 {
                     return new ProcessState()
                     {
@@ -25,7 +25,7 @@ namespace ControlBoard.Domain.Services.Concrete
                         Created = DateTime.UtcNow,
                         LastUpdated = DateTime.UtcNow,
                         IsDeleted = false,
-                        StationId = s.StateId,
+                        StationId = s.StationId,
                         ProductTypeId = null,
                         GroupId = uid
                     };

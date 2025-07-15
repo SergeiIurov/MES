@@ -35,6 +35,7 @@ builder.Services.AddTransient<IBoardConstructorService, BoardConstructorService>
 builder.Services.AddScoped<AreaRepository>();
 builder.Services.AddTransient<IAreaService, AreaService>();
 builder.Services.AddTransient<IProcessStateAdvService, ProcessStateAdvService>();
+builder.Services.AddTransient<IChartConvertService, ChartConvertService>();
 
 
 builder.Services.AddAutoMapper(configAction =>

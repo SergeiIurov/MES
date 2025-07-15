@@ -64,11 +64,10 @@
       this.actions.get('export').setEnabled(false);
 
       if (!Editor.useLocalStorage) {
-        fetch(`${BASE_URL}${OPEN_URL}`).then(data => data.text()).then(info => {
+        fetch(`${BASE_URL}${OPEN_URL_CHART}`).then(data => data.text()).then(info => {
           this.actions.get('export').setEnabled(true);
           this.editor.graph.editable = false;
           this.editor.editable = false;
-          console.log(this.editor)
 
 
           this.editor.setGraphXml(mxUtils.parseXml(info).documentElement)

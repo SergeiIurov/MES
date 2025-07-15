@@ -2,7 +2,7 @@
 
 public class ProcessStateAdvDto
 {
-    public int StateId { get; set; }
+    public int StationId { get; set; }
     private string? _value;
 
     public string? Value

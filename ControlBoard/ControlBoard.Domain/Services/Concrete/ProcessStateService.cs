@@ -25,7 +25,7 @@ namespace ControlBoard.Domain.Services.Concrete
             {
                 logger.LogInformation("Подготовка информации к сохранению в БД");
                 Guid uid = Guid.NewGuid();
-                await repository.SaveProcessStates(list.Select(s =>
+                await repository.SaveProcessStatesAsync(list.Select(s =>
                 {
                     _productTypeMapper.TryGetValue(s.ProductTypeName, out int id);
                     return new ProcessState()

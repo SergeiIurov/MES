@@ -10,6 +10,8 @@ namespace ControlBoard.Web.Controllers;
 public class ControlBoardAdvController(
     IHubContext<MesHub> hub,
     IProcessStateAdvService processStateAdvService,
+    IBoardConstructorService boardConstructorService,
+    IChartConvertService chartConvertService,
     ILogger<ControlBoardController> logger) : ControllerBase
 {
     [HttpPost]
@@ -18,13 +20,27 @@ public class ControlBoardAdvController(
         try
         {
             logger.LogInformation($"Действие {nameof(SaveStateInfo)} запущено.");
-            //await processStateAdvService.SaveListAsync(list);
+            await processStateAdvService.SaveListAsync(list);
             await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
             logger.LogInformation($"Действие {nameof(SaveStateInfo)} завершено.");
         }
         catch (Exception e)
         {
             logger.LogError(e.Message, e);
+        }
+    }
+
+    [HttpGet("chart")]
+    public async Task<ActionResult> GetLastControlBoardData()
+    {
+        try
+        {
+            return Ok(await chartConvertService.Convert(await boardConstructorService.GetLastDataAsync()));
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message, e);
+            return BadRequest(ModelState);
         }
     }
 }

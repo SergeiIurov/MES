@@ -34,6 +34,9 @@ export class ControlBoardService {
     return this.hubConnection;
   }
 
+  saveCurrentState(data): Observable<any> {
+    return this.http.post(`${Environment.apiUrl}api/ControlBoardAdv`, data)
+  }
 
   getChart(): Observable<string> {
     return this.http.get(`${Environment.apiUrl}api/BoardConstructor/chart`, {responseType: "text"})

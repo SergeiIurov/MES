@@ -5,6 +5,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {DirectoryService} from '../../services/directory-service';
 import {AreaDto} from '../../Entities/AreaDto';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {ControlBoardService} from '../../services/control-board-service';
 
 @Component({
   selector: 'app-input-form',
@@ -22,7 +23,7 @@ export class InputForm implements OnInit, OnDestroy {
   areas: AreaDto[];
   form: FormGroup;
 
-  constructor(private service: ConstructorService, private directoryService: DirectoryService) {
+  constructor(private service: ConstructorService, private directoryService: DirectoryService, private controlBoardService: ControlBoardService) {
     this.form = new FormGroup({})
 
   }
@@ -46,7 +47,7 @@ export class InputForm implements OnInit, OnDestroy {
     });
 
 
-    this.directoryService.getAreaList().subscribe(areas=>{
+    this.directoryService.getAreaList().subscribe(areas => {
       this.areas = areas;
       console.log(this.areas);
     })
@@ -55,8 +56,15 @@ export class InputForm implements OnInit, OnDestroy {
 
   submitData() {
     let formData = this.form.value;
+    let info = []
+    Object.entries(formData).forEach(([key, value]) => {
+      info.push({stationId: key, value})
+    })
     //this.form.reset();
     // localStorage.removeItem('formData');
-    console.log(formData);
+    this.controlBoardService.saveCurrentState(info).subscribe(d => {
+      console.log("Ok", d);
+    })
+    console.log(info);
   }
 }

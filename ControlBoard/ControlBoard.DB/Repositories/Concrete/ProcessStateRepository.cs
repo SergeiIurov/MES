@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ControlBoard.DB.Entities;
+﻿using ControlBoard.DB.Entities;
 using ControlBoard.DB.Repositories.Abstract;
 
 namespace ControlBoard.DB.Repositories.Concrete

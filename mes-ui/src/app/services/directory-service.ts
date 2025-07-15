@@ -1,6 +1,5 @@
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {StationDto} from '../Entities/StationDto';
 import {Environment} from '../environments/environment';
 import {Injectable} from '@angular/core';
 import {AreaDto} from '../Entities/AreaDto';

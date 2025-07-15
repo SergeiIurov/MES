@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using ControlBoard.DB;
-using ControlBoard.DB.Entities;
-using ControlBoard.Domain.Dto;
+﻿using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
 
 namespace ControlBoard.Web.Controllers
 {

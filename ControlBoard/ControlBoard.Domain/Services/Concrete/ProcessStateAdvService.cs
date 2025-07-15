@@ -1,25 +1,16 @@
-﻿using ControlBoard.DB;
-using ControlBoard.DB.Entities;
+﻿using ControlBoard.DB.Entities;
 using ControlBoard.DB.Repositories.Abstract;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 
 namespace ControlBoard.Domain.Services.Concrete
 {
-    public class ProcessStateService(
+    public class ProcessStateAdvService(
         IProcessStateRepository repository,
-        MesDbContext context,
-        ILogger<ProcessStateService> logger) : IProcessStateService
+        ILogger<ProcessStateService> logger) : IProcessStateAdvService
     {
-        private Dictionary<string, int> _stationMapper =
-            context.Stations.ToDictionary(s => s.Name, s => s.Id, new CaseInsensitiveValueComparer());
-
-        private Dictionary<string, int> _productTypeMapper =
-            context.ProductTypes.ToDictionary(p => p.Name, p => p.Id, new CaseInsensitiveValueComparer());
-
-        public async Task SaveListAsync(List<ProcessStateDto> list)
+        public async Task SaveListAsync(List<ProcessStateAdvDto> list)
         {
             try
             {
@@ -27,7 +18,6 @@ namespace ControlBoard.Domain.Services.Concrete
                 Guid uid = Guid.NewGuid();
                 await repository.SaveProcessStates(list.Select(s =>
                 {
-                    _productTypeMapper.TryGetValue(s.ProductTypeName, out int id);
                     return new ProcessState()
                     {
                         Value = s.Value ?? "",
@@ -35,8 +25,8 @@ namespace ControlBoard.Domain.Services.Concrete
                         Created = DateTime.UtcNow,
                         LastUpdated = DateTime.UtcNow,
                         IsDeleted = false,
-                        StationId = _stationMapper[s.StationName],
-                        ProductTypeId = id != 0 ? id : null,
+                        StationId = s.StateId,
+                        ProductTypeId = null,
                         GroupId = uid
                     };
                 }).ToList());

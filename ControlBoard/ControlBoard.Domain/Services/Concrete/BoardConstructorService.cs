@@ -2,11 +2,6 @@
 using ControlBoard.DB.Repositories.Concrete;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ControlBoard.Domain.Services.Concrete
 {

@@ -1,17 +1,13 @@
+using System.Diagnostics;
 using ControlBoard.DB;
-using ControlBoard.DB.Entities;
 using ControlBoard.DB.Repositories.Abstract;
 using ControlBoard.DB.Repositories.Concrete;
 using ControlBoard.Domain.Services.Abstract;
 using ControlBoard.Domain.Services.Concrete;
 using ControlBoard.Web;
 using ControlBoard.Web.AutoMapperProfiles;
-using ControlBoard.Web.Data;
-using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.OpenApi.Models;
-using NLog.Extensions.Logging;
 using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +24,6 @@ builder.Services.AddDbContext<MesDbContext>(ctx =>
 {
     ctx.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
         .UseLazyLoadingProxies();
-
 });
 
 builder.Services.AddScoped<IProcessStateRepository, ProcessStateRepository>();
@@ -39,6 +34,7 @@ builder.Services.AddScoped<BoardConstructorRepository>();
 builder.Services.AddTransient<IBoardConstructorService, BoardConstructorService>();
 builder.Services.AddScoped<AreaRepository>();
 builder.Services.AddTransient<IAreaService, AreaService>();
+builder.Services.AddTransient<IProcessStateAdvService, ProcessStateAdvService>();
 
 
 builder.Services.AddAutoMapper(configAction =>
@@ -53,8 +49,8 @@ builder.Services.AddCors(options =>
         policyBuilder =>
         {
             policyBuilder.AllowAnyOrigin()
-                .AllowAnyMethod()//.WithOrigins("http://localhost:4200").AllowCredentials()
-              .AllowAnyHeader();
+                .AllowAnyMethod() //.WithOrigins("http://localhost:4200").AllowCredentials()
+                .AllowAnyHeader();
         });
 });
 //builder.Services.AddHttpLogging(opt => opt.LoggingFields = HttpLoggingFields.Request);
@@ -76,7 +72,6 @@ builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
 var app = builder.Build();
-
 
 
 app.UseDefaultFiles();
@@ -110,4 +105,3 @@ app.MapFallbackToFile("/index.html");
 //TestData.LoadData(app.Services);
 
 app.Run();
-

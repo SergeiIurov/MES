@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ControlBoardService} from '../../services/control-board-service';
-import mx from '../../../mxgraph';                       // <- import values from factory()
-import type {mxGraph, mxGraphModel} from 'mxgraph';  // <- import types only, "import type" is a TypeScript 3.8+ syntax
+import mx from '../../../mxgraph'; // <- import values from factory()
+import type {mxGraph} from 'mxgraph'; // <- import types only, "import type" is a TypeScript 3.8+ syntax
 
 @Component({
   selector: 'app-control-board-advanced',
@@ -30,8 +30,8 @@ export class ControlBoardAdvanced implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.service.startConnection();
     this.service.getHubConnection().on('сontrolBoardInfoUpdated', () => {
-      console.log("Информация по доске контроля обновлена: ");
-      this.elem.nativeElement.src = this.url+"?dummyVar="+ (new Date()).getTime();
+
+      this.elem.nativeElement.src = this.url + "?dummyVar=" + (new Date()).getTime();
     });
   }
 }

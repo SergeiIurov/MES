@@ -14,3 +14,13 @@ button.btn {
 .signout {
   margin: 5px 15px;
 }
+
+.header-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header-list li {
+  margin: 5px;
+}

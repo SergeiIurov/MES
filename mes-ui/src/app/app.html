@@ -1,40 +1,36 @@
-<!--@if (auth.isAuthenticated) {-->
 <div class="main">
-  <a class="navbar navbar-dark  bg-success" variant="dark" [routerLink]="['/']">
-    <a class="navbar-brand" style="margin-left: 15px">MES</a>
+  <div class="navbar navbar-dark  bg-success" variant="dark">
+    <div class="navbar-brand" style="margin-left: 15px">
+      <ul class="header-list">
+        <li>
+          <a class="btn btn-lg btn-success" [routerLink]="['/']" [routerLinkActive]="'active'"
+             [routerLinkActiveOptions]="{exact:true}">Доска контроля производства
+          </a>
+        </li>
+        <li>
+          <a class="btn btn-lg btn-success" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'">
+            Конструктор
+          </a>
+        </li>
+        <li>
+          <a class="btn btn-lg btn-success" [routerLink]="['/control-board']" [routerLinkActive]="'active'">Доска
+            контроля
+            производства(adv)
+          </a>
+        </li>
+        <li>
+          <a class="btn btn-lg btn-success" [routerLink]="['/input-form']" [routerLinkActive]="'active'">Форма ввода
+            данных
+          </a>
+        </li>
+      </ul>
+    </div>
     @if (auth.isAuthenticated) {
       <a class="btn btn-primary signout" (click)="logout()">Sign Out</a>
     }
-  </a>
-  <div class="row">
-    <div class="col-2">
-      <div>
-        <button class="btn btn-success" [routerLink]="['/']" [routerLinkActive]="'active'"
-                [routerLinkActiveOptions]="{exact:true}">Доска контроля производства
-        </button>
-      </div>
-      <div>
-        <button class="btn btn-success" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'">
-          Конструктор
-        </button>
-      </div>
-      <div>
-        <button class="btn btn-success" [routerLink]="['/control-board']" [routerLinkActive]="'active'">Доска контроля
-          производства(adv)
-        </button>
-      </div>
-      <div>
-        <button class="btn btn-success" [routerLink]="['/input-form']" [routerLinkActive]="'active'">Форма ввода данных
-        </button>
-      </div>
-    </div>
-    <div class="col-10">
-      <router-outlet></router-outlet>
-    </div>
+  </div>
+  <div>
+    <router-outlet></router-outlet>
   </div>
 </div>
-<!--} @else {-->
-<!--  <router-outlet></router-outlet>-->
-<!--}-->
-
 

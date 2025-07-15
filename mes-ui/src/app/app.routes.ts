@@ -14,13 +14,13 @@ export const routes: Routes = [
     path: 'login', component: Login
   },
   {
-    path: 'board-constructor', component: BoardConstructor
+    path: 'board-constructor', component: BoardConstructor, canActivate: [authGuard]
   },
   {
-    path: 'control-board', component: ControlBoardAdvanced
+    path: 'control-board', component: ControlBoardAdvanced, canActivate: [authGuard]
   },
   {
-    path: 'input-form', component: InputForm
+    path: 'input-form', component: InputForm, canActivate: [authGuard]
   },
   {
     path: '**', redirectTo: '/'

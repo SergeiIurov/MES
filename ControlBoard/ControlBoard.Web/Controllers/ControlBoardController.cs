@@ -9,6 +9,9 @@ namespace ControlBoard.Web.Controllers
     [Route("api/[controller]")]
     public class ControlBoardController(IHubContext<MesHub> hub, IWebHostEnvironment env, IProcessStateService processStateService, ILogger<ControlBoardController> logger) : ControllerBase
     {
+        /// <summary>
+        /// Загрузка скриншота доски контроля производства
+        /// </summary>
         [HttpPost]
         //[Authorize]
         public async Task UploadJpgFile(IFormFile file)
@@ -27,6 +30,11 @@ namespace ControlBoard.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Загрузка CSV файла с данными текущего состояния доски контроля производства.
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         [HttpPost("csv-data")]
         //[Authorize]
         public async Task UploadCsvFile(List<ProcessStateDto> list)
@@ -44,6 +52,10 @@ namespace ControlBoard.Web.Controllers
 
         }
 
+        /// <summary>
+        /// Возврат скриншота с текущим состоянием доски контроля производства.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("image")]
         //[Authorize]
         public string GetPicture()

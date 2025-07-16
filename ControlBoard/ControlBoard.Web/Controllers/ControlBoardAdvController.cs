@@ -1,4 +1,5 @@
-﻿using ControlBoard.Domain.Dto;
+﻿using System.Net.Mime;
+using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -14,6 +15,11 @@ public class ControlBoardAdvController(
     IChartConvertService chartConvertService,
     ILogger<ControlBoardController> logger) : ControllerBase
 {
+
+    /// <summary>
+    /// Сохраниение нового состояния доски контроля производства.
+    /// </summary>
+    /// <returns></returns>
     [HttpPost]
     public async Task SaveStateInfo(List<ProcessStateAdvDto> list)
     {
@@ -30,6 +36,9 @@ public class ControlBoardAdvController(
         }
     }
 
+    /// <summary>
+    /// Получение нового состояния доски контроля производства для дальнейшей визуализации.
+    /// </summary>
     [HttpGet("chart")]
     public async Task<ActionResult> GetLastControlBoardData()
     {

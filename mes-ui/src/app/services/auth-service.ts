@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 })
 export class AuthService {
 
-  isAuthenticated = false;
+  isAuthenticated = true;
 
   constructor(private http: HttpClient, private router: Router) {
   }

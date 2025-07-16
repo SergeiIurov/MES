@@ -10,6 +10,10 @@ namespace ControlBoard.Web.Controllers
     [Route("api/[controller]")]
     public class DirectoryController(ILogger<ControlBoardController> logger, IAreaService areaService, IMapper mapper) : ControllerBase
     {
+        /// <summary>
+        /// Возврат списка зон с содержищимися в них станциями.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AreaDto>>> GetAreas()
         {

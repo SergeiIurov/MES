@@ -38,6 +38,11 @@ namespace ControlBoard.Web.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Обновление текущего состояния конструктора
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> UpdateConstructor(ConstructorData data)
         {
@@ -54,6 +59,10 @@ namespace ControlBoard.Web.Controllers
                 return BadRequest(ModelState);
             }
         }
+
+        /// <summary>
+        /// Получение текущего состояния конструктора для дальнейшей визуализации.
+        /// </summary>
 
         [HttpGet("chart")]
         public async Task<ActionResult> GetLastControlBoardData()

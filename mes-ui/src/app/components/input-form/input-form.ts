@@ -59,8 +59,8 @@ export class InputForm implements OnInit, OnDestroy {
     Object.entries(formData).forEach(([key, value]) => {
       info.push({stationId: key, value})
     })
-    //this.form.reset();
-    // localStorage.removeItem('formData');
+    this.form.reset();
+    localStorage.removeItem('formData');
     this.controlBoardService.saveCurrentState(info).subscribe(d => {
       console.log("Ok", d);
     })

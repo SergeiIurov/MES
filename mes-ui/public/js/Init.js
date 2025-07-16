@@ -8,8 +8,8 @@ window.MAX_AREA = window.MAX_AREA || 15000 * 15000;
 // URLs for save and export
 window.EXPORT_URL = window.EXPORT_URL || '/export';
 
-// window.BASE_URL = window.BASE_URL || 'https://localhost:5001';
-window.BASE_URL = window.BASE_URL || 'https://ba-vmes01.ba.local:444';
+window.BASE_URL = window.BASE_URL || 'https://localhost:5001';
+// window.BASE_URL = window.BASE_URL || 'https://ba-vmes01.ba.local:444';
 window.SAVE_URL = window.SAVE_URL || '/api/BoardConstructor';
 window.OPEN_URL = window.OPEN_URL || '/api/BoardConstructor/chart';
 window.OPEN_URL_CHART = window.OPEN_URL_CHART || '/api/ControlBoardAdv/chart';

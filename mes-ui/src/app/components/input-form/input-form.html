@@ -2,47 +2,82 @@
   <h1>Ввод данных для доски контроля производства</h1>
   <div class="border-card">
     <form (ngSubmit)="submitData()" [formGroup]="form">
-      <!--    <div class="box">-->
-      <!--      @for (s of stations; track s.id) {-->
-      <!--        <div>-->
-      <!--          <label [for]="s.id">{{ s.name }}</label>-->
-      <!--          <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">-->
+      <div class="row">
+        <div class="col-4">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>Участок</th>
+              <th>Станция</th>
+              <th>Значение</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (a of areas; track a.id) {
+                <td [attr.rowspan]="a.stations.length+1">{{ a.name }}</td>
+                @for (s of a.stations; track s.id) {
+                  <tr>
 
-      <!--          @if (form.get(s.id.toString()).invalid && form.get(s.id.toString()).touched) {-->
-      <!--            <div class="validation">-->
-      <!--              @if (form.get(s.id.toString()).errors['required']) {-->
-      <!--                Поле {{ s.name }} является обязательным.-->
-      <!--              }-->
-      <!--            </div>-->
-      <!--          }-->
-      <!--        </div>-->
-      <!--      }-->
-
-      <mat-tab-group>
-        @for (a of areas; track a.name) {
-          <mat-tab [label]=a.name>
-            <div class="box">
-              @for (s of a.stations; track s.id) {
-                <div>
-                  <label [for]="s.id">{{ s.name }}</label>
-                  <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">
-
-                  @if (form.get(s.id.toString()).invalid && form.get(s.id.toString()).touched) {
-                    <div class="validation">
-                      @if (form.get(s.id.toString()).errors['required']) {
-                        Поле {{ s.name }} является обязательным.
-                      }
-                    </div>
-                  }
-                </div>
+                    <td>{{ s.name }}</td>
+                    <td>
+                      <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">
+                    </td>
+                  </tr>
+                }
               }
-            </div>
-          </mat-tab>
-        }
-      </mat-tab-group>
+<!--              @for (s of stations; track s.id) {-->
+<!--                <tr>-->
+<!--                  <td>{{ s.areaName }}</td>-->
+<!--                  <td>{{ s.name }}</td>-->
+<!--                  <td>-->
+<!--                    <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--              }-->
+            </tbody>
 
 
-      <!--    </div>-->
+            <!--            @for (s of stations; track s.id) {-->
+            <!--              <div>-->
+            <!--                <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">-->
+
+            <!--                @if (form.get(s.id.toString()).invalid && form.get(s.id.toString()).touched) {-->
+            <!--                  <div class="validation">-->
+            <!--                    @if (form.get(s.id.toString()).errors['required']) {-->
+            <!--                      Поле {{ s.name }} является обязательным.-->
+            <!--                    }-->
+            <!--                  </div>-->
+            <!--                }-->
+            <!--              </div>-->
+            <!--            }-->
+          </table>
+        </div>
+
+        <!--      <mat-tab-group>-->
+        <!--        @for (a of areas; track a.name) {-->
+        <!--          <mat-tab [label]=a.name>-->
+        <!--            <div class="box">-->
+        <!--              @for (s of a.stations; track s.id) {-->
+        <!--                <div>-->
+        <!--                  <label [for]="s.id">{{ s.name }}</label>-->
+        <!--                  <input [formControlName]="s.id" class="form-control" type="text" [id]="s.id">-->
+
+        <!--                  @if (form.get(s.id.toString()).invalid && form.get(s.id.toString()).touched) {-->
+        <!--                    <div class="validation">-->
+        <!--                      @if (form.get(s.id.toString()).errors['required']) {-->
+        <!--                        Поле {{ s.name }} является обязательным.-->
+        <!--                      }-->
+        <!--                    </div>-->
+        <!--                  }-->
+        <!--                </div>-->
+        <!--              }-->
+        <!--            </div>-->
+        <!--          </mat-tab>-->
+        <!--        }-->
+        <!--      </mat-tab-group>-->
+
+
+      </div>
       <div>
         <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
       </div>

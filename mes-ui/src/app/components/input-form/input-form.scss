@@ -2,23 +2,20 @@ label::after {
   content: ':';
 }
 
-label {
-  font-weight: bold;
-  font-size: 1em;
-}
+//label { font-weight: bold; font-size: 1em; }
 
 input {
 }
 
-.box {
-  display: flex;
-  flex-wrap: wrap;
-}
+//.box {
+//  display: flex;
+//  flex-wrap: wrap;
+//}
 
-.box > * {
-  flex: 1 1 200px;
-  margin: 5px;
-}
+//.box > * {
+//  flex: 1 1 200px;
+//  margin: 5px;
+//}
 
 .border-card {
   border: solid 3px black;
@@ -50,12 +47,15 @@ button[type="submit"] {
   margin: auto;
 }
 
-::ng-deep .mat-mdc-tab .mdc-tab__text-label {
-  font-weight: bold;
-  font-size: 1.5em;
-}
+//::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+//  font-weight: bold;
+//  font-size: 1.5em;
+//}
+//
+//::ng-deep .mat-ripple, .mat-mdc-tab-ripple {
+//  background-color: lightgreen;
+//}
 
-::ng-deep .mat-ripple, .mat-mdc-tab-ripple {
-  background-color: lightgreen;
+form {
+  height: 100%;
 }
-

@@ -1,19 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StationDto} from '../../Entities/StationDto';
-import {ConstructorService} from '../../services/constructor-service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DirectoryService} from '../../services/directory-service';
 import {AreaDto} from '../../Entities/AreaDto';
-import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {ControlBoardService} from '../../services/control-board-service';
 
 @Component({
   selector: 'app-input-form',
   imports: [
     FormsModule,
-    ReactiveFormsModule,
-    MatTabGroup,
-    MatTab
+    ReactiveFormsModule
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -22,6 +18,7 @@ export class InputForm implements OnInit, OnDestroy {
   stations: StationDto[];
   areas: AreaDto[];
   form: FormGroup;
+  // mapper ;
 
   constructor(private directoryService: DirectoryService, private controlBoardService: ControlBoardService) {
     this.form = new FormGroup({})
@@ -37,7 +34,7 @@ export class InputForm implements OnInit, OnDestroy {
     this.directoryService.getStationList().subscribe(stations => {
       this.stations = stations;
       this.stations.forEach(station => {
-        this.form.addControl(station.id.toString(), new FormControl("", [Validators.required]),)
+        this.form.addControl(station.id.toString(), new FormControl("", [Validators.maxLength(3)]))
       })
 
       //При возврате на ранее покинутый компонент, восстанавливаем состояние формы
@@ -48,7 +45,15 @@ export class InputForm implements OnInit, OnDestroy {
 
 
     this.directoryService.getAreaList().subscribe(areas => {
-      this.areas = areas;
+       this.areas = areas;
+      // this.mapper = areas.reduce((acc, item) => {
+      //   const key = item.id;
+      //   if (!acc[key]) {
+      //     acc[key] = [];
+      //   }
+      //   acc[key].push(item);
+      //   return acc;
+      // }, {})
     })
 
   }
@@ -61,9 +66,10 @@ export class InputForm implements OnInit, OnDestroy {
     })
     this.form.reset();
     localStorage.removeItem('formData');
-    this.controlBoardService.saveCurrentState(info).subscribe(d => {
-      console.log("Ok", d);
-    })
+    // this.controlBoardService.saveCurrentState(info).subscribe(d => {
+    //   console.log("Ok", d);
+    // })
     console.log(info);
+
   }
 }

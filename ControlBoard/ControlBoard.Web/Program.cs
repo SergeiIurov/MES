@@ -37,6 +37,7 @@ builder.Services.AddTransient<IAreaService, AreaService>();
 builder.Services.AddTransient<IProcessStateAdvService, ProcessStateAdvService>();
 builder.Services.AddTransient<IChartConvertService, ChartConvertService>();
 
+builder.Services.AddProblemDetails();
 
 builder.Services.AddAutoMapper(configAction =>
 {
@@ -89,6 +90,10 @@ if (app.Environment.IsDevelopment())
     });
 
     //app.UseHttpLogging();
+}
+else
+{
+    app.UseExceptionHandler();
 }
 
 app.UseStaticFiles();

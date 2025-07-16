@@ -2,25 +2,69 @@
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
+using ControlBoard.Domain.Services.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControlBoard.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DirectoryController(ILogger<ControlBoardController> logger, IAreaService areaService, IMapper mapper) : ControllerBase
+    public class DirectoryController(
+        ILogger<ControlBoardController> logger,
+        IAreaService areaService,
+        IProductTypeService productTypeService,
+        IStationService stationService,
+        IMapper mapper) : ControllerBase
     {
         /// <summary>
         /// Возврат списка зон с содержищимися в них станциями.
         /// </summary>
-        /// <returns></returns>
-        [HttpGet]
+        [HttpGet("areas")]
         public async Task<ActionResult<IEnumerable<AreaDto>>> GetAreas()
         {
             try
             {
                 logger.LogInformation($"Действие {nameof(GetAreas)} запущено.");
-                return Ok(mapper.Map<IEnumerable<Area>,IEnumerable<AreaDto>>(await areaService.GetAreasAsync()));
+                return Ok(mapper.Map<IEnumerable<Area>, IEnumerable<AreaDto>>(await areaService.GetAreasAsync()));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Возврат списка станций.
+        /// </summary>
+
+        [HttpGet("stations")]
+        public async Task<ActionResult<IEnumerable<StationDto>>> GetAllStationsDbo()
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(GetAllStationsDbo)} запущено.");
+                return Ok(mapper.Map<IEnumerable<Station>, IEnumerable<StationDto>>(
+                    await stationService.GetStationsAsync()));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Возврат списка типа продуктов.
+        /// </summary>
+        [HttpGet("product-types")]
+        public async Task<ActionResult<IEnumerable<ProductTypeDto>>> GetAllProductTypesDbo()
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(GetAllProductTypesDbo)} запущено.");
+                return Ok(mapper.Map<IEnumerable<ProductType>, IEnumerable<ProductTypeDto>>(
+                    await productTypeService.GetProductTypesAsync()));
             }
             catch (Exception e)
             {

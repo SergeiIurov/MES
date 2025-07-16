@@ -36,6 +36,8 @@ builder.Services.AddScoped<AreaRepository>();
 builder.Services.AddTransient<IAreaService, AreaService>();
 builder.Services.AddTransient<IProcessStateAdvService, ProcessStateAdvService>();
 builder.Services.AddTransient<IChartConvertService, ChartConvertService>();
+builder.Services.AddScoped<ProductTypeRepository>();
+builder.Services.AddTransient<IProductTypeService, ProductTypeService>();
 
 builder.Services.AddProblemDetails();
 
@@ -43,6 +45,7 @@ builder.Services.AddAutoMapper(configAction =>
 {
     configAction.AddProfile<StationMapperProfile>();
     configAction.AddProfile<AreaMapperProfile>();
+    configAction.AddProfile<ProductTypeMapperProfile>();
 });
 
 builder.Services.AddCors(options =>

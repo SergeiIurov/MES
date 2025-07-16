@@ -17,7 +17,7 @@ public class ControlBoardAdvController(
 {
 
     /// <summary>
-    /// Сохраниение нового состояния доски контроля производства.
+    /// Сохранение нового состояния доски контроля производства.
     /// </summary>
     /// <returns></returns>
     [HttpPost]

@@ -23,7 +23,7 @@ export class InputForm implements OnInit, OnDestroy {
   areas: AreaDto[];
   form: FormGroup;
 
-  constructor(private service: ConstructorService, private directoryService: DirectoryService, private controlBoardService: ControlBoardService) {
+  constructor(private directoryService: DirectoryService, private controlBoardService: ControlBoardService) {
     this.form = new FormGroup({})
 
   }
@@ -34,7 +34,7 @@ export class InputForm implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.service.getStationList().subscribe(stations => {
+    this.directoryService.getStationList().subscribe(stations => {
       this.stations = stations;
       this.stations.forEach(station => {
         this.form.addControl(station.id.toString(), new FormControl("", [Validators.required]),)

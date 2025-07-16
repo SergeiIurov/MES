@@ -34,7 +34,7 @@ h1 {
   color: red;
 }
 
-input {
+input, select {
   &.ng-invalid.ng-touched {
     border: 1px solid red;
   }

@@ -12,15 +12,21 @@ button.btn {
 }
 
 .signout {
-  margin: 5px 15px;
+  margin: 0px 15px 25px 25px;
 }
 
 .header-list {
   list-style: none;
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-block;
+  //flex-wrap: wrap;
 }
 
 .header-list li {
   margin: 5px;
+  display: inline-block;
+}
+
+.main-menu{
+  height: 75px;
+  vertical-align: middle;
 }

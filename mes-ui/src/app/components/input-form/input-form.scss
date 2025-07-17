@@ -41,6 +41,10 @@ input, select {
   }
 }
 
+.signalDuplicate{
+  background-color: orangered;
+}
+
 button[type="submit"] {
   display: block;
   width: 250px;
@@ -55,7 +59,3 @@ button[type="submit"] {
 //::ng-deep .mat-ripple, .mat-mdc-tab-ripple {
 //  background-color: lightgreen;
 //}
-
-form {
-  height: 100%;
-}

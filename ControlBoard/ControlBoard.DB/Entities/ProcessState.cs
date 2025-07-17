@@ -8,7 +8,7 @@
         public DateTime Created { get; set; }
         public DateTime LastUpdated { get; set; }
         public bool IsDeleted { get; set; }
-        public int StationId { get; set; }
+        public int? StationId { get; set; }
         public int? ProductTypeId { get; set; }
         public Guid GroupId { get; set; }
         public virtual Station Station { get; set; }

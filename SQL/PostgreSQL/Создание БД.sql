@@ -38,7 +38,7 @@ CREATE TABLE process_states (
     created timestamp with time zone NOT NULL,
     last_updated timestamp with time zone NOT NULL,
     is_deleted boolean NOT NULL DEFAULT FALSE,
-    station_id integer NOT NULL,
+    station_id integer,
     product_type_id integer,
     group_id uuid NOT NULL,
     CONSTRAINT "PK_process-states" PRIMARY KEY (id),

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StationDto} from '../../Entities/StationDto';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DirectoryService} from '../../services/directory-service';
@@ -14,15 +14,33 @@ import {ControlBoardService} from '../../services/control-board-service';
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
 })
-export class InputForm implements OnInit, OnDestroy {
+export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   stations: StationDto[];
   areas: AreaDto[];
   form: FormGroup;
-  // mapper ;
+  @ViewChild('frmBlock') frmBlock: ElementRef;
+  elements: any[];
 
   constructor(private directoryService: DirectoryService, private controlBoardService: ControlBoardService) {
     this.form = new FormGroup({})
+  }
 
+  ngAfterViewChecked(): void {
+    this.elements = this.frmBlock.nativeElement.querySelectorAll("form input")
+    this.elements.forEach((element, idx, mas) => {
+      element.addEventListener('input',
+        e => {
+          if (e.target.value.length >= 3) {
+            e.target.value = e.target.value.substring(0, 3);
+            if (mas[idx + 1]) {
+              mas[idx + 1].focus();
+            } else {
+              // e.preventDefault();
+            }
+          }
+        }
+      )
+    })
   }
 
   //Сохранение состояния в localStorage в случае перехода на другой компонент
@@ -41,21 +59,14 @@ export class InputForm implements OnInit, OnDestroy {
       if (localStorage.getItem('formData') !== null) {
         this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       }
+
+
     });
 
 
     this.directoryService.getAreaList().subscribe(areas => {
-       this.areas = areas;
-      // this.mapper = areas.reduce((acc, item) => {
-      //   const key = item.id;
-      //   if (!acc[key]) {
-      //     acc[key] = [];
-      //   }
-      //   acc[key].push(item);
-      //   return acc;
-      // }, {})
+      this.areas = areas;
     })
-
   }
 
   submitData() {
@@ -64,12 +75,46 @@ export class InputForm implements OnInit, OnDestroy {
     Object.entries(formData).forEach(([key, value]) => {
       info.push({stationId: key, value})
     })
-    this.form.reset();
-    localStorage.removeItem('formData');
-    // this.controlBoardService.saveCurrentState(info).subscribe(d => {
-    //   console.log("Ok", d);
-    // })
-    console.log(info);
-
+    if (!this.hasDuplicate()) {
+      //this.form.reset();
+      //localStorage.removeItem('formData');
+      // this.controlBoardService.saveCurrentState(info).subscribe(d => {
+      //   console.log("Ok", d);
+      // })
+      console.log(info)
+    }
   }
+
+  hasDuplicate(): boolean {
+    let d: any = this.findDuplicates(this.elements);
+    let dups: any[] = []
+
+
+    Object.values(d).forEach((value) => {
+      let mas: any[] = (value as any[]);
+      mas.forEach(e => e.classList.remove('signalDuplicate'));
+      if (mas.length > 1) {
+        dups = [...dups, ...mas];
+      }
+    })
+
+    dups.forEach(dup => dup.classList.add('signalDuplicate'));
+    return dups.length > 0;
+  }
+
+  findDuplicates(data: any[]) {
+    return Array.from(data).reduce((acc, item) => {
+      const key: number = item.value;
+      if (!key) {
+        return acc;
+      }
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(item);
+      return acc;
+    }, {})
+  }
+
+
 }

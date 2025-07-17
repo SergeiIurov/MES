@@ -35,7 +35,7 @@ namespace ControlBoard.Domain.Services.Concrete
                         Created = DateTime.UtcNow,
                         LastUpdated = DateTime.UtcNow,
                         IsDeleted = false,
-                        StationId = _stationMapper[s.StationName],
+                        StationId = s.StationName != null && _stationMapper.TryGetValue(s.StationName, out int res) ? res : null,
                         ProductTypeId = id != 0 ? id : null,
                         GroupId = uid
                     };

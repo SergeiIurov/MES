@@ -15,7 +15,7 @@ public class ChartConvertService(IProcessStateRepository repository) : IChartCon
     public async Task<string> Convert(string from)
     {
         Dictionary<int, (string, string)> dict =
-            (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.StationId,
+            (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.StationId!.Value,
                 d => (d.Value, d.ProductType?.Name ?? ""));
 
         XElement root = XElement.Parse(from);
@@ -23,9 +23,9 @@ public class ChartConvertService(IProcessStateRepository repository) : IChartCon
 
         foreach (XElement elem in data)
         {
-            if (dict.TryGetValue(int.Parse(elem.Attribute("sid").Value), out (string, string) result))
+            if (dict.TryGetValue(int.Parse(elem.Attribute("sid")!.Value), out (string, string) result))
             {
-                elem.Attribute("label").Value = $"{result.Item1}\n{result.Item2}";
+                elem.Attribute("label")!.Value = $"{result.Item1}\n{result.Item2}";
             }
         }
 

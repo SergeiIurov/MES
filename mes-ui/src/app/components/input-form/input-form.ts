@@ -4,6 +4,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {DirectoryService} from '../../services/directory-service';
 import {AreaDto} from '../../Entities/AreaDto';
 import {ControlBoardService} from '../../services/control-board-service';
+import {NotificationService} from '../../services/notification-service';
 
 @Component({
   selector: 'app-input-form',
@@ -21,7 +22,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('frmBlock') frmBlock: ElementRef;
   elements: any[];
 
-  constructor(private directoryService: DirectoryService, private controlBoardService: ControlBoardService) {
+  constructor(private directoryService: DirectoryService, private controlBoardService: ControlBoardService, private notification: NotificationService) {
     this.form = new FormGroup({})
   }
 
@@ -76,13 +77,17 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       info.push({stationId: key, value})
     })
     if (!this.hasDuplicate()) {
+      this.notification.clearMessage()
       //this.form.reset();
       //localStorage.removeItem('formData');
       // this.controlBoardService.saveCurrentState(info).subscribe(d => {
       //   console.log("Ok", d);
       // })
       console.log(info)
+    } else {
+      this.notification.sendMessage('Найдены продублированные значения')
     }
+
   }
 
   hasDuplicate(): boolean {

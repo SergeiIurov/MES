@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {AuthService} from './services/auth-service';
 import {Header} from './components/app-header/header';
+import {Information} from './components/information/information';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    Header
+    Header,
+    Information
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

@@ -24,9 +24,11 @@
       </li>
     </ul>
 
-    @if (auth.isAuthenticated) {
-      <a class="btn btn-group signout logout" (click)="logout()">Выйти</a>
-    }
+    <div class="notify">
+      @if (auth.isAuthenticated) {
+        <a class="btn btn-group signout logout" (click)="logout()">Выйти</a>
+      }
+    </div>
   </nav>
 
 </header>

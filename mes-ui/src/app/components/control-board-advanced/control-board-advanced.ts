@@ -1,7 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ControlBoardService} from '../../services/control-board-service';
-import mx from '../../../mxgraph'; // <- import values from factory()
-import type {mxGraph} from 'mxgraph'; // <- import types only, "import type" is a TypeScript 3.8+ syntax
 
 @Component({
   selector: 'app-control-board-advanced',
@@ -16,12 +14,9 @@ export class ControlBoardAdvanced implements OnInit, AfterViewInit {
 
 
   constructor(private service: ControlBoardService) {
-    if (mx.mxClient.isBrowserSupported()) {
-      console.log('Yes! Yes!');
-    }
+
   }
 
-  graph: mxGraph;
 
   ngAfterViewInit(): void {
     this.elem.nativeElement.src = this.url;

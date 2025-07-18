@@ -20,7 +20,6 @@
     "@angular/router": "^20.1.0",
     "@microsoft/signalr": "^8.0.7",
     "bootstrap": "^5.3.7",
-    "mxgraph": "^4.2.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

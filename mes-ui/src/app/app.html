@@ -1,34 +1,35 @@
+<app-header></app-header>
 <div class="main">
-  <div class="navbar navbar-dark bg-success main-menu">
-    <div class="navbar-brand" style="margin-left: 15px">
-      <ul class="header-list">
-        <li>
-          <a class="btn btn-lg btn-success" [routerLink]="['/']" [routerLinkActive]="'active'"
-             [routerLinkActiveOptions]="{exact:true}">Доска контроля производства
-          </a>
-        </li>
-        <li>
-          <a class="btn btn-lg btn-success" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'">
-            Конструктор
-          </a>
-        </li>
-        <li>
-          <a class="btn btn-lg btn-success" [routerLink]="['/control-board']" [routerLinkActive]="'active'">Доска
-            контроля
-            производства(adv)
-          </a>
-        </li>
-        <li>
-          <a class="btn btn-lg btn-success" [routerLink]="['/input-form']" [routerLinkActive]="'active'">Форма ввода
-            данных
-          </a>
-        </li>
-      </ul>
-    </div>
-    @if (auth.isAuthenticated) {
-      <a class="btn btn-primary signout" (click)="logout()">Sign Out</a>
-    }
-  </div>
+<!--  <div class="navbar navbar-dark bg-success main-menu">-->
+<!--    <div class="navbar-brand" style="margin-left: 15px">-->
+<!--      <ul class="header-list">-->
+<!--        <li>-->
+<!--          <a class="btn btn-lg btn-success" [routerLink]="['/']" [routerLinkActive]="'active'"-->
+<!--             [routerLinkActiveOptions]="{exact:true}">Доска контроля производства-->
+<!--          </a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--          <a class="btn btn-lg btn-success" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'">-->
+<!--            Конструктор-->
+<!--          </a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--          <a class="btn btn-lg btn-success" [routerLink]="['/control-board']" [routerLinkActive]="'active'">Доска-->
+<!--            контроля-->
+<!--            производства(adv)-->
+<!--          </a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--          <a class="btn btn-lg btn-success" [routerLink]="['/input-form']" [routerLinkActive]="'active'">Форма ввода-->
+<!--            данных-->
+<!--          </a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--    @if (auth.isAuthenticated) {-->
+<!--      <a class="btn btn-primary signout" (click)="logout()">Sign Out</a>-->
+<!--    }-->
+<!--  </div>-->
   <div>
     <router-outlet></router-outlet>
   </div>

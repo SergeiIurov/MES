@@ -1,0 +1,32 @@
+<header class="header">
+  <nav class="bg-success">
+    <ul class="header-list">
+      <li>
+        <a class="btn btn-lg btn-success" [routerLink]="['/']" [routerLinkActive]="'active'"
+           [routerLinkActiveOptions]="{exact:true}">Доска контроля производства
+        </a>
+      </li>
+      <li>
+        <a class="btn btn-lg btn-success" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'">
+          Конструктор
+        </a>
+      </li>
+      <li>
+        <a class="btn btn-lg btn-success" [routerLink]="['/control-board']" [routerLinkActive]="'active'">Доска
+          контроля
+          производства(adv)
+        </a>
+      </li>
+      <li>
+        <a class="btn btn-lg btn-success" [routerLink]="['/input-form']" [routerLinkActive]="'active'">Форма ввода
+          данных
+        </a>
+      </li>
+    </ul>
+
+    @if (auth.isAuthenticated) {
+      <a class="btn btn-group signout logout" (click)="logout()">Выйти</a>
+    }
+  </nav>
+
+</header>

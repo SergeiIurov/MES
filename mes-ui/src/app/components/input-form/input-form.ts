@@ -92,7 +92,10 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
 
     Object.values(d).forEach((value) => {
       let mas: any[] = (value as any[]);
-      mas.forEach(e => e.classList.remove('signalDuplicate'));
+      // mas.forEach(e => e.classList.remove('signalDuplicate'));
+      this.elements.forEach(e => e.classList.remove('signalDuplicate'));
+
+
       if (mas.length > 1) {
         dups = [...dups, ...mas];
       }
@@ -102,9 +105,11 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     return dups.length > 0;
   }
 
+  //Формируем группы элементов для поиска дубликатов
   findDuplicates(data: any[]) {
     return Array.from(data).reduce((acc, item) => {
-      const key: number = item.value;
+      console.log(typeof item.value)
+      const key: number = item.value !== "" ? item.value.padStart(3, '0') : item.value;
       if (!key) {
         return acc;
       }

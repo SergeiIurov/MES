@@ -99,6 +99,7 @@ else
     app.UseExceptionHandler();
 }
 
+app.UseStatusCodePages();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseRouting();

@@ -106,7 +106,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       }
     })
 
-    dups.forEach(dup => dup.classList.add('signalDuplicate'));
+    dups.filter(d=>d.value !== '000').forEach(dup => dup.classList.add('signalDuplicate'));
     return dups.length > 0;
   }
 

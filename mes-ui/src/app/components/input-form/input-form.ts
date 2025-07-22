@@ -53,15 +53,17 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     this.directoryService.getStationList().subscribe(stations => {
       this.stations = stations;
       this.stations.forEach(station => {
-        this.form.addControl(station.id.toString(), new FormControl("", [Validators.maxLength(3)]))
+        this.form.addControl(station.id.toString(), new FormControl("", [
+          Validators.maxLength(3),
+          Validators.minLength(3),
+          Validators.required
+        ]))
       })
 
       //При возврате на ранее покинутый компонент, восстанавливаем состояние формы
       if (localStorage.getItem('formData') !== null) {
         this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       }
-
-
     });
 
 
@@ -106,7 +108,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       }
     })
 
-    dups.filter(d=>d.value !== '000').forEach(dup => dup.classList.add('signalDuplicate'));
+    dups.filter(d => d.value !== '000').forEach(dup => dup.classList.add('signalDuplicate'));
     return dups.length > 0;
   }
 

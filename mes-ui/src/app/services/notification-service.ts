@@ -12,6 +12,7 @@ export class NotificationService {
     if (time) {
       const timeout = setTimeout(() => {
         this.dataSubject.next('');
+        clearTimeout(timeout);
       }, time)
     }
   }

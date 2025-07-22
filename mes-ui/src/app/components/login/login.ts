@@ -31,6 +31,7 @@ export class Login {
       this.authService.role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
 
       localStorage.setItem('access_token', token);
+
       if (this.authService.isAuthenticated) {
 
         this.router.navigate(['/']);

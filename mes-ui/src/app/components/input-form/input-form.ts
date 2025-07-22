@@ -113,7 +113,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   //Формируем группы элементов для поиска дубликатов
   findDuplicates(data: any[]) {
     return Array.from(data).reduce((acc, item) => {
-      console.log(typeof item.value)
       const key: number = item.value !== "" ? item.value.padStart(3, '0') : item.value;
       if (!key) {
         return acc;

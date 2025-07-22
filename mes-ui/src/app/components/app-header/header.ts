@@ -1,12 +1,15 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth-service';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+import {Information} from '../information/information';
+import {Roles} from '../../enums/roles';
 
 @Component({
   selector: 'app-header',
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    Information
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss'
@@ -18,4 +21,6 @@ export class Header {
   logout() {
     this.auth.logout();
   }
+
+  protected readonly Roles = Roles;
 }

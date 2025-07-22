@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth-service';
 import {Router} from '@angular/router';
+import {jwtDecode} from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -23,11 +24,17 @@ export class Login {
 
   login() {
     const {username, password} = this.loginForm.value;
+    this.authService.login(username, password).subscribe(token => {
+      this.authService.token = token;
+      const decodedToken = jwtDecode(token);
+      this.authService.name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+      this.authService.role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
 
-    this.authService.login(username, password);
-    if(this.authService.isAuthenticated) {
-      console.log('Authenticated');
-      this.router.navigate(['/']); // Redirect
-    }
+      localStorage.setItem('access_token', token);
+      if (this.authService.isAuthenticated) {
+
+        this.router.navigate(['/']);
+      }
+    });
   }
 }

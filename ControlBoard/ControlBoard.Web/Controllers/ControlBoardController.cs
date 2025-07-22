@@ -1,5 +1,6 @@
 ﻿using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -7,6 +8,7 @@ namespace ControlBoard.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ControlBoardController(IHubContext<MesHub> hub, IWebHostEnvironment env, IProcessStateService processStateService, ILogger<ControlBoardController> logger) : ControllerBase
     {
         /// <summary>

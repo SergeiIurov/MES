@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using ControlBoard.DB;
 using ControlBoard.DB.Repositories.Abstract;
 using ControlBoard.DB.Repositories.Concrete;
@@ -6,9 +5,18 @@ using ControlBoard.Domain.Services.Abstract;
 using ControlBoard.Domain.Services.Concrete;
 using ControlBoard.Web;
 using ControlBoard.Web.AutoMapperProfiles;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog.Web;
+using System.Diagnostics;
+using System.Text;
+using ControlBoard.Web.Auth;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,11 +28,43 @@ var builder = WebApplication.CreateBuilder(args);
 //    options.FallbackPolicy = options.DefaultPolicy;
 //});
 
+builder.Services.Configure<CookieAuthenticationOptions>(o =>
+{
+    o.LoginPath = PathString.Empty;
+});
+
 builder.Services.AddDbContext<MesDbContext>(ctx =>
 {
     ctx.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
         .UseLazyLoadingProxies();
 });
+
+builder.Services.AddDbContext<AppDbContext>(ctx =>
+{
+    ctx.UseNpgsql(builder.Configuration.GetConnectionString("AuthConnection"))
+        .UseLazyLoadingProxies();
+});
+
+//builder.Services.AddIdentity<ApplicationUser, IdentityRole>(o =>
+//    {
+//        o.Password.RequireDigit = false;
+//        o.Password.RequireNonAlphanumeric = false;
+//        o.Password.RequiredLength = 4;
+//        o.Password.RequireUppercase = false;
+//        o.Password.RequireLowercase = false;
+//    })
+//    .AddEntityFrameworkStores<AppDbContext>()
+//    .AddDefaultTokenProviders();
+
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>(o =>
+{
+    o.Password.RequireDigit = false;
+    o.Password.RequireNonAlphanumeric = false;
+    o.Password.RequiredLength = 4;
+    o.Password.RequireUppercase = false;
+    o.Password.RequireLowercase = false;
+}).AddEntityFrameworkStores<AppDbContext>();
+
 
 builder.Services.AddScoped<IProcessStateRepository, ProcessStateRepository>();
 builder.Services.AddTransient<IProcessStateService, ProcessStateService>();
@@ -47,6 +87,29 @@ builder.Services.AddAutoMapper(configAction =>
     configAction.AddProfile<AreaMapperProfile>();
     configAction.AddProfile<ProductTypeMapperProfile>();
 });
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        // указывает, будет ли валидироваться издатель при валидации токена
+        ValidateIssuer = true,
+        // строка, представляющая издателя
+        ValidIssuer = AuthOptions.Issuer,
+        // будет ли валидироваться потребитель токена
+        ValidateAudience = true,
+        // установка потребителя токена
+        ValidAudience = AuthOptions.Audience,
+        // будет ли валидироваться время существования
+        ValidateLifetime = true,
+        // установка ключа безопасности
+        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+        // валидация ключа безопасности
+        ValidateIssuerSigningKey = true,
+    };
+});
+builder.Services.AddAuthorization();
+
 
 builder.Services.AddCors(options =>
 {
@@ -72,12 +135,35 @@ builder.Services.AddSwaggerGen(options =>
         Title = "MES API",
         Description = "An ASP.NET Core Web API for managing MES App",
     });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
 });
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
 var app = builder.Build();
-
+app.MapIdentityApi<ApplicationUser>();
 
 app.UseDefaultFiles();
 app.MapStaticAssets();
@@ -105,7 +191,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors("AllowAll");
 
-//app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -115,3 +201,11 @@ app.MapFallbackToFile("/index.html");
 //TestData.LoadData(app.Services);
 
 app.Run();
+
+public class AuthOptions
+{
+    public const string Issuer = "MyAuthServer"; // издатель токена
+    public const string Audience = "MyAuthClient"; // потребитель токена
+    private const string Key = "mysupersecret_secretsecretsecretkey!123";   // ключ для шифрации
+    public static SymmetricSecurityKey GetSymmetricSecurityKey() => new(Encoding.UTF8.GetBytes(Key));
+}

@@ -1,6 +1,7 @@
 ﻿using System.Net.Mime;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -8,6 +9,7 @@ namespace ControlBoard.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ControlBoardAdvController(
     IHubContext<MesHub> hub,
     IProcessStateAdvService processStateAdvService,
@@ -40,6 +42,7 @@ public class ControlBoardAdvController(
     /// Получение нового состояния доски контроля производства для дальнейшей визуализации.
     /// </summary>
     [HttpGet("chart")]
+    [AllowAnonymous]
     public async Task<ActionResult> GetLastControlBoardData()
     {
         try

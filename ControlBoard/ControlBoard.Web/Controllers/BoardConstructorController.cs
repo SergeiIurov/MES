@@ -2,6 +2,7 @@
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -14,6 +15,7 @@ namespace ControlBoard.Web.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BoardConstructorController(
         IHubContext<MesHub> hub,
         ILogger<BoardConstructorController> logger,
@@ -44,6 +46,7 @@ namespace ControlBoard.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> UpdateConstructor(ConstructorData data)
         {
             try
@@ -63,8 +66,8 @@ namespace ControlBoard.Web.Controllers
         /// <summary>
         /// Получение текущего состояния конструктора для дальнейшей визуализации.
         /// </summary>
-
         [HttpGet("chart")]
+        [AllowAnonymous]
         public async Task<ActionResult> GetLastControlBoardData()
         {
             try

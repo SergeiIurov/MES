@@ -1,27 +1,33 @@
 <header class="header">
   <nav class="bg-success">
     <ul class="header-list">
-      <li>
-        <a class="btn btn-lg btn-success" [routerLink]="['/']" [routerLinkActive]="'active'"
-           [routerLinkActiveOptions]="{exact:true}">Доска контроля производства
-        </a>
-      </li>
-      <li>
-        <a class="btn btn-lg btn-success" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'">
-          Конструктор
-        </a>
-      </li>
-      <li>
-        <a class="btn btn-lg btn-success" [routerLink]="['/control-board']" [routerLinkActive]="'active'">Доска
-          контроля
-          производства(adv)
-        </a>
-      </li>
-      <li>
-        <a class="btn btn-lg btn-success" [routerLink]="['/input-form']" [routerLinkActive]="'active'">Форма ввода
-          данных
-        </a>
-      </li>
+      @if (auth.isAuthenticated) {
+        <li>
+          <a class="btn btn-lg btn-success" [routerLink]="['/']" [routerLinkActive]="'active'"
+             [routerLinkActiveOptions]="{exact:true}">Доска контроля производства
+          </a>
+        </li>
+        @if (auth.role === Roles.Admin) {
+          <li>
+            <a class="btn btn-lg btn-success" [routerLink]="['/board-constructor']" [routerLinkActive]="'active'">
+              Конструктор
+            </a>
+          </li>
+        }
+        <li>
+          <a class="btn btn-lg btn-success" [routerLink]="['/control-board']" [routerLinkActive]="'active'">Доска
+            контроля
+            производства(adv)
+          </a>
+        </li>
+        @if (auth.role === Roles.Admin) {
+          <li>
+            <a class="btn btn-lg btn-success" [routerLink]="['/input-form']" [routerLinkActive]="'active'">Форма ввода
+              данных
+            </a>
+          </li>
+        }
+      }
     </ul>
 
     <div class="notify">
@@ -29,6 +35,7 @@
         <a class="btn btn-group signout logout" (click)="logout()">Выйти</a>
       }
     </div>
+    <app-information></app-information>
   </nav>
 
 </header>

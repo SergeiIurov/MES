@@ -1,6 +1,7 @@
 import {inject} from '@angular/core';
 import {CanActivateFn, Router} from '@angular/router';
 import {AuthService} from './auth-service';
+import {jwtDecode} from 'jwt-decode';
 
 export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -8,6 +9,6 @@ export const authGuard: CanActivateFn = () => {
   if (authService.isAuthenticated) {
     return authService.isAuthenticated;
   } else {
-    return router.parseUrl('/login'); // Redirect to login page
+    return router.parseUrl('/login');
   }
 };

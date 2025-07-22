@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import {Environment} from "../environments/environment"
 import {Observable} from 'rxjs';
-import {StationDto} from '../Entities/StationDto';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({

@@ -83,10 +83,10 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       localStorage.removeItem('formData');
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
       this.controlBoardService.saveCurrentState(info).subscribe(d => {
-        this.notification.sendMessage('Данные зафиксированы!')
+        this.notification.sendMessage('Данные зафиксированы!', 5000)
       })
     } else {
-      this.notification.sendMessage('Найдены продублированные значения')
+      this.notification.sendMessage('Найдены продублированные значения', 5000)
     }
 
   }

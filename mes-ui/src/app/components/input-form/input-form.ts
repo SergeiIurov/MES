@@ -78,14 +78,13 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       info.push({stationId: key, value})
     })
     if (!this.hasDuplicate()) {
-      // this.notification.clearMessage()
-      // this.form.reset();
-      // localStorage.removeItem('formData');
+      this.notification.clearMessage()
+      this.form.reset();
+      localStorage.removeItem('formData');
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
       this.controlBoardService.saveCurrentState(info).subscribe(d => {
-        console.log("Ok", d);
+        this.notification.sendMessage('Данные зафиксированы!')
       })
-      console.log(info)
     } else {
       this.notification.sendMessage('Найдены продублированные значения')
     }

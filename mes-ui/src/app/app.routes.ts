@@ -5,6 +5,7 @@ import {Login} from './components/login/login';
 import {BoardConstructor} from './components/constructor/board-constructor';
 import {ControlBoardAdvanced} from './components/control-board-advanced/control-board-advanced';
 import {InputForm} from './components/input-form/input-form';
+import {authorizeGuard} from './services/authorize-guard';
 
 export const routes: Routes = [
   {
@@ -14,13 +15,13 @@ export const routes: Routes = [
     path: 'login', component: Login
   },
   {
-    path: 'board-constructor', component: BoardConstructor, canActivate: [authGuard]
+    path: 'board-constructor', component: BoardConstructor, canActivate: [authGuard, authorizeGuard]
   },
   {
     path: 'control-board', component: ControlBoardAdvanced, canActivate: [authGuard]
   },
   {
-    path: 'input-form', component: InputForm, canActivate: [authGuard]
+    path: 'input-form', component: InputForm, canActivate: [authGuard, authorizeGuard]
   },
   {
     path: '**', redirectTo: '/'

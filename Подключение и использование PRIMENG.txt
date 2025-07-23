@@ -1,0 +1,25 @@
+Подключение и использование PRIMENG
+
+npm install primeng @primeuix/themes
+npm i @angular/animations --force or --legacy-peer-deps  
+npm install primeng --save  --force or --legacy-peer-deps
+npm install primeicons --save --force or --legacy-peer-deps
+npm install primeflex --save --force or --legacy-peer-deps 
+ 
+
+
+import { ApplicationConfig } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
+
+export const appConfig: ApplicationConfig = {
+    providers: [
+        provideAnimationsAsync(),
+        providePrimeNG({
+            theme: {
+                preset: Aura
+            }
+        })
+    ]
+};

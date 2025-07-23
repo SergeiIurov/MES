@@ -2,14 +2,27 @@ import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChange
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
 import {authInterceptor} from './services/auth.interceptor';
+import {MessageService} from 'primeng/api';
+import {providePrimeNG} from 'primeng/config';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {Toast} from 'primeng/toast';
+import Aura from '@primeuix/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor]))
+    provideHttpClient(withInterceptors([authInterceptor]), withFetch()),
+    provideAnimationsAsync(),
+    MessageService,
+    Toast,
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
   ]
 };

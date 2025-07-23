@@ -5,6 +5,7 @@ import {DirectoryService} from '../../services/directory-service';
 import {AreaDto} from '../../Entities/AreaDto';
 import {ControlBoardService} from '../../services/control-board-service';
 import {NotificationService} from '../../services/notification-service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-input-form',
@@ -22,7 +23,11 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('frmBlock') frmBlock: ElementRef;
   elements: any[];
 
-  constructor(private directoryService: DirectoryService, private controlBoardService: ControlBoardService, private notification: NotificationService) {
+  constructor(
+    private directoryService: DirectoryService,
+    private controlBoardService: ControlBoardService,
+    private notification: NotificationService,
+    private messageService: MessageService,) {
     this.form = new FormGroup({})
   }
 
@@ -35,8 +40,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
             e.target.value = e.target.value.substring(0, 3);
             if (mas[idx + 1]) {
               mas[idx + 1].focus();
-            } else {
-              // e.preventDefault();
             }
           }
         }
@@ -83,10 +86,10 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       localStorage.removeItem('formData');
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
       this.controlBoardService.saveCurrentState(info).subscribe(d => {
-        this.notification.sendMessage('Данные зафиксированы!', 5000)
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
       })
     } else {
-      this.notification.sendMessage('Найдены продублированные значения', 5000)
+      this.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Найдены продублированные значения!'});
     }
 
   }
@@ -124,6 +127,4 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       return acc;
     }, {})
   }
-
-
 }

@@ -1,10 +1,11 @@
-﻿using System.Net.Mime;
-using ControlBoard.Domain.Dto;
+﻿using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.SignalR;
+using System.Net;
+using System.Net.Mime;
 
 namespace ControlBoard.Web.Controllers;
 
@@ -23,6 +24,7 @@ public class ControlBoardAdvController(
     /// Сохранение нового состояния доски контроля производства.
     /// </summary>
     [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task SaveStateInfo(List<ProcessStateAdvDto> list)
     {
         try
@@ -43,6 +45,8 @@ public class ControlBoardAdvController(
     /// </summary>
     [HttpGet("chart")]
     [AllowAnonymous]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult> GetLastControlBoardData()
     {
         try

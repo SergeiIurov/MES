@@ -5,6 +5,7 @@ using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Net;
 
 namespace ControlBoard.Web.Controllers
 {
@@ -25,6 +26,9 @@ namespace ControlBoard.Web.Controllers
     ) : ControllerBase
     {
         [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<StationDto>>> GetAllStationsDbo()
         {
             try
@@ -47,6 +51,8 @@ namespace ControlBoard.Web.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult> UpdateConstructor(ConstructorData data)
         {
             try
@@ -68,6 +74,8 @@ namespace ControlBoard.Web.Controllers
         /// </summary>
         [HttpGet("chart")]
         [AllowAnonymous]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetLastControlBoardData()
         {
             try

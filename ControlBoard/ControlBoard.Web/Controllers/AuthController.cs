@@ -1,21 +1,25 @@
 ﻿using ControlBoard.Web.Auth;
 using ControlBoard.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ControlBoard.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class AuthController(UserManager<ApplicationUser?> userManager, SignInManager<ApplicationUser?> signInManager) : ControllerBase
 {
     [HttpPost]
     [AllowAnonymous]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult> Login(LoginInfo loginInfo)
     {
         ApplicationUser? user = await userManager.FindByNameAsync(loginInfo.UserName);
@@ -39,7 +43,10 @@ public class AuthController(UserManager<ApplicationUser?> userManager, SignInMan
     }
 
     [HttpPost("CreateUser")]
-    [Authorize]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Created)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult> CreateUser(UserInfo userInfo)
     {
 
@@ -62,7 +69,9 @@ public class AuthController(UserManager<ApplicationUser?> userManager, SignInMan
     }
 
     [HttpPost("DeleteUser")]
-    [Authorize]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult> DeleteUser(string name)
     {
         ApplicationUser? user = await userManager.FindByNameAsync(name);

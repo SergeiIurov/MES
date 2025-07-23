@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using AutoMapper;
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
@@ -22,6 +23,9 @@ namespace ControlBoard.Web.Controllers
         /// Возврат списка зон с содержищимися в них станциями.
         /// </summary>
         [HttpGet("areas")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<AreaDto>>> GetAreas()
         {
             try
@@ -41,6 +45,9 @@ namespace ControlBoard.Web.Controllers
         /// </summary>
 
         [HttpGet("stations")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<StationDto>>> GetAllStationsDbo()
         {
             try
@@ -60,6 +67,9 @@ namespace ControlBoard.Web.Controllers
         /// Возврат списка типа продуктов.
         /// </summary>
         [HttpGet("product-types")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<ProductTypeDto>>> GetAllProductTypesDbo()
         {
             try

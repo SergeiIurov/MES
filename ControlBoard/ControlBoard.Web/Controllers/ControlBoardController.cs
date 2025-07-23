@@ -3,6 +3,7 @@ using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Net;
 
 namespace ControlBoard.Web.Controllers
 {
@@ -15,7 +16,8 @@ namespace ControlBoard.Web.Controllers
         /// Загрузка скриншота доски контроля производства
         /// </summary>
         [HttpPost]
-        //[Authorize]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task UploadJpgFile(IFormFile file)
         {
             try
@@ -38,7 +40,8 @@ namespace ControlBoard.Web.Controllers
         /// <param name="list"></param>
         /// <returns></returns>
         [HttpPost("csv-data")]
-        //[Authorize]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task UploadCsvFile(List<ProcessStateDto> list)
         {
             try
@@ -59,7 +62,8 @@ namespace ControlBoard.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("image")]
-        //[Authorize]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public string GetPicture()
         {
             try

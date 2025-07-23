@@ -17,6 +17,7 @@ public class ChartConvertService(
 {
     public async Task<string> Convert(string from)
     {
+        logger.LogInformation($"Запуск метода {nameof(Convert)}.");
         Dictionary<int, (string, string)> dict =
             (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.StationId!.Value,
                 d => (d.Value, d.ProductType?.Name ?? ""));
@@ -39,7 +40,7 @@ public class ChartConvertService(
                 logger.LogError(ex.Message, ex);
             }
         }
-
+        logger.LogInformation($"Выполнение метода {nameof(Convert)} завершено.");
         return root.ToString();
     }
 }

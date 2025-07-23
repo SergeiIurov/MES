@@ -47,6 +47,7 @@ public class ControlBoardAdvController(
     {
         try
         {
+            logger.LogInformation($"Действие {nameof(GetLastControlBoardData)} запущено.");
             return Ok(await chartConvertService.Convert(await boardConstructorService.GetLastDataAsync()));
         }
         catch (Exception e)

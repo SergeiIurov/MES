@@ -3,6 +3,7 @@ using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ControlBoard.Web.Controllers;
@@ -21,7 +22,6 @@ public class ControlBoardAdvController(
     /// <summary>
     /// Сохранение нового состояния доски контроля производства.
     /// </summary>
-    /// <returns></returns>
     [HttpPost]
     public async Task SaveStateInfo(List<ProcessStateAdvDto> list)
     {

@@ -3,6 +3,7 @@ import * as signalR from "@microsoft/signalr";
 import {Environment} from "../environments/environment"
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {ProcessStateAdvDto} from '../Entities/ProcessStateAdvDto';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,7 @@ export class ControlBoardService {
     return this.hubConnection;
   }
 
-  saveCurrentState(data): Observable<any> {
+  saveCurrentState(data: ProcessStateAdvDto[]): Observable<any> {
     return this.http.post(`${Environment.apiUrl}api/ControlBoardAdv`, data)
   }
 

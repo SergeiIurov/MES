@@ -53,9 +53,8 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     this.directoryService.getStationList().subscribe(stations => {
       this.stations = stations;
       this.stations.forEach(station => {
-        this.form.addControl(station.id.toString(), new FormControl("", [
-          Validators.maxLength(3),
-          Validators.minLength(3),
+        this.form.addControl((station.id).toString(), new FormControl("", [
+          Validators.pattern('\\d{3}'),
           Validators.required
         ]))
       })
@@ -79,12 +78,13 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       info.push({stationId: key, value})
     })
     if (!this.hasDuplicate()) {
-      this.notification.clearMessage()
-      //this.form.reset();
-      //localStorage.removeItem('formData');
-      // this.controlBoardService.saveCurrentState(info).subscribe(d => {
-      //   console.log("Ok", d);
-      // })
+      // this.notification.clearMessage()
+      // this.form.reset();
+      // localStorage.removeItem('formData');
+      info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
+      this.controlBoardService.saveCurrentState(info).subscribe(d => {
+        console.log("Ok", d);
+      })
       console.log(info)
     } else {
       this.notification.sendMessage('Найдены продублированные значения')
@@ -99,7 +99,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
 
     Object.values(d).forEach((value) => {
       let mas: any[] = (value as any[]);
-      // mas.forEach(e => e.classList.remove('signalDuplicate'));
       this.elements.forEach(e => e.classList.remove('signalDuplicate'));
 
 
@@ -109,7 +108,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     })
 
     dups.filter(d => d.value !== '000').forEach(dup => dup.classList.add('signalDuplicate'));
-    return dups.length > 0;
+    return dups.filter(d => d.value !== '000').length > 0;
   }
 
   //Формируем группы элементов для поиска дубликатов

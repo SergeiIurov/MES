@@ -6,17 +6,13 @@ using ControlBoard.Domain.Services.Concrete;
 using ControlBoard.Web;
 using ControlBoard.Web.AutoMapperProfiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog.Web;
-using System.Diagnostics;
 using System.Text;
 using ControlBoard.Web.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

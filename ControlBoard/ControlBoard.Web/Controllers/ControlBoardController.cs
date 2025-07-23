@@ -54,7 +54,6 @@ namespace ControlBoard.Web.Controllers
             {
                 logger.LogError(e.Message, e);
             }
-
         }
 
         /// <summary>

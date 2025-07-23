@@ -2,10 +2,8 @@
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.SignalR;
 using System.Net;
-using System.Net.Mime;
 
 namespace ControlBoard.Web.Controllers;
 

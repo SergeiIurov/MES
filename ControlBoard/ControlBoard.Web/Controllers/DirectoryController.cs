@@ -3,7 +3,6 @@ using AutoMapper;
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
-using ControlBoard.Domain.Services.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,7 +42,6 @@ namespace ControlBoard.Web.Controllers
         /// <summary>
         /// Возврат списка станций.
         /// </summary>
-
         [HttpGet("stations")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

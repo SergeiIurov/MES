@@ -6,12 +6,14 @@ import {AreaDto} from '../../Entities/AreaDto';
 import {ControlBoardService} from '../../services/control-board-service';
 import {NotificationService} from '../../services/notification-service';
 import {MessageService} from 'primeng/api';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-input-form',
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Button
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'

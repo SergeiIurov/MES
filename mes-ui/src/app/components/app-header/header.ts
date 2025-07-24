@@ -3,13 +3,16 @@ import {AuthService} from '../../services/auth-service';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {Information} from '../information/information';
 import {Roles} from '../../enums/roles';
+import {ButtonDirective, ButtonLabel} from 'primeng/button';
 
 @Component({
   selector: 'app-header',
   imports: [
     RouterLink,
     RouterLinkActive,
-    Information
+    Information,
+    ButtonDirective,
+    ButtonLabel
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss'

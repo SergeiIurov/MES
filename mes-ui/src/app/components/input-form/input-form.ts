@@ -54,6 +54,11 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit(): void {
     this.directoryService.getStationList().subscribe(stations => {
+
+      this.directoryService.getAreaList().subscribe(areas => {
+        this.areas = areas;
+      })
+
       this.stations = stations;
       this.stations.forEach(station => {
         this.form.addControl((station.id).toString(), new FormControl("", [
@@ -69,9 +74,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     });
 
 
-    this.directoryService.getAreaList().subscribe(areas => {
-      this.areas = areas;
-    })
+
   }
 
   submitData() {

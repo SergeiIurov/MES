@@ -8,7 +8,7 @@ namespace ControlBoard.DB.Configurations
     {
         public void Configure(EntityTypeBuilder<ControlBoardData> builder)
         {
-            builder.ToTable("control_board_data");
+            builder.ToTable("control_board_data").HasQueryFilter(f => !f.IsDeleted); ;
             builder.Property(p => p.Id).HasColumnName("id");
             builder.Property(p => p.Data).HasColumnName("data");
             builder.Property(p => p.Created).HasColumnName("created");

@@ -41,14 +41,14 @@ input, select {
   }
 }
 
-.signalDuplicate{
+.signalDuplicate {
   background-color: orangered;
 }
 
 p-button[type="submit"] {
   display: block;
   width: 250px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 //::ng-deep .mat-mdc-tab .mdc-tab__text-label {

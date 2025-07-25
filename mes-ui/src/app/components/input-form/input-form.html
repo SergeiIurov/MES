@@ -28,7 +28,11 @@
         </div>
       </div>
       <div>
-        <p-button type="submit" label="Сохранить" severity="success"  [disabled]="!form.valid"></p-button>
+        <button pButton type="submit" pButtonLabel="Сохранить" severity="success"
+                [disabled]="!form.valid">
+          <i class="pi pi-check" pButtonIcon></i>
+          <span pButtonLabel>Сохранить</span>
+        </button>
       </div>
     </form>
   </div>

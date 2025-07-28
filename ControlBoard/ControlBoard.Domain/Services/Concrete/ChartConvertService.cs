@@ -19,7 +19,7 @@ public class ChartConvertService(
     {
         logger.LogInformation($"Запуск метода {nameof(Convert)}.");
         Dictionary<int, (string, string)> dict =
-            (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.StationId!.Value,
+            (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.Station!.ChartElementId,
                 d => (d.Value, d.ProductType?.Name ?? ""));
 
         XElement root = XElement.Parse(from);

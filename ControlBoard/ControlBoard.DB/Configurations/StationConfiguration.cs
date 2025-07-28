@@ -8,8 +8,9 @@ namespace ControlBoard.DB.Configurations
     {
         public void Configure(EntityTypeBuilder<Station> builder)
         {
-            builder.ToTable("stations").HasQueryFilter(f => !f.IsDeleted);
+            builder.ToTable("stations").HasQueryFilter(f => !f.IsDeleted).HasIndex(e => e.ChartElementId).IsUnique();
             builder.Property(p => p.Id).HasColumnName("id");
+            builder.Property(p => p.ChartElementId).HasColumnName("chart_element_id");
             builder.Property(p => p.Name).HasMaxLength(150).HasColumnName("name");
             builder.Property(p => p.Description).HasColumnName("description");
             builder.Property(p => p.Created).HasColumnName("created");

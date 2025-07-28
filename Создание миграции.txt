@@ -1,12 +1,12 @@
 Создание миграции:
-dotnet ef migrations add Init --project ControlBoard.db --startup-project ControlBoard.web
+dotnet ef migrations add Init --project ControlBoard.db --startup-project ControlBoard.web --context MesDbContext
 dotnet ef migrations add AuthInit --project ControlBoard.web --startup-project ControlBoard.web --context AppDbContext
 
 
 Обновление БД:
-dotnet ef database update --project ControlBoard.db --startup-project ControlBoard.web
+dotnet ef database update --project ControlBoard.db --startup-project ControlBoard.web --context MesDbContext
 dotnet ef database update --project ControlBoard.web --startup-project ControlBoard.web --context AppDbContext
 
 Получение скриптов для формирования БД
-dotnet ef migrations --project ControlBoard.db --startup-project ControlBoard.web  script
+dotnet ef migrations --project ControlBoard.db --startup-project ControlBoard.web  script --context MesDbContext
 dotnet ef migrations --project ControlBoard.web --startup-project ControlBoard.web --context AppDbContext script

@@ -201,6 +201,10 @@ namespace ControlBoard.DB.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("area_id");
 
+                    b.Property<int>("ChartElementId")
+                        .HasColumnType("integer")
+                        .HasColumnName("chart_element_id");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created");
@@ -228,6 +232,9 @@ namespace ControlBoard.DB.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AreaId");
+
+                    b.HasIndex("ChartElementId")
+                        .IsUnique();
 
                     b.ToTable("stations", (string)null);
                 });

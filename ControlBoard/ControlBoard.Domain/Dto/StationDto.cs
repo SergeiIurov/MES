@@ -3,6 +3,7 @@
     public class StationDto
     {
         public int Id { get; set; }
+        public int ChartElementId { get; set; }
         public string? Name { get; set; }
         public int AreaId { get; set; }
         public string AreaName { get; set; }

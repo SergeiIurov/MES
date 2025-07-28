@@ -20,7 +20,7 @@ public class ChartConvertService(
         logger.LogInformation($"Запуск метода {nameof(Convert)}.");
         Dictionary<int, (string, string)> dict =
             (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.Station!.ChartElementId,
-                d => (d.Value, d.ProductType?.Name ?? ""));
+                d => (d.Value == "null" ? "" : d.Value, d.ProductType?.Name ?? ""));
 
         XElement root = XElement.Parse(from);
         var data = root.Descendants("object").Where(e => e.Attribute("sid") != null);
@@ -34,11 +34,11 @@ public class ChartConvertService(
                 {
                     if (!string.IsNullOrEmpty(result.Item2))
                     {
-                        elem.Attribute("label")!.Value = $"{result.Item1}\n{result.Item2}";
+                        elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}\n{result.Item2}";
                     }
                     else
                     {
-                        elem.Attribute("label")!.Value = $"{result.Item1}";
+                        elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}";
                     }
                 }
             }

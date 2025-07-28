@@ -40,10 +40,11 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     this.elements.forEach((element, idx, mas) => {
       element.addEventListener('input',
         e => {
-          if (e.target.value.length >= 3) {
+          if (e.target.value.length >= 3 && !this.hasDuplicate()) {
             e.target.value = e.target.value.substring(0, 3);
             if (mas[idx + 1]) {
               mas[idx + 1].focus();
+              mas[idx + 1].select();
             }
           }
         }
@@ -66,8 +67,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       this.stations = stations;
       this.stations.forEach(station => {
         this.form.addControl((station.id).toString(), new FormControl("", [
-          Validators.pattern('\\d{3}'),
-          Validators.required
+          Validators.pattern('\\d{3}')
         ]))
       })
 
@@ -76,7 +76,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       }
     });
-
 
 
   }

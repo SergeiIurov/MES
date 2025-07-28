@@ -32,7 +32,14 @@ public class ChartConvertService(
                 //if (dict.TryGetValue(int.Parse(elem.Attribute("sid")?.Value), out (string, string) result))
                 if (dict.TryGetValue(int.TryParse(elem.Attribute("sid")?.Value, out int s) ? s : 0, out (string, string) result))
                 {
-                    elem.Attribute("label")!.Value = $"{result.Item1}\n{result.Item2}";
+                    if (!string.IsNullOrEmpty(result.Item2))
+                    {
+                        elem.Attribute("label")!.Value = $"{result.Item1}\n{result.Item2}";
+                    }
+                    else
+                    {
+                        elem.Attribute("label")!.Value = $"{result.Item1}";
+                    }
                 }
             }
             catch (Exception ex)

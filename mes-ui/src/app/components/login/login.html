@@ -2,12 +2,19 @@
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div>
       <label for="username">Имя пользователя:</label>
-      <input class="form-control" type="text" id="username" formControlName="username">
+      <input [pAutoFocus]="true" class="form-control" type="text" id="username" formControlName="username">
     </div>
     <div>
       <label for="password">Пароль:</label>
       <input class="form-control" type="password" id="password" formControlName="password">
     </div>
-    <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Войти</button>
+    <div class="btn-submit">
+      <button pButton class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Войти</button>
+      @if (!isLoginCorrect) {
+        <p>
+          <span class="alert alert-danger">{{ msg }}</span>
+        </p>
+      }
+    </div>
   </form>
 </div>

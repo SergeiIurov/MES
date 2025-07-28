@@ -32,6 +32,7 @@
     </ul>
 
     <div class="notify">
+      <span class="bg-info">{{ auth.name }}</span>
       @if (auth.isAuthenticated) {
         <a class="btn btn-group signout logout" (click)="logout()">Выйти</a>
       }

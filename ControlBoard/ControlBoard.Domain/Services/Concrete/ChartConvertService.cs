@@ -2,6 +2,7 @@
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.Extensions.Logging;
 using System.Xml.Linq;
+using ControlBoard.DB.Entities;
 
 namespace ControlBoard.Domain.Services.Concrete;
 
@@ -18,36 +19,47 @@ public class ChartConvertService(
     public async Task<string> Convert(string from)
     {
         logger.LogInformation($"Запуск метода {nameof(Convert)}.");
-        Dictionary<int, (string, string)> dict =
-            (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.Station!.ChartElementId,
-                d => (d.Value == "null" ? "" : d.Value, d.ProductType?.Name ?? ""));
-
-        XElement root = XElement.Parse(from);
-        var data = root.Descendants("object").Where(e => e.Attribute("sid") != null);
-
-        foreach (XElement elem in data)
+        Dictionary<int, (string, string)> dict;
+        List<ProcessState> processStates = await repository.GetLastProcessStateAsync();
+        if (processStates.Any())
         {
-            try
+            dict =
+                (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.Station!.ChartElementId,
+                    d => (d.Value == "null" ? "" : d.Value, d.ProductType?.Name ?? ""));
+
+
+
+            XElement root = XElement.Parse(from);
+            var data = root.Descendants("object").Where(e => e.Attribute("sid") != null);
+
+            foreach (XElement elem in data)
             {
-                //if (dict.TryGetValue(int.Parse(elem.Attribute("sid")?.Value), out (string, string) result))
-                if (dict.TryGetValue(int.TryParse(elem.Attribute("sid")?.Value, out int s) ? s : 0, out (string, string) result))
+                try
                 {
-                    if (!string.IsNullOrEmpty(result.Item2))
+                    //if (dict.TryGetValue(int.Parse(elem.Attribute("sid")?.Value), out (string, string) result))
+                    if (dict.TryGetValue(int.TryParse(elem.Attribute("sid")?.Value, out int s) ? s : 0,
+                            out (string, string) result))
                     {
-                        elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}\n{result.Item2}";
-                    }
-                    else
-                    {
-                        elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}";
+                        if (!string.IsNullOrEmpty(result.Item2))
+                        {
+                            elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}\n{result.Item2}";
+                        }
+                        else
+                        {
+                            elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}";
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex.Message, ex);
+                }
             }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message, ex);
-            }
+
+            logger.LogInformation($"Выполнение метода {nameof(Convert)} завершено.");
+            return root.ToString();
         }
-        logger.LogInformation($"Выполнение метода {nameof(Convert)} завершено.");
-        return root.ToString();
+
+        return from;
     }
 }

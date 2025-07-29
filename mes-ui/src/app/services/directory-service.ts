@@ -16,6 +16,18 @@ export class DirectoryService {
     return this.http.get<AreaDto[]>(`${Environment.apiUrl}api/Directory/areas`)
   }
 
+  addArea(area: AreaDto): Observable<AreaDto> {
+    return this.http.post<AreaDto>(`${Environment.apiUrl}api/Directory/areas`, area)
+  }
+
+  deleteArea(id: number): Observable<any> {
+    return this.http.delete<any>(`${Environment.apiUrl}api/Directory/areas/${id}`)
+  }
+
+  updateArea(area: AreaDto): Observable<AreaDto> {
+    return this.http.put<AreaDto>(`${Environment.apiUrl}api/Directory/areas`, area)
+  }
+
   getStationList(): Observable<StationDto[]> {
     return this.http.get<StationDto[]>(`${Environment.apiUrl}api/Directory/stations`)
   }

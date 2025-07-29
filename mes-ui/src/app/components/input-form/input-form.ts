@@ -6,7 +6,9 @@ import {AreaDto} from '../../Entities/AreaDto';
 import {ControlBoardService} from '../../services/control-board-service';
 import {NotificationService} from '../../services/notification-service';
 import {MessageService} from 'primeng/api';
-import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
+import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
+import {Dialog} from 'primeng/dialog';
+import {Toolbar} from 'primeng/toolbar';
 
 @Component({
   selector: 'app-input-form',
@@ -15,7 +17,10 @@ import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
     ReactiveFormsModule,
     ButtonDirective,
     ButtonIcon,
-    ButtonLabel
+    ButtonLabel,
+    Button,
+    Dialog,
+    Toolbar
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -26,6 +31,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   form: FormGroup;
   @ViewChild('frmBlock') frmBlock: ElementRef;
   elements: any[];
+  visible: boolean = false;
 
   constructor(
     private directoryService: DirectoryService,
@@ -132,5 +138,9 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       acc[key].push(item);
       return acc;
     }, {})
+  }
+
+  openNew() {
+    this.visible = true;
   }
 }

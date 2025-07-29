@@ -19,7 +19,7 @@ namespace ControlBoard.Web.Controllers
         IMapper mapper) : ControllerBase
     {
         /// <summary>
-        /// Возврат списка зон с содержищимися в них станциями.
+        /// Возврат списка участков с содержищимися в них станциями.
         /// </summary>
         [HttpGet("areas")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -31,6 +31,72 @@ namespace ControlBoard.Web.Controllers
             {
                 logger.LogInformation($"Действие {nameof(GetAreas)} запущено.");
                 return Ok(mapper.Map<IEnumerable<Area>, IEnumerable<AreaDto>>(await areaService.GetAreasAsync()));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Создание нового участка.
+        /// </summary>
+        [HttpPost("areas")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<AreaDto>> AddArea(AreaDto area)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(AddArea)} запущено.");
+                return Ok(mapper.Map<Area, AreaDto>(await areaService.AddAreaAsync(area)));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        /// <summary>
+        /// Удаление существующего участка.
+        /// </summary>
+        [HttpDelete("areas/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult<AreaDto>> DeleteArea(int id)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(DeleteArea)} запущено.");
+                await areaService.DeleteAreaAxync(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Обновление существующего участка.
+        /// </summary>
+        [HttpPut("areas")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult<AreaDto>> UpdateArea(AreaDto area)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(DeleteArea)} запущено.");
+                return Ok(mapper.Map<Area, AreaDto>(await areaService.UpdateAreaAsync(area)));
             }
             catch (Exception e)
             {

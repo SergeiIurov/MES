@@ -128,6 +128,27 @@ namespace ControlBoard.Web.Controllers
         }
 
         /// <summary>
+        /// Проверка доступности ID(CharElementId) для станции.
+        /// </summary>
+        [HttpGet("stations/isfree{id}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<bool>> IsFree(int id)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(IsFree)} запущено.");
+                return Ok(await stationService.IsFree(id));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
         /// Создание новой станции.
         /// </summary>
         [HttpPost("stations")]

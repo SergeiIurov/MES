@@ -11,7 +11,7 @@
               [style]="{ width: '25rem' }">
       <div class="flex items-center gap-4 mb-4">
         <label for="areaname" class="font-semibold w-24">Название</label>
-        <input pInputText #data id="areaname" class="flex-auto" autocomplete="off"/>
+        <input [pAutoFocus]="true" pInputText #data id="areaname" class="flex-auto" autocomplete="off"/>
       </div>
       <div class="flex justify-end gap-2">
         <p-button label="Сохранить" (click)="saveNewArea(data.value)"/>
@@ -23,7 +23,7 @@
               [style]="{ width: '25rem' }">
       <div class="flex items-center gap-4 mb-4">
         <label for="stationname" class="font-semibold w-24">Название</label>
-        <input pInputText #stationName id="stationname" class="flex-auto" autocomplete="off"/>
+        <input [pAutoFocus]="true" pInputText #stationName id="stationname" class="flex-auto" autocomplete="off"/>
       </div>
       <div class="flex items-center gap-4 mb-4">
         <label for="stationcode" class="font-semibold w-24">Код станции</label>
@@ -38,7 +38,8 @@
     <app-area-edit-dialog (onEdit)="editArea($event)" [originalData]="area" (onCancel)="cancelAreaEdit()"
                           [visible]="visibleEditAreaDialog" title="Редактирование участка"></app-area-edit-dialog>
     <app-station-edit-dialog (onEdit)="editStation($event)" [originalData]="station" (onCancel)="cancelStationEdit()"
-                             [visible]="visibleEditStationDialog" title="Редактирование станции"></app-station-edit-dialog>
+                             [visible]="visibleEditStationDialog"
+                             title="Редактирование станции"></app-station-edit-dialog>
   </div>
   <div class="border-card" #frmBlock>
     <form (ngSubmit)="submitData()" [formGroup]="form">
@@ -57,14 +58,15 @@
                 <tr>
                   <td [attr.rowspan]="a.stations.length+1">{{ a.name }}
 
-                    <p-button title="Редактировать участок" icon="pi pi-pencil" variant="text" severity="info"
+                    <p-button size="small" title="Редактировать участок" icon="pi pi-pencil" variant="text"
+                              severity="info"
                               (click)="openEditAreaDialog(a)"></p-button>
-                    <p-button title="Удалить участок" icon="pi pi-minus" variant="text" severity="danger"
+                    <p-button size="small" title="Удалить участок" icon="pi pi-minus" variant="text" severity="danger"
                               (click)="deleteArea(a)"></p-button>
                   </td>
                   @if (a.stations.length == 0) {
                     <td>
-                      <p-button title="Добавить станцию" icon="pi pi-plus" variant="text" severity="info"
+                      <p-button size="small" title="Добавить станцию" icon="pi pi-plus" variant="text" severity="info"
                                 (click)="openNewStationDialog(a)"></p-button>
                     </td>
                   }
@@ -74,12 +76,15 @@
                     <td>{{ s.name }}<br/>(ID{{ s.chartElementId }})</td>
                     <td>
                       <div>
-                        <input [formControlName]="s.id" class="form-control" [maxLength]="3" type="text" [id]="s.id">
-                        <p-button title="Добавить станцию" icon="pi pi-plus" variant="text" severity="info"
+                        <input [style]="{display:'inline',width:'55px'}" [formControlName]="s.id" class="form-control"
+                               [maxLength]="3" type="text" [id]="s.id">
+                        <p-button size="small" title="Добавить станцию" icon="pi pi-plus" variant="text" severity="info"
                                   (click)="openNewStationDialog(a)"></p-button>
-                        <p-button title="Редактировать станцию" icon="pi pi-pencil" variant="text" severity="info"
+                        <p-button size="small" title="Редактировать станцию" icon="pi pi-pencil" variant="text"
+                                  severity="info"
                                   (click)="openEditStationDialog(s)"></p-button>
-                        <p-button title="Удалить станцию" icon="pi pi-minus" variant="text" severity="danger"
+                        <p-button size="small" title="Удалить станцию" icon="pi pi-minus" variant="text"
+                                  severity="danger"
                                   (click)="deleteStation(s)"></p-button>
                       </div>
                     </td>

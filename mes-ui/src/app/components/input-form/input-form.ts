@@ -12,6 +12,7 @@ import {Toolbar} from 'primeng/toolbar';
 import {AreaEditDialog} from '../dialogs/area-edit-dialog/area-edit-dialog';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {StationEditDialog} from '../dialogs/station-edit-dialog/station-edit-dialog';
+import {AutoFocus} from 'primeng/autofocus';
 
 
 @Component({
@@ -27,7 +28,8 @@ import {StationEditDialog} from '../dialogs/station-edit-dialog/station-edit-dia
     Toolbar,
     AreaEditDialog,
     ConfirmDialog,
-    StationEditDialog
+    StationEditDialog,
+    AutoFocus
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -179,6 +181,9 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   saveNewArea(name: string) {
+    if (!name.trim()) {
+      return;
+    }
     this.directoryService.addArea({name, id: 0, stations: []}).subscribe(data => {
       this.createForm();
     })

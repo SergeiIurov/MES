@@ -81,6 +81,9 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
 
       this.directoryService.getAreaList().subscribe(areas => {
         this.areas = areas;
+        this.areas.forEach(area => {
+          area.stations.sort((a, b) => a.chartElementId - b.chartElementId);
+        })
       })
 
       this.stations = stations;

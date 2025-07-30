@@ -4,6 +4,7 @@ using ControlBoard.Domain.Services.Abstract;
 using Microsoft.Extensions.Logging;
 using ControlBoard.DB.Repositories.Concrete;
 using ControlBoard.Domain.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControlBoard.Domain.Services.Concrete
 {
@@ -12,7 +13,7 @@ namespace ControlBoard.Domain.Services.Concrete
         public async Task<List<Area>> GetAreasAsync()
         {
             logger.LogInformation("Получение списка станций.");
-            return await repository.GetAllAsync();
+            return await context.Areas.OrderBy(a => a.Id).ToListAsync();
         }
 
         public async Task<Area> AddAreaAsync(AreaDto area)

@@ -5,10 +5,14 @@ import {DirectoryService} from '../../services/directory-service';
 import {AreaDto} from '../../Entities/AreaDto';
 import {ControlBoardService} from '../../services/control-board-service';
 import {NotificationService} from '../../services/notification-service';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {Toolbar} from 'primeng/toolbar';
+import {AreaEditDialog} from '../dialogs/area-edit-dialog/area-edit-dialog';
+import {ConfirmDialog} from 'primeng/confirmdialog';
+import {StationEditDialog} from '../dialogs/station-edit-dialog/station-edit-dialog';
+
 
 @Component({
   selector: 'app-input-form',
@@ -20,7 +24,10 @@ import {Toolbar} from 'primeng/toolbar';
     ButtonLabel,
     Button,
     Dialog,
-    Toolbar
+    Toolbar,
+    AreaEditDialog,
+    ConfirmDialog,
+    StationEditDialog
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -31,9 +38,15 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   form: FormGroup;
   @ViewChild('frmBlock') frmBlock: ElementRef;
   elements: any[];
-  visible: boolean = false;
+  visibleNewAreaDialog: boolean = false;
+  visibleEditAreaDialog: boolean = false;
+  visibleNewStationDialog: boolean = false;
+  visibleEditStationDialog: boolean = false;
+  area: AreaDto;
+  station: StationDto;
 
   constructor(
+    private confirmationService: ConfirmationService,
     private directoryService: DirectoryService,
     private controlBoardService: ControlBoardService,
     private notification: NotificationService,
@@ -63,7 +76,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     localStorage.setItem('formData', JSON.stringify(this.form.value));
   }
 
-  ngOnInit(): void {
+  createForm() {
     this.directoryService.getStationList().subscribe(stations => {
 
       this.directoryService.getAreaList().subscribe(areas => {
@@ -82,8 +95,10 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       }
     });
+  }
 
-
+  ngOnInit(): void {
+    this.createForm();
   }
 
   submitData() {
@@ -97,6 +112,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       this.form.reset();
       localStorage.removeItem('formData');
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
+      console.log(info)
       this.controlBoardService.saveCurrentState(info).subscribe(d => {
         this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
       })
@@ -140,7 +156,148 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     }, {})
   }
 
-  openNew() {
-    this.visible = true;
+  openNewAreaDialog(): void {
+    this.visibleNewAreaDialog = true;
   }
+
+  openNewStationDialog(a: AreaDto) {
+    this.area = a;
+    this.visibleNewStationDialog = true;
+  }
+
+  openEditAreaDialog(area: AreaDto): void {
+    this.area = area
+    this.visibleEditAreaDialog = true;
+  }
+
+  openEditStationDialog(station: StationDto) {
+    this.station = station;
+    this.visibleEditStationDialog = true;
+  }
+
+  saveNewArea(name: string) {
+    this.directoryService.addArea({name, id: 0, stations: []}).subscribe(data => {
+      this.createForm();
+    })
+
+    this.visibleNewAreaDialog = false;
+  }
+
+  saveNewStation(stationName: string, stationCode: string) {
+    this.directoryService.addStation({
+      id: 0,
+      name: stationName,
+      areaId: this.area.id,
+      chartElementId: +stationCode
+    }).subscribe(data => {
+      this.createForm();
+    })
+    this.visibleNewStationDialog = false;
+  }
+
+  editArea(area: AreaDto) {
+    this.directoryService.updateArea(area).subscribe(data => {
+      this.createForm();
+    })
+    this.visibleEditAreaDialog = false;
+  }
+
+  editStation(station: StationDto) {
+    this.directoryService.updateStation(station).subscribe(data => {
+      this.createForm();
+    })
+    this.visibleEditStationDialog = false;
+  }
+
+  test() {
+
+  }
+
+  cancelAreaEdit() {
+    this.visibleEditAreaDialog = false;
+  }
+
+  cancelStationEdit() {
+    this.visibleEditStationDialog = false;
+  }
+
+  deleteArea(area: AreaDto) {
+
+    if (area.stations.length > 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Невозможно удалить участок!\nСначала удалите из него все станции!'
+      });
+      return;
+    }
+    this.confirmationService.confirm({
+      header: 'Confirmation',
+      message: `Вы действительно хотите удалить участок "${area.name}"?`,
+      icon: 'pi pi-exclamation-circle',
+      acceptButtonProps: {
+        label: 'Save',
+        icon: 'pi pi-check',
+        size: 'small'
+      },
+      rejectButtonProps: {
+        label: 'Cancel',
+        icon: 'pi pi-times',
+        variant: 'outlined',
+        size: 'small'
+      }
+      ,
+      accept: () => {
+        this.directoryService.deleteArea(area.id).subscribe(data => {
+          this.createForm();
+        })
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Удаление',
+          detail: `Участок "${area.name}" удален.`,
+          life: 3000
+        });
+      },
+      reject: () => {
+        this.messageService.add({severity: 'error', summary: 'Отмена', detail: 'Удаление отменено.', life: 3000});
+      }
+    });
+  }
+
+  deleteStation(station: StationDto) {
+    this.confirmationService.confirm({
+      header: 'Confirmation',
+      message: `Вы действительно хотите удалить станцию "${station.name}"?`,
+      icon: 'pi pi-exclamation-circle',
+      acceptButtonProps: {
+        label: 'Save',
+        icon: 'pi pi-check',
+        size: 'small'
+      },
+      rejectButtonProps: {
+        label: 'Cancel',
+        icon: 'pi pi-times',
+        variant: 'outlined',
+        size: 'small'
+      }
+      ,
+      accept: () => {
+        this.directoryService.deleteStation(station.id).subscribe(data => {
+          this.createForm();
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Удаление',
+            detail: `Станция "${station.name}" удалена.`,
+            life: 3000
+          });
+        })
+        this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Ошибка удаления.', life: 3000});
+      },
+      reject: () => {
+        this.messageService.add({severity: 'error', summary: 'Отмена', detail: 'Удаление отменено.', life: 3000});
+      }
+    });
+  }
+
+
 }

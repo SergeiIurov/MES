@@ -3,5 +3,5 @@ export interface StationDto {
   chartElementId: number;
   name: string;
   areaId: number;
-  areaName: string;
+  areaName?: string;
 }

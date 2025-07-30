@@ -32,6 +32,18 @@ export class DirectoryService {
     return this.http.get<StationDto[]>(`${Environment.apiUrl}api/Directory/stations`)
   }
 
+  addStation(station: StationDto): Observable<StationDto> {
+    return this.http.post<StationDto>(`${Environment.apiUrl}api/Directory/stations`, station)
+  }
+
+  deleteStation(id: number): Observable<any> {
+    return this.http.delete<any>(`${Environment.apiUrl}api/Directory/stations/${id}`)
+  }
+
+  updateStation(station: StationDto): Observable<StationDto> {
+    return this.http.put<StationDto>(`${Environment.apiUrl}api/Directory/stations`, station)
+  }
+
   getProductTypeList(): Observable<ProductTypeDto[]> {
     return this.http.get<ProductTypeDto[]>(`${Environment.apiUrl}api/Directory/product-types`)
   }

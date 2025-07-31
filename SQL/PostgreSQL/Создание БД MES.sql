@@ -94,4 +94,11 @@ CREATE UNIQUE INDEX "IX_stations_chart_element_id" ON stations (chart_element_id
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20250728094056_AddedChartElementIdField', '9.0.6');
 
+ALTER TABLE areas ALTER COLUMN name SET DEFAULT '';
+
+ALTER TABLE areas ADD range character varying(25) NOT NULL DEFAULT '';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250731082629_AddedRangeFieldToArea', '9.0.6');
+
 COMMIT;

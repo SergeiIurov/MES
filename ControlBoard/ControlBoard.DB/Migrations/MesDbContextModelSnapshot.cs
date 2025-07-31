@@ -54,9 +54,17 @@ namespace ControlBoard.DB.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
+                        .HasDefaultValue("")
                         .HasColumnName("name");
+
+                    b.Property<string>("Range")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)")
+                        .HasColumnName("range");
 
                     b.HasKey("Id");
 

@@ -10,7 +10,8 @@ namespace ControlBoard.DB.Configurations
         {
             builder.ToTable("areas").HasQueryFilter(f => !f.IsDeleted);
             builder.Property(p => p.Id).HasColumnName("id");
-            builder.Property(p => p.Name).HasMaxLength(150).HasColumnName("name");
+            builder.Property(p => p.Name).HasMaxLength(150).HasColumnName("name").HasDefaultValue("");
+            builder.Property(p => p.Range).HasMaxLength(25).HasColumnName("range");
             builder.Property(p => p.Description).HasColumnName("description");
             builder.Property(p => p.Created).HasColumnName("created");
             builder.Property(p => p.LastUpdated).HasColumnName("last_updated");

@@ -11,6 +11,7 @@ namespace ControlBoard.Web.AutoMapperProfiles
             CreateMap<Area, AreaDto>().
                 ForMember(dist => dist.Id, opt => opt.MapFrom(src => src.Id)).
                 ForMember(dist => dist.Name, opt => opt.MapFrom(src => src.Name)).
+                ForMember(dist => dist.Range, opt => opt.MapFrom(src => src.Range)).
                 ForMember(dist => dist.Stations, opt => opt.MapFrom(src => src.Stations));
         }
 

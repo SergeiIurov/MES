@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Button} from "primeng/button";
 import {Dialog} from "primeng/dialog";
 import {AreaDto} from '../../../Entities/AreaDto';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-area-edit-dialog',
@@ -19,8 +20,35 @@ export class AreaEditDialog {
   @Output() onEdit: EventEmitter<AreaDto> = new EventEmitter<AreaDto>();
   @Output() onCancel: EventEmitter<any> = new EventEmitter();
 
-  edit(value: string) {
-    this.originalData.name = value;
+  constructor(public messageService: MessageService) {
+  }
+
+  checkRangeValue(range: string): boolean {
+    const pattern: RegExp = /^\d+-\d+$/
+    return pattern.test(range.trim());
+  }
+
+  edit(areaName: string, areaRange: string) {
+    if (!areaName.trim()) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Не задано наименование участка',
+        life: 5000
+      });
+      return;
+    }
+    if (!this.checkRangeValue(areaRange)) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Некорректное значение диапазона!\nДопустимо два числа, разделённые тире (1-100, 305-500)',
+        life: 5000
+      });
+      return;
+    }
+    this.originalData.name = areaName;
+    this.originalData.range = areaRange;
     this.onEdit.emit(this.originalData);
     this.originalData = null;
   }

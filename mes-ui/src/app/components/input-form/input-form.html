@@ -8,13 +8,17 @@
     </p-toolbar>
     <!--Дилог для создания нового участка    -->
     <p-dialog header="Создание нового участка" [modal]="true" [(visible)]="visibleNewAreaDialog"
-              [style]="{ width: '25rem' }">
+              [style]="{ width: '35rem' }">
       <div class="flex items-center gap-4 mb-4">
         <label for="areaname" class="font-semibold w-24">Название</label>
-        <input [pAutoFocus]="true" pInputText #data id="areaname" class="flex-auto" autocomplete="off"/>
+        <input [pAutoFocus]="true" pInputText #areaName id="areaname" class="flex-auto" autocomplete="off"/>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <label for="range" class="font-semibold w-24">Диапазон ID для станций</label>
+        <input [pAutoFocus]="true" pInputText #areaRange id="range" class="flex-auto" autocomplete="off"/>
       </div>
       <div class="flex justify-end gap-2">
-        <p-button label="Сохранить" (click)="saveNewArea(data.value)"/>
+        <p-button label="Сохранить" (click)="saveNewArea(areaName.value, areaRange.value)"/>
         <p-button label="Отмена" severity="secondary" (click)="visibleNewAreaDialog = false"/>
       </div>
     </p-dialog>
@@ -45,6 +49,7 @@
     <form (ngSubmit)="submitData()" [formGroup]="form">
       <div class="row">
         <div class="col-4">
+
           <table class="table table-bordered">
             <thead>
             <tr>
@@ -53,10 +58,10 @@
               <th style="width: 350px">Значение</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody pTableBody>
               @for (a of areas; track a.id) {
                 <tr>
-                  <td [attr.rowspan]="a.stations.length+1">{{ a.name }}
+                  <td [attr.rowspan]="a.stations.length+1">{{ a.name }}<br>{{a.range.trim()?'('+a.range+')':null}}
 
                     <p-button size="small" title="Редактировать участок" icon="pi pi-pencil" variant="text"
                               severity="info"
@@ -78,6 +83,7 @@
                       <div>
                         <input [style]="{display:'inline',width:'55px'}" [formControlName]="s.id" class="form-control"
                                [maxLength]="3" type="text" [id]="s.id">
+
                         <p-button size="small" title="Добавить станцию" icon="pi pi-plus" variant="text" severity="info"
                                   (click)="openNewStationDialog(a)"></p-button>
                         <p-button size="small" title="Редактировать станцию" icon="pi pi-pencil" variant="text"

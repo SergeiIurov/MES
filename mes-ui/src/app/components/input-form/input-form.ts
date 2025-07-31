@@ -5,7 +5,7 @@ import {DirectoryService} from '../../services/directory-service';
 import {AreaDto} from '../../Entities/AreaDto';
 import {ControlBoardService} from '../../services/control-board-service';
 import {NotificationService} from '../../services/notification-service';
-import {ConfirmationService, MessageService} from 'primeng/api';
+import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
 import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {Toolbar} from 'primeng/toolbar';
@@ -13,6 +13,7 @@ import {AreaEditDialog} from '../dialogs/area-edit-dialog/area-edit-dialog';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {StationEditDialog} from '../dialogs/station-edit-dialog/station-edit-dialog';
 import {AutoFocus} from 'primeng/autofocus';
+import {TableModule} from 'primeng/table';
 
 
 @Component({
@@ -29,7 +30,8 @@ import {AutoFocus} from 'primeng/autofocus';
     AreaEditDialog,
     ConfirmDialog,
     StationEditDialog,
-    AutoFocus
+    AutoFocus,
+    TableModule
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -46,6 +48,8 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   visibleEditStationDialog: boolean = false;
   area: AreaDto;
   station: StationDto;
+  items: MenuItem[] | undefined;
+
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -103,6 +107,33 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    // this.items = [
+    //   { label: 'Copy', icon: 'pi pi-copy' },
+    //   { label: 'Rename', icon: 'pi pi-file-edit' }
+    // ];
+    this.items = [
+      {
+        label: 'Add',
+        icon: 'pi pi-pencil',
+        command: () => {
+          this.messageService.add({severity: 'info', summary: 'Add', detail: 'Data Added'});
+        },
+      },
+      {
+        label: 'Update',
+        icon: 'pi pi-refresh',
+        command: () => {
+          this.messageService.add({severity: 'success', summary: 'Update', detail: 'Data Updated'});
+        },
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-trash',
+        command: () => {
+          this.messageService.add({severity: 'error', summary: 'Delete', detail: 'Data Deleted'});
+        },
+      }
+    ];
     this.createForm();
   }
 
@@ -180,11 +211,34 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     this.visibleEditStationDialog = true;
   }
 
-  saveNewArea(name: string) {
-    if (!name.trim()) {
+  checkRangeValue(range: string): boolean {
+    const pattern: RegExp = /^\d+-\d+$/
+    return pattern.test(range.trim());
+  }
+
+  saveNewArea(areaName: string, areaRange: string) {
+    if (!areaName.trim()) {
+      if (!areaName.trim()) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Warning',
+          detail: 'Не задано наименование участка',
+          life: 5000
+        });
+        return;
+      }
       return;
     }
-    this.directoryService.addArea({name, id: 0, stations: []}).subscribe(data => {
+    if (!this.checkRangeValue(areaRange)) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Некорректное значение диапазона!\nДопустимо два числа, разделённые тире (1-100, 305-500)',
+        life: 5000
+      });
+      return;
+    }
+    this.directoryService.addArea({name: areaName, id: 0, range: areaRange, stations: []}).subscribe(data => {
       this.createForm();
     })
 

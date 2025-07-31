@@ -128,18 +128,39 @@ namespace ControlBoard.Web.Controllers
         }
 
         /// <summary>
-        /// Проверка доступности ID(CharElementId) для станции.
+        /// Проверка уникальности ID(CharElementId) для станции.
         /// </summary>
-        [HttpGet("stations/isfree{id}")]
+        [HttpGet("stations/isfree/{id}/{chartElementId}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<bool>> IsFree(int id)
+        public async Task<ActionResult<bool>> IsFree(int id, int chartElementId)
         {
             try
             {
                 logger.LogInformation($"Действие {nameof(IsFree)} запущено.");
-                return Ok(await stationService.IsFree(id));
+                return Ok(await stationService.IsFreeAsync(id, chartElementId));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Проверка корректности диапазона.
+        /// </summary>
+        [HttpGet("stations/isinrange/{id}/{areaId}/{chartElementId}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<bool>> IsInRangeAsync(int id, int areaId, int chartElementId)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(IsInRangeAsync)} запущено.");
+                return Ok(await stationService.IsInRangeAsync(id, areaId, chartElementId));
             }
             catch (Exception e)
             {

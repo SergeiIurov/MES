@@ -1,4 +1,5 @@
-﻿using ControlBoard.DB;
+﻿using System.Text.RegularExpressions;
+using ControlBoard.DB;
 using ControlBoard.DB.Entities;
 using ControlBoard.DB.Repositories.Concrete;
 using ControlBoard.Domain.Dto;
@@ -60,9 +61,52 @@ namespace ControlBoard.Domain.Services.Concrete
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<bool> IsFree(int id)
+        public async Task<bool> IsFreeAsync(int id, int chartElementId)
         {
-            return !await context.Stations.Where(s => s.ChartElementId == id).AnyAsync();
+            Station? s = await context.Stations.FindAsync(id);
+            if (s != null)
+            {
+                if (chartElementId == s.ChartElementId)
+                {
+                    //Не проверяем на уникальность, данные уже в БД, и вероятно, что корректные.
+                    return true;
+                }
+
+                return !await context.Stations.AnyAsync(s => s.ChartElementId == chartElementId);
+            }
+
+            return !await context.Stations.AnyAsync(s => s.ChartElementId == chartElementId);
+        }
+
+        //Проверка на корректность ID для заданного диапазона
+        public async Task<bool> IsInRangeAsync(int id, int areaId, int chartElementId)
+        {
+            Station? s = await context.Stations.FindAsync(id);
+            if (s != null)
+            {
+                if (chartElementId == s.ChartElementId)
+                {
+                    //Не проверяем на уникальность, данные уже в БД, и вероятно, что корректные.
+                    return true;
+                }
+
+                string? range = s.Area.Range;
+                var res = Regex.Match(range, @"^(\d+).+?(\d+)$");
+                int from = int.Parse(res.Groups[1].Value);
+                int to = int.Parse(res.Groups[2].Value);
+                return chartElementId >= from && chartElementId <= to;
+
+            }
+            else
+            {
+                Area? area = await context.Areas.Where(a => a.Id == areaId).FirstOrDefaultAsync();
+                string? range = area.Range;
+                var res = Regex.Match(range, @"^(\d+).+?(\d+)$");
+                int from = int.Parse(res.Groups[1].Value);
+                int to = int.Parse(res.Groups[2].Value);
+                return chartElementId >= from && chartElementId <= to;
+            }
+
         }
     }
 }

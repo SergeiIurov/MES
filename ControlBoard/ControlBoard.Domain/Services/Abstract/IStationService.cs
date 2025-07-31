@@ -9,6 +9,7 @@ namespace ControlBoard.Domain.Services.Abstract
         Task<Station> AddStationAsync(StationDto station);
         Task DeleteStationAxync(int id);
         Task<Station> UpdateStationAsync(StationDto station);
-        Task<bool> IsFree(int id);
+        Task<bool> IsFreeAsync(int id, int chartElementId);
+        Task<bool> IsInRangeAsync(int id, int areaId, int chartElementId);
     }
 }

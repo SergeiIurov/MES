@@ -21,6 +21,7 @@ namespace ControlBoard.Domain.Services.Concrete
             Area newArea = new Area()
             {
                 Name = area.Name,
+                Range = area.Range,
                 Created = DateTime.UtcNow,
                 LastUpdated = DateTime.UtcNow,
                 Description = "",
@@ -44,6 +45,7 @@ namespace ControlBoard.Domain.Services.Concrete
             if (a != null)
             {
                 a.Name = area.Name;
+                a.Range = area.Range;
                 a.LastUpdated = DateTime.UtcNow;
                 await context.SaveChangesAsync();
             }

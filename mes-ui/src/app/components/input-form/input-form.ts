@@ -245,34 +245,91 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     this.visibleNewAreaDialog = false;
   }
 
-  saveNewStation(stationName: string, stationCode: string) {
-    this.directoryService.addStation({
-      id: 0,
-      name: stationName,
-      areaId: this.area.id,
-      chartElementId: +stationCode
-    }).subscribe(data => {
-      this.createForm();
+  saveNewStation(stationName: string, stationCode: number) {
+    this.directoryService.isFree(0, stationCode).subscribe(isFree => {
+      if (!isFree) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Warning',
+          detail: 'Идентификатор станции уже используется!',
+          life: 5000
+        });
+      } else {
+        this.directoryService.isInRange(0, this.area.id, stationCode).subscribe(isInRange => {
+          if (!isInRange) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Warning',
+              detail: 'Значение идентификатора не входит в заданный диапазон!',
+              life: 5000
+            });
+          } else {
+            this.directoryService.addStation({
+              id: 0,
+              name: stationName,
+              areaId: this.area.id,
+              chartElementId: +stationCode
+            }).subscribe(data => {
+              this.createForm();
+              this.visibleNewStationDialog = false;
+            })
+          }
+        })
+      }
     })
-    this.visibleNewStationDialog = false;
+
+    // this.directoryService.addStation({
+    //   id: 0,
+    //   name: stationName,
+    //   areaId: this.area.id,
+    //   chartElementId: +stationCode
+    // }).subscribe(data => {
+    //   this.createForm();
+    //   this.visibleNewStationDialog = false;
+    // })
   }
 
   editArea(area: AreaDto) {
     this.directoryService.updateArea(area).subscribe(data => {
       this.createForm();
+      this.visibleEditAreaDialog = false;
     })
-    this.visibleEditAreaDialog = false;
+
   }
 
   editStation(station: StationDto) {
+    // this.directoryService.isFree(station.id, station.chartElementId).subscribe(isFree => {
+    //   if (!isFree) {
+    //     this.messageService.add({
+    //       severity: 'warn',
+    //       summary: 'Warning',
+    //       detail: 'Идентификатор станции уже используется!',
+    //       life: 5000
+    //     });
+    //   } else {
+    //     this.directoryService.isInRange(station.id, this.area.id, station.chartElementId).subscribe(isInRange => {
+    //       if (!isInRange) {
+    //         this.messageService.add({
+    //           severity: 'warn',
+    //           summary: 'Warning',
+    //           detail: 'Значение идентификатора не входит в заданный диапазон!',
+    //           life: 5000
+    //         });
+    //       } else {
+    //         this.directoryService.updateStation(station).subscribe(data => {
+    //           this.createForm();
+    //           this.visibleEditStationDialog = false;
+    //         })
+    //       }
+    //     })
+    //   }
+    // })
+
+
     this.directoryService.updateStation(station).subscribe(data => {
       this.createForm();
+      this.visibleEditStationDialog = false;
     })
-    this.visibleEditStationDialog = false;
-  }
-
-  test() {
-
   }
 
   cancelAreaEdit() {

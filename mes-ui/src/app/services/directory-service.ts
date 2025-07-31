@@ -44,6 +44,14 @@ export class DirectoryService {
     return this.http.put<StationDto>(`${Environment.apiUrl}api/Directory/stations`, station)
   }
 
+  isFree(id: number, chartElementId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${Environment.apiUrl}api/Directory/stations/isfree/${id}/${chartElementId}`);
+  }
+
+  isInRange(id: number, areaId: number, chartElementId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${Environment.apiUrl}api/Directory/stations/isinrange/${id}/${areaId}/${chartElementId}`);
+  }
+
   getProductTypeList(): Observable<ProductTypeDto[]> {
     return this.http.get<ProductTypeDto[]>(`${Environment.apiUrl}api/Directory/product-types`)
   }

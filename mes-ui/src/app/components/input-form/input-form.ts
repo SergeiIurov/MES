@@ -148,13 +148,46 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       this.form.reset();
       localStorage.removeItem('formData');
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
-      this.controlBoardService.saveCurrentState(info).subscribe(d => {
-        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
-      })
+      if (!this.isWarning(info)) {
+        this.controlBoardService.saveCurrentState(info).subscribe(d => {
+          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
+        })
+      }
+      else{
+        this.confirmationService.confirm({
+          header: 'Confirmation',
+          message: "Все данные имеют пустые значения.\nВы действительно хотите продолжить?`",
+          icon: 'pi pi-exclamation-circle',
+          acceptButtonProps: {
+            label: 'Save',
+            icon: 'pi pi-check',
+            size: 'small'
+          },
+          rejectButtonProps: {
+            label: 'Cancel',
+            icon: 'pi pi-times',
+            variant: 'outlined',
+            size: 'small'
+          }
+          ,
+          accept: () => {
+            this.controlBoardService.saveCurrentState(info).subscribe(d => {
+              this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
+            })
+          },
+          reject: () => {
+            this.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Загрузка данных отменена.'});
+          }
+        });
+      }
     } else {
       this.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Найдены продублированные значения!'});
     }
 
+  }
+
+  isWarning(info) {
+    return info.filter(s => s.value !== '' && s.value !== 'null').length === 0;
   }
 
   hasDuplicate(): boolean {

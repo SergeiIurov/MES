@@ -18,6 +18,7 @@ export class BoardConstructor implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.service.getStationList().subscribe(stations => {
       this.stations = stations;
+      this.stations.sort((a, b) => a.chartElementId - b.chartElementId);
     });
 
   }

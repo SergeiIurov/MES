@@ -2,6 +2,6 @@
 {
     public enum MesRoles
     {
-        Admin, User
+        Admin, User, Operator
     }
 }

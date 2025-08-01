@@ -21,7 +21,7 @@
             <span pButtonLabel>Доска контроля производства(adv)</span>
           </a>
         </li>
-        @if (auth.role === Roles.Admin) {
+        @if (auth.role === Roles.Admin || auth.role == Roles.Operator) {
           <li>
             <a class="btn btn-lg btn-success" pButton [routerLink]="['/input-form']" [routerLinkActive]="'active'">
               <span pButtonLabel>Форма ввода данных</span>

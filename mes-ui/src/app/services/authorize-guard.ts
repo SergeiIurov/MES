@@ -1,14 +1,19 @@
 import {inject} from '@angular/core';
-import {CanActivateFn, Router} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot} from '@angular/router';
 import {AuthService} from './auth-service';
 import {Roles} from '../enums/roles';
 
-export const authorizeGuard: CanActivateFn = () => {
+export const authorizeGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const authService = inject(AuthService);
   const router = inject(Router);
+
   if (authService.role === Roles.Admin) {
     return true;
-  } else {
+  }
+  else if(authService.role === Roles.Operator && route.routeConfig.path === 'input-form') {
+    return true;
+  }
+  else {
     return router.parseUrl('/');
   }
 };

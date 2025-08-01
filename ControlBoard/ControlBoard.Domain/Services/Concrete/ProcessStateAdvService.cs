@@ -1,4 +1,5 @@
-﻿using ControlBoard.DB;
+﻿using System.Text.Json;
+using ControlBoard.DB;
 using ControlBoard.DB.Entities;
 using ControlBoard.DB.Repositories.Abstract;
 using ControlBoard.Domain.Dto;
@@ -11,7 +12,8 @@ namespace ControlBoard.Domain.Services.Concrete
     public class ProcessStateAdvService(
         IProcessStateRepository repository,
         MesDbContext context,
-        ILogger<ProcessStateService> logger) : IProcessStateAdvService
+        ILogger<ProcessStateService> logger,
+        IHistoryService historyService) : IProcessStateAdvService
     {
         public async Task SaveListAsync(List<ProcessStateAdvDto> list)
         {
@@ -21,7 +23,7 @@ namespace ControlBoard.Domain.Services.Concrete
                 //Удаляем состояние
                 context.Database.ExecuteSql($"truncate table process_states;");
 
-                logger.LogInformation("Подготовка информации к сохранению в БД");
+                logger.LogInformation("Подготовка информации к сохранению в БД.");
                 Guid uid = Guid.NewGuid();
                 await repository.SaveProcessStatesAsync(list.Select(s =>
                 {
@@ -38,7 +40,21 @@ namespace ControlBoard.Domain.Services.Concrete
                     };
                 }).ToList());
 
-                logger.LogInformation("Информация сохранена в БД");
+                logger.LogInformation("Информация сохранена в БД.");
+
+                logger.LogInformation("Подготовка записи истории.");
+                await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.OrderBy(ps => ps.Id).Select(ps => new
+                {
+                    Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? "" : ps.Value,
+                    ps.Created,
+                    ps.LastUpdated,
+                    Area = ps.Station.Area.Name,
+                    Station = ps.Station.Name,
+                    ProductType = ps.ProductType.Name,
+                    ps.GroupId
+                })));
+
+                logger.LogInformation("Запись истории выполнена.");
             }
             catch (Exception e)
             {

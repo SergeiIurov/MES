@@ -74,6 +74,7 @@ builder.Services.AddTransient<IProcessStateAdvService, ProcessStateAdvService>()
 builder.Services.AddTransient<IChartConvertService, ChartConvertService>();
 builder.Services.AddScoped<ProductTypeRepository>();
 builder.Services.AddTransient<IProductTypeService, ProductTypeService>();
+builder.Services.AddTransient<IHistoryService, HistoryService>();
 
 builder.Services.AddProblemDetails();
 

@@ -38,6 +38,17 @@ namespace ControlBoard.Domain.Services.Concrete
 
         public async Task DeleteStationAxync(int id)
         {
+            Station? station = await context.Stations.FindAsync(id);
+            ProcessState? ps = station.ProcessStates.SingleOrDefault();
+
+            //Если значение найдено, и при этом пустое, тогда удаляем его и затем удаляем станцию
+            if (ps is not null && (string.IsNullOrEmpty(ps.Value) || ps.Value.Contains("null")))
+            {
+                context.ProcessStates.Remove(ps);
+                context.Stations.Remove(station);
+            }
+
+
             context.Stations.Remove(new Station() { Id = id });
             await context.SaveChangesAsync();
         }

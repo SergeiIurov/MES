@@ -148,7 +148,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       this.form.reset();
       localStorage.removeItem('formData');
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
-      console.log(info)
       this.controlBoardService.saveCurrentState(info).subscribe(d => {
         this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
       })
@@ -409,8 +408,9 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
             detail: `Станция "${station.name}" удалена.`,
             life: 3000
           });
+        }, error => {
+          this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Ошибка удаления.', life: 3000});
         })
-        this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Ошибка удаления.', life: 3000});
       },
       reject: () => {
         this.messageService.add({severity: 'error', summary: 'Отмена', detail: 'Удаление отменено.', life: 3000});

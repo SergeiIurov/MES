@@ -25,12 +25,12 @@ namespace ControlBoard.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<AreaDto>>> GetAreas()
+        public async Task<ActionResult<List<AreaDto>>> GetAreas()
         {
             try
             {
                 logger.LogInformation($"Действие {nameof(GetAreas)} запущено.");
-                return Ok(mapper.Map<IEnumerable<Area>, IEnumerable<AreaDto>>(await areaService.GetAreasAsync()));
+                return Ok(mapper.Map<List<Area>, IEnumerable<AreaDto>>(await areaService.GetAreasAsync()));
             }
             catch (Exception e)
             {

@@ -33,6 +33,20 @@ namespace ControlBoard.Domain.Services.Concrete
             await context.Stations.AddAsync(newStation);
 
             await context.SaveChangesAsync();
+
+            //При создании новой станции необходимо создать пустой элемент состояния
+            await context.ProcessStates.AddAsync(new ProcessState()
+            {
+                Value = "",
+                Description = "",
+                Created = DateTime.UtcNow,
+                LastUpdated = DateTime.UtcNow,
+                IsDeleted = false,
+                StationId = newStation.Id,
+                ProductTypeId = null,
+                GroupId = Guid.Empty
+            });
+            await context.SaveChangesAsync();
             return newStation;
         }
 

@@ -1,5 +1,8 @@
-﻿using ControlBoard.Domain.Dto;
+﻿using AutoMapper;
+using ControlBoard.DB.Entities;
+using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
+using ControlBoard.Domain.Services.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -15,6 +18,7 @@ public class ControlBoardAdvController(
     IProcessStateAdvService processStateAdvService,
     IBoardConstructorService boardConstructorService,
     IChartConvertService chartConvertService,
+    IMapper mapper,
     ILogger<ControlBoardController> logger) : ControllerBase
 {
 
@@ -35,6 +39,27 @@ public class ControlBoardAdvController(
         catch (Exception e)
         {
             logger.LogError(e.Message, e);
+        }
+    }
+
+    /// <summary>
+    /// Получение состояния доски контроля производства.
+    /// </summary>
+    [HttpGet("state")]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<AreaDto>>> GetState()
+    {
+        try
+        {
+            logger.LogInformation($"Действие {nameof(GetState)} запущено.");
+            return Ok(mapper.Map<List<ProcessState>, List<ProcessStateAdvDto>>(await processStateAdvService.GetProcessStatesAsync()));
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message, e);
+            return BadRequest(ModelState);
         }
     }
 

@@ -83,6 +83,7 @@ builder.Services.AddAutoMapper(configAction =>
     configAction.AddProfile<StationMapperProfile>();
     configAction.AddProfile<AreaMapperProfile>();
     configAction.AddProfile<ProductTypeMapperProfile>();
+    configAction.AddProfile<ProcessStateAdvMapper>();
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

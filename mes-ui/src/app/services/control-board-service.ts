@@ -38,6 +38,10 @@ export class ControlBoardService {
     return this.http.post(`${Environment.apiUrl}api/ControlBoardAdv`, data)
   }
 
+  getCurrentState(): Observable<ProcessStateAdvDto[]> {
+    return this.http.get<ProcessStateAdvDto[]>(`${Environment.apiUrl}api/ControlBoardAdv/state`)
+  }
+
   getChart(): Observable<string> {
     return this.http.get(`${Environment.apiUrl}api/BoardConstructor/chart`, {responseType: "text"})
   }

@@ -99,18 +99,23 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         ]))
       })
 
+      //Восстанавливаем значения формы с текущего состояния
+      this.controlBoardService.getCurrentState().subscribe(currentState => {
+        const object = Object.fromEntries(currentState.map(s => [s.stationId, s.value]));
+        this.form.setValue(object);
+      })
+
+
       //При возврате на ранее покинутый компонент, восстанавливаем состояние формы
       if (localStorage.getItem('formData') !== null) {
         this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       }
+
     });
   }
 
   ngOnInit(): void {
-    // this.items = [
-    //   { label: 'Copy', icon: 'pi pi-copy' },
-    //   { label: 'Rename', icon: 'pi pi-file-edit' }
-    // ];
+
     this.items = [
       {
         label: 'Add',
@@ -145,15 +150,13 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     })
     if (!this.hasDuplicate()) {
       this.notification.clearMessage()
-      this.form.reset();
       localStorage.removeItem('formData');
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
       if (!this.isWarning(info)) {
         this.controlBoardService.saveCurrentState(info).subscribe(d => {
           this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
         })
-      }
-      else{
+      } else {
         this.confirmationService.confirm({
           header: 'Confirmation',
           message: "Все данные имеют пустые значения.\nВы действительно хотите продолжить?`",
@@ -309,16 +312,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         })
       }
     })
-
-    // this.directoryService.addStation({
-    //   id: 0,
-    //   name: stationName,
-    //   areaId: this.area.id,
-    //   chartElementId: +stationCode
-    // }).subscribe(data => {
-    //   this.createForm();
-    //   this.visibleNewStationDialog = false;
-    // })
   }
 
   editArea(area: AreaDto) {
@@ -330,34 +323,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   editStation(station: StationDto) {
-    // this.directoryService.isFree(station.id, station.chartElementId).subscribe(isFree => {
-    //   if (!isFree) {
-    //     this.messageService.add({
-    //       severity: 'warn',
-    //       summary: 'Warning',
-    //       detail: 'Идентификатор станции уже используется!',
-    //       life: 5000
-    //     });
-    //   } else {
-    //     this.directoryService.isInRange(station.id, this.area.id, station.chartElementId).subscribe(isInRange => {
-    //       if (!isInRange) {
-    //         this.messageService.add({
-    //           severity: 'warn',
-    //           summary: 'Warning',
-    //           detail: 'Значение идентификатора не входит в заданный диапазон!',
-    //           life: 5000
-    //         });
-    //       } else {
-    //         this.directoryService.updateStation(station).subscribe(data => {
-    //           this.createForm();
-    //           this.visibleEditStationDialog = false;
-    //         })
-    //       }
-    //     })
-    //   }
-    // })
-
-
     this.directoryService.updateStation(station).subscribe(data => {
       this.createForm();
       this.visibleEditStationDialog = false;
@@ -450,6 +415,4 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       }
     });
   }
-
-
 }

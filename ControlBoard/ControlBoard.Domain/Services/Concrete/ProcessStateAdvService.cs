@@ -29,7 +29,7 @@ namespace ControlBoard.Domain.Services.Concrete
                 {
                     return new ProcessState()
                     {
-                        Value = s.Value ?? "",
+                        Value = string.IsNullOrEmpty(s.Value) || s.Value.Equals("null") ? "" : s.Value,
                         Description = "",
                         Created = DateTime.UtcNow,
                         LastUpdated = DateTime.UtcNow,
@@ -45,7 +45,7 @@ namespace ControlBoard.Domain.Services.Concrete
                 logger.LogInformation("Подготовка записи истории.");
                 await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.OrderBy(ps => ps.Id).Select(ps => new
                 {
-                    Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? "" : ps.Value,
+                    Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? null : ps.Value,
                     ps.Created,
                     ps.LastUpdated,
                     Area = ps.Station.Area.Name,
@@ -59,6 +59,35 @@ namespace ControlBoard.Domain.Services.Concrete
             catch (Exception e)
             {
                 logger.LogError(e.Message, e);
+            }
+        }
+
+        public async Task AddProcessStateAsync(ProcessStateAdvDto processState)
+        {
+            await context.ProcessStates.AddAsync(new ProcessState
+            {
+                Value = string.IsNullOrEmpty(processState.Value) || processState.Value.Equals("null") ? "" : processState.Value,
+                Description = "",
+                Created = DateTime.UtcNow,
+                LastUpdated = DateTime.UtcNow,
+                IsDeleted = false,
+                StationId = processState.StationId,
+                ProductTypeId = null,
+                GroupId = Guid.Empty
+            });
+        }
+
+        public async Task<List<ProcessState>> GetProcessStatesAsync()
+        {
+            try
+            {
+                logger.LogInformation($"Запуск метода {nameof(GetProcessStatesAsync)}.");
+                return await context.ProcessStates.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                throw;
             }
         }
     }

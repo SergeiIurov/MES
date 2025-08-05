@@ -30,7 +30,6 @@ export class StationEditDialog {
 
     this.directoryService.isFree(this.originalData.id, stationCode).subscribe(isFree => {
       if (!isFree) {
-        console.log('Step1')
         this.messageService.add({
           severity: 'warn',
           summary: 'Warning',
@@ -40,7 +39,6 @@ export class StationEditDialog {
       } else {
         this.directoryService.isInRange(this.originalData.id, this.originalData.areaId, this.originalData.chartElementId).subscribe(isInRange => {
           if (!isInRange) {
-            console.log('Step2')
             this.messageService.add({
               severity: 'warn',
               summary: 'Warning',

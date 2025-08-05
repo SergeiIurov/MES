@@ -79,7 +79,7 @@ Actions.prototype.init = function () {
       },
       body: JSON.stringify({data:xmlString})
     }).then(data => {
-      console.log('Success:', data); // Handle the successful response data
+      // console.log('Success:', data); // Handle the successful response data
     })
       .catch(error => {
         console.error('Error:', error); // Handle any errors during the request

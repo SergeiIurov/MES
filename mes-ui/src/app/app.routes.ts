@@ -6,6 +6,7 @@ import {BoardConstructor} from './components/constructor/board-constructor';
 import {ControlBoardAdvanced} from './components/control-board-advanced/control-board-advanced';
 import {InputForm} from './components/input-form/input-form';
 import {authorizeGuard} from './services/authorize-guard';
+import {Admin} from './components/admin/admin';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,9 @@ export const routes: Routes = [
   },
   {
     path: 'input-form', component: InputForm, canActivate: [authGuard, authorizeGuard]
+  },
+  {
+    path: 'administration', component: Admin, canActivate: [authGuard, authorizeGuard]
   },
   {
     path: '**', redirectTo: '/'

@@ -1,4 +1,7 @@
+import {Roles} from '../../enums/roles';
+
 export interface LoginInfo {
-  username: string;
+  name: string;
   password: string;
+  role: Roles;
 }

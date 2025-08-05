@@ -56,7 +56,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     private directoryService: DirectoryService,
     private controlBoardService: ControlBoardService,
     private notification: NotificationService,
-    private messageService: MessageService,) {
+    private messageService: MessageService) {
     this.form = new FormGroup({})
   }
 

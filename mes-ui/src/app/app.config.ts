@@ -9,7 +9,6 @@ import {providePrimeNG} from 'primeng/config';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {Toast} from 'primeng/toast';
 import Aura from '@primeuix/themes/aura';
-import {ConfirmDialog} from 'primeng/confirmdialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [

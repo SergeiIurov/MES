@@ -8,7 +8,7 @@
             <span pButtonLabel>Доска контроля производства</span>
           </a>
         </li>
-        @if (auth.role === Roles.Admin) {
+        @if (auth.role === Roles[Roles.Admin]) {
           <li>
             <a class="btn btn-lg btn-success" pButton [routerLink]="['/board-constructor']"
                [routerLinkActive]="'active'">
@@ -21,10 +21,18 @@
             <span pButtonLabel>Доска контроля производства(adv)</span>
           </a>
         </li>
-        @if (auth.role === Roles.Admin || auth.role == Roles.Operator) {
+        @if (auth.role === Roles[Roles.Admin] || auth.role == Roles[Roles.Operator]) {
           <li>
             <a class="btn btn-lg btn-success" pButton [routerLink]="['/input-form']" [routerLinkActive]="'active'">
               <span pButtonLabel>Форма ввода данных</span>
+            </a>
+          </li>
+        }
+        @if (auth.role === Roles[Roles.Admin]) {
+          <li>
+            <a class="btn btn-lg btn-success" pButton [routerLink]="['/administration']"
+               [routerLinkActive]="'active'">
+              <span pButtonLabel>Администрирование</span>
             </a>
           </li>
         }

@@ -7,13 +7,11 @@ export const authorizeGuard: CanActivateFn = (route: ActivatedRouteSnapshot, sta
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.role === Roles.Admin) {
+  if (authService.role === Roles[Roles.Admin]) {
     return true;
-  }
-  else if(authService.role === Roles.Operator && route.routeConfig.path === 'input-form') {
+  } else if (authService.role === Roles[Roles.Operator] && route.routeConfig.path === 'input-form') {
     return true;
-  }
-  else {
+  } else {
     return router.parseUrl('/');
   }
 };

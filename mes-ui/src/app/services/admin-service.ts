@@ -23,4 +23,8 @@ export class AdminService {
   deleteUser(name: string): Observable<string> {
     return this.http.delete<string>(`${Environment.apiUrl}api/admin/deleteuser/${name}`)
   }
+
+  changeRole(loginInfo: LoginInfo, newRole: number): Observable<string> {
+    return this.http.put<string>(`${Environment.apiUrl}api/admin/changerole/${newRole}`, loginInfo)
+  }
 }

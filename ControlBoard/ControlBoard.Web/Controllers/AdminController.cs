@@ -7,11 +7,9 @@ using System.Security.Claims;
 
 namespace ControlBoard.Web.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-
     public class AdminController(UserManager<ApplicationUser?> userManager) : ControllerBase
     {
         [HttpPost("CreateUser")]
@@ -30,7 +28,7 @@ namespace ControlBoard.Web.Controllers
                 {
                     await userManager.AddClaimsAsync(user, [
                         new Claim(ClaimTypes.Name, userInfo.Name),
-                    new Claim(ClaimTypes.Role, userInfo.Role.ToString())
+                        new Claim(ClaimTypes.Role, userInfo.Role.ToString())
                     ]);
                     return Ok(userInfo);
                 }
@@ -97,7 +95,29 @@ namespace ControlBoard.Web.Controllers
             }
 
             return BadRequest();
+        }
 
+        //Смена роли
+        [HttpPut("ChangeRole/{newRole}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult> ChangeRole(UserInfo userInfo, MesRoles newRole)
+        {
+            ApplicationUser? appUser = await userManager.FindByNameAsync(userInfo.Name);
+            if (appUser != null)
+            {
+                Claim from = new Claim(ClaimTypes.Role, userInfo.Role.ToString());
+                Claim to = new Claim(ClaimTypes.Role, newRole.ToString());
+                var result = await userManager.ReplaceClaimAsync(appUser, from, to);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+            }
+
+            return BadRequest();
         }
     }
 }

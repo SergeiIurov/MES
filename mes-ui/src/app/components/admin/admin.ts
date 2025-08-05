@@ -30,12 +30,13 @@ export class Admin implements OnInit {
   logins: LoginInfo[];
   login: LoginInfo;
   newUserDialogVisible = false;
+  changeRoleDialogVisible = false;
   roles = Object.keys(Roles).filter(k => +k + 1);
 
   constructor(private adminService: AdminService,
               private confirmationService: ConfirmationService,
               private messageService: MessageService,
-              private auth: AuthService) {
+              protected auth: AuthService) {
   }
 
   ngOnInit(): void {
@@ -101,4 +102,21 @@ export class Admin implements OnInit {
 
   protected readonly Roles = Roles;
   protected readonly Object = Object;
+
+  changeRole(loginName: string, role: number) {
+
+    this.adminService.changeRole({name: this.login.name, role: this.login.role, password: ''}, role).subscribe(data => {
+      const logName = this.logins.find(login => login.name === loginName);
+      if (logName) {
+        logName.role = role;
+      }
+      this.login = null;
+      this.changeRoleDialogVisible = false;
+    })
+  }
+
+  openChangeRoleDialog(login: LoginInfo) {
+    this.login = login;
+    this.changeRoleDialogVisible = true;
+  }
 }

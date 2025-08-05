@@ -31,6 +31,7 @@ export class Admin implements OnInit {
   login: LoginInfo;
   newUserDialogVisible = false;
   changeRoleDialogVisible = false;
+  changePasswordDialogVisible = false;
   roles = Object.keys(Roles).filter(k => +k + 1);
 
   constructor(private adminService: AdminService,
@@ -103,8 +104,12 @@ export class Admin implements OnInit {
   protected readonly Roles = Roles;
   protected readonly Object = Object;
 
-  changeRole(loginName: string, role: number) {
+  openChangeRoleDialog(login: LoginInfo) {
+    this.login = login;
+    this.changeRoleDialogVisible = true;
+  }
 
+  changeRole(loginName: string, role: number) {
     this.adminService.changeRole({name: this.login.name, role: this.login.role, password: ''}, role).subscribe(data => {
       const logName = this.logins.find(login => login.name === loginName);
       if (logName) {
@@ -112,11 +117,32 @@ export class Admin implements OnInit {
       }
       this.login = null;
       this.changeRoleDialogVisible = false;
+      this.messageService.add({severity: 'success', summary: 'Update', detail: 'Роль успешно изменена.'});
     })
   }
 
-  openChangeRoleDialog(login: LoginInfo) {
+  openChangePasswordDialog(login: LoginInfo) {
     this.login = login;
-    this.changeRoleDialogVisible = true;
+    this.changePasswordDialogVisible = true;
+  }
+
+  changePassword(oldPassword: string, newPassword: string) {
+    this.adminService.changePassword({
+      name: this.login.name,
+      role: 0,
+      password: oldPassword
+    }, newPassword).subscribe(data => {
+      this.login = null;
+      this.changePasswordDialogVisible = false;
+      this.messageService.add({severity: 'success', summary: 'Change', detail: 'Пароль успешно изменен.'});
+    }, error => {
+      console.log(error)
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Отмена',
+        detail: error.error.errors[0].description,
+        life: 3000
+      });
+    })
   }
 }

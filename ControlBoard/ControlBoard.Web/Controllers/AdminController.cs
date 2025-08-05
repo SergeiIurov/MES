@@ -77,7 +77,7 @@ namespace ControlBoard.Web.Controllers
         }
 
         //Смена пароля
-        [HttpPost("ChangePassword")]
+        [HttpPut("ChangePassword/{newPassword}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
@@ -92,6 +92,8 @@ namespace ControlBoard.Web.Controllers
                 {
                     return Ok();
                 }
+
+                return BadRequest(result);
             }
 
             return BadRequest();

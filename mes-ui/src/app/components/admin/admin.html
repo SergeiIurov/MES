@@ -15,13 +15,18 @@
 
             <tr>
               <td>{{ login.name }}
-                <p-button size="small" title="Удалить пользователя"  [disabled]="auth.name === login.name" icon="pi pi-minus" variant="text" severity="danger"
+                <p-button size="small" title="Удалить пользователя" [disabled]="auth.name === login.name"
+                          icon="pi pi-minus" variant="text" severity="danger"
                           (click)="deleteUser(login)"></p-button>
               </td>
               <td>{{ Roles[login.role] }}
-                <p-button size="small" [disabled]="auth.name === login.name" title="Сменить роль пользователя" icon="pi pi-pencil" variant="text"
+                <p-button size="small" [disabled]="auth.name === login.name" title="Сменить роль пользователя"
+                          icon="pi pi-pencil" variant="text"
                           severity="info"
                           (click)="openChangeRoleDialog(login)"></p-button>
+                <p-button size="small" title="Сменить пароль" icon="pi pi-check" variant="text"
+                          severity="info"
+                          (click)="openChangePasswordDialog(login)"></p-button>
               </td>
             </tr>
           }
@@ -30,7 +35,7 @@
     </fieldset>
   </div>
 </div>
-<!--Дилог для создания нового участка    -->
+<!--Дилог для создания нового пользователя    -->
 <p-dialog header="Создание нового пользователя" [modal]="true" [(visible)]="newUserDialogVisible"
           [style]="{ width: '35rem' }">
   <div class="flex items-center gap-4 mb-4">
@@ -55,6 +60,7 @@
     <p-button label="Отмена" severity="secondary" (click)="newUserDialogVisible = false"/>
   </div>
 </p-dialog>
+<!--Диалог для смены роли-->
 <p-dialog header="Сменить роль" [modal]="true" [(visible)]="changeRoleDialogVisible"
           [style]="{ width: '35rem' }">
   <div class="flex items-center gap-4 mb-4">
@@ -74,6 +80,26 @@
     <p-button label="Сохранить"
               (click)="changeRole(l.value.trim(),+r.value.trim())"/>
     <p-button label="Отмена" severity="secondary" (click)="changeRoleDialogVisible = false"/>
+  </div>
+</p-dialog>
+<!--Диалог для смены пароля-->
+<p-dialog header="Сменить пароль" [modal]="true" [(visible)]="changePasswordDialogVisible"
+          [style]="{ width: '35rem' }">
+  <div class="flex items-center gap-4 mb-4">
+    <label for="login" class="font-semibold w-24">Старый пароль:</label>
+    <input [pAutoFocus]="true" pInputText #oldPassword type="password" [value]="login?.name" id="oldPassword"
+           class="flex-auto" autocomplete="off"/>
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="login" class="font-semibold w-24">Новый пароль:</label>
+    <input [pAutoFocus]="true" pInputText #newPassword type="password" [value]="login?.name" id="newPassword"
+           class="flex-auto" autocomplete="off"/>
+  </div>
+
+  <div class="flex justify-end gap-2">
+    <p-button label="Сохранить"
+              (click)="changePassword(oldPassword.value.trim(),newPassword.value.trim())"/>
+    <p-button label="Отмена" severity="secondary" (click)="changePasswordDialogVisible = false"/>
   </div>
 </p-dialog>
 <p-confirm-dialog/>

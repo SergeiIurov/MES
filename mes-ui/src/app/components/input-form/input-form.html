@@ -100,6 +100,13 @@
             </tbody>
           </table>
         </div>
+        <div class="col-4">
+          <p-fileupload name="file"  [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки" uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false" accept=".csv" maxFileSize="10000000" mode="advanced">
+            <ng-template #empty>
+              <div>Перетащите csv файл для загрузки.</div>
+            </ng-template>
+          </p-fileupload>
+        </div>
       </div>
       <div>
         <button pButton type="submit" pButtonLabel="Сохранить" severity="success"
@@ -110,4 +117,5 @@
       </div>
     </form>
   </div>
+
 </div>

@@ -23,6 +23,7 @@ namespace ControlBoard.DB
             modelBuilder.ApplyConfiguration(new ProductTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ControlBoardDataConfiguration());
             modelBuilder.ApplyConfiguration(new HistoryInfoConfiguration());
+            modelBuilder.ApplyConfiguration(new SpecificationConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

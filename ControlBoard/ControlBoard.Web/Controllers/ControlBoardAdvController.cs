@@ -83,4 +83,39 @@ public class ControlBoardAdvController(
             return BadRequest(ModelState);
         }
     }
+
+
+    /// <summary>
+    /// Загрузка файла
+    /// </summary>
+    [HttpPost("upload")]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<IEnumerable<ProductTypeDto>>> UploadData(IFormFile file)
+    {
+        try
+        {
+            List<(string, string)> data = new List<(string, string)>();
+            logger.LogInformation($"Действие {nameof(UploadData)} запущено.");
+            StreamReader reader = new StreamReader(file.OpenReadStream());
+            reader.BaseStream.Position = 0;
+            string? line = null;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] mas = line.Split(';');
+                if (mas.Length == 2)
+                {
+                    data.Add((mas[0].PadLeft(3,'0'), mas[1]));
+                }
+            }
+
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message, e);
+            return BadRequest(ModelState);
+        }
+    }
 }

@@ -14,6 +14,8 @@ import {ConfirmDialog} from 'primeng/confirmdialog';
 import {StationEditDialog} from '../dialogs/station-edit-dialog/station-edit-dialog';
 import {AutoFocus} from 'primeng/autofocus';
 import {TableModule} from 'primeng/table';
+import {FileUpload, UploadEvent} from 'primeng/fileupload';
+import {Environment} from '../../environments/environment';
 
 
 @Component({
@@ -31,7 +33,8 @@ import {TableModule} from 'primeng/table';
     ConfirmDialog,
     StationEditDialog,
     AutoFocus,
-    TableModule
+    TableModule,
+    FileUpload
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -49,7 +52,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   area: AreaDto;
   station: StationDto;
   items: MenuItem[] | undefined;
-
+  fileUploadUrl = `${Environment.apiUrl}api/ControlBoardAdv/upload`;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -414,5 +417,9 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         this.messageService.add({severity: 'error', summary: 'Отмена', detail: 'Удаление отменено.', life: 3000});
       }
     });
+  }
+
+  onUpload(event: UploadEvent) {
+    this.messageService.add({severity: 'info', summary: 'Success', detail: 'Файл был успешно загружен.'});
   }
 }

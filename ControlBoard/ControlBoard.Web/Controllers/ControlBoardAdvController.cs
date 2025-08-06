@@ -106,9 +106,11 @@ public class ControlBoardAdvController(
                 string[] mas = line.Split(';');
                 if (mas.Length == 2)
                 {
-                    data.Add((mas[0].PadLeft(3,'0'), mas[1]));
+                    data.Add((mas[0].PadLeft(3, '0'), mas[1]));
                 }
             }
+
+            await processStateAdvService.SaveSpecificationAsync(data);
 
             return Ok();
         }

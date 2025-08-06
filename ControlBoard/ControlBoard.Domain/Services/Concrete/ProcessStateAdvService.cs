@@ -1,11 +1,12 @@
-﻿using System.Text.Json;
-using ControlBoard.DB;
+﻿using ControlBoard.DB;
 using ControlBoard.DB.Entities;
 using ControlBoard.DB.Repositories.Abstract;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace ControlBoard.Domain.Services.Concrete
 {
@@ -55,6 +56,41 @@ namespace ControlBoard.Domain.Services.Concrete
                 })));
 
                 logger.LogInformation("Запись истории выполнена.");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+        }
+
+        public async Task SaveSpecificationAsync(List<(string, string)> data)
+        {
+            try
+            {
+                logger.LogInformation("Подготовка к удалению текущей спецификации.");
+                //Удаляем спецификацию
+                context.Database.ExecuteSql($"truncate table specification;");
+
+                logger.LogInformation("Подготовка спецификации к сохранению в БД.");
+
+
+                await context.Specification.AddRangeAsync(data.Select(s =>
+                {
+                    return new Specification()
+                    {
+                        SequenceNumber = s.Item1,
+                        SpecificationStr = s.Item2,
+                        Created = DateTime.UtcNow,
+                        LastUpdated = DateTime.UtcNow,
+                        IsDeleted = false
+                    };
+                }));
+
+                await context.SaveChangesAsync();
+
+                logger.LogInformation("Информация по спецификации сохранена в БД.");
+
+
             }
             catch (Exception e)
             {

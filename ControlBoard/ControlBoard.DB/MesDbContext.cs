@@ -14,6 +14,7 @@ namespace ControlBoard.DB
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<ControlBoardData> ControlBoardData { get; set; }
         public DbSet<HistoryInfo> HistoryInfo { get; set; }
+        public DbSet<Specification> Specification { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

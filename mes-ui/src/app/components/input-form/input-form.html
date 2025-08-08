@@ -102,7 +102,7 @@
           </table>
         </div>
         <div class="col-4">
-          <p-fileupload name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
+          <p-fileupload title="Загрузите файл формата CSV с информацией вида (sequence;specification).Разделитель - точка с запятой." name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
                         uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
                         accept=".csv" maxFileSize="10000000" mode="advanced">
             <ng-template #empty>

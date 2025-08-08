@@ -61,7 +61,8 @@
             <tbody pTableBody>
               @for (a of areas; track a.id) {
                 <tr>
-                  <td [attr.rowspan]="a.stations.length+1">{{ a.name }}<br>{{a.range.trim()?'('+a.range+')':null}}
+                  <td [attr.rowspan]="a.stations.length+1">{{ a.name }}
+                    <br>{{ a.range.trim() ? '(' + a.range + ')' : null }}
 
                     <p-button size="small" title="Редактировать участок" icon="pi pi-pencil" variant="text"
                               severity="info"
@@ -101,7 +102,9 @@
           </table>
         </div>
         <div class="col-4">
-          <p-fileupload name="file"  [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки" uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false" accept=".csv" maxFileSize="10000000" mode="advanced">
+          <p-fileupload name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
+                        uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
+                        accept=".csv" maxFileSize="10000000" mode="advanced">
             <ng-template #empty>
               <div>Перетащите csv файл для загрузки.</div>
             </ng-template>

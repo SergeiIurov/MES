@@ -98,6 +98,11 @@ namespace ControlBoard.Domain.Services.Concrete
             }
         }
 
+        public async Task<List<Specification>> GetSpecifications()
+        {
+            return await context.Specification.ToListAsync();
+        }
+
         public async Task AddProcessStateAsync(ProcessStateAdvDto processState)
         {
             await context.ProcessStates.AddAsync(new ProcessState

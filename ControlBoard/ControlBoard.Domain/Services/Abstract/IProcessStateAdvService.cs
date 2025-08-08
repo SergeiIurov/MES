@@ -7,6 +7,7 @@ public interface IProcessStateAdvService
 {
     Task SaveListAsync(List<ProcessStateAdvDto> list);
     Task SaveSpecificationAsync(List<(string, string)> data);
+    Task<List<Specification>> GetSpecifications();
     Task AddProcessStateAsync(ProcessStateAdvDto processState);
     Task<List<ProcessState>> GetProcessStatesAsync();
 }

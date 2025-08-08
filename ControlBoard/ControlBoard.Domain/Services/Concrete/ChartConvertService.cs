@@ -21,14 +21,11 @@ public class ChartConvertService(
     {
         List<Specification> specificationList = await processStateAdvService.GetSpecifications();
         logger.LogInformation($"Запуск метода {nameof(Convert)}.");
-        //Dictionary<int, (string, string)> dict;
         Dictionary<int, string> dict;
         List<ProcessState> processStates = await repository.GetLastProcessStateAsync();
+
         if (processStates.Any())
         {
-            //dict =
-            //    (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.Station!.ChartElementId,
-            //        d => (d.Value == "null" ? "" : d.Value, d.ProductType?.Name ?? ""));
             dict =
                 (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.Station!.ChartElementId,
                     d => d.Value == "null" ? "" : d.Value);
@@ -40,21 +37,6 @@ public class ChartConvertService(
 
             foreach (XElement elem in data)
             {
-                //try
-                //{
-                //    if (dict.TryGetValue(int.TryParse(elem.Attribute("sid")?.Value, out int s) ? s : 0,
-                //            out (string, string) result))
-                //    {
-                //        if (!string.IsNullOrEmpty(result.Item2))
-                //        {
-                //            elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}\n{result.Item2}";
-                //        }
-                //        else
-                //        {
-                //            elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}";
-                //        }
-                //    }
-                //}
                 try
                 {
                     if (dict.TryGetValue(int.TryParse(elem.Attribute("sid")?.Value, out int s) ? s : 0,

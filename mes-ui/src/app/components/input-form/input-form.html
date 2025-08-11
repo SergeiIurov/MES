@@ -82,8 +82,8 @@
                     <td>{{ s.name }}<br/>(ID{{ s.chartElementId }})</td>
                     <td>
                       <div>
-                        <input [style]="{display:'inline',width:'55px'}" [formControlName]="s.id" class="form-control"
-                               [maxLength]="3" type="text" [id]="s.id">
+                        <input [style]="{display:'inline',width:'80px'}" [formControlName]="s.id" class="form-control"
+                               [maxLength]="7" [minlength]="3" type="text" [id]="s.id">
 
                         <p-button size="small" title="Добавить станцию" icon="pi pi-plus" variant="text" severity="info"
                                   (click)="openNewStationDialog(a)"></p-button>

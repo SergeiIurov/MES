@@ -9,14 +9,19 @@ namespace ControlBoard.Domain.Services.Concrete;
 /// <summary>
 /// Класс занимается преобразованием сырых XML данных доски с целью
 /// наполнения информацией всех элементов интерфейса, имеющих атрибут "sid".
-/// Значения данного атрибута сопоставляется с id станции. 
+/// Значения данного атрибута сопоставляется с "chart_element_id станции.
+/// Также для отображения типа продукта, необходимо добавить атрибут "type" со значениями
+/// 1 - тип кабины, 2 - исполнение. 
 /// </summary>
-/// <param name="repository"></param>
 public class ChartConvertService(
     IProcessStateRepository repository,
     IProcessStateAdvService processStateAdvService,
     ILogger<ChartConvertService> logger) : IChartConvertService
 {
+    /// <summary>
+    /// Выполняет наполнение схемы доски контроля производства реальными данными для отображения.
+    /// </summary>
+    /// <param name="from">Сырые данные со схемой доски контроля производства</param>
     public async Task<string> Convert(string from)
     {
         List<Specification> specificationList = await processStateAdvService.GetSpecifications();
@@ -79,7 +84,7 @@ public class ChartConvertService(
     }
 
     /// <summary>
-    /// Получение типа кабины
+    /// Получение исполнения
     /// </summary>
     /// <param name="spec">На вход подаётся спецификация</param>
     private static string GetCarExecution(string spec)
@@ -95,7 +100,7 @@ public class ChartConvertService(
     }
 
     /// <summary>
-    /// Получение исполнения
+    /// Получение типа кабины
     /// </summary>
     /// <param name="spec">На вход подаётся спецификация </param>
     private static string GetCabinType(string spec)

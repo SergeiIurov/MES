@@ -80,9 +80,9 @@
                 @for (s of a.stations; track s.id) {
                   <tr>
                     <td>{{ s.name }}<br/>(ID{{ s.chartElementId }})</td>
-                    <td>
+                    <td [width]="500">
                       <div>
-                        <input [style]="{display:'inline',width:'80px'}" [formControlName]="s.id" class="form-control"
+                        <input [style]="{display:'inline',width:'90px'}" [formControlName]="s.id" class="form-control"
                                [maxLength]="7" [minlength]="3" type="text" [id]="s.id">
 
                         <p-button size="small" title="Добавить станцию" icon="pi pi-plus" variant="text" severity="info"
@@ -94,6 +94,13 @@
                                   severity="danger"
                                   (click)="deleteStation(s)"></p-button>
                       </div>
+                      @if (form.get(s.id.toString()).errors && form.get(s.id.toString()).errors['pattern']) {
+                        <div>
+                          <span
+                            class="validation">{{ 'Поле должно содержать от 3 до 7 символов без концевых пробелов!' }}
+                          </span>
+                        </div>
+                      }
                     </td>
                   </tr>
                 }
@@ -102,9 +109,11 @@
           </table>
         </div>
         <div class="col-4">
-          <p-fileupload title="Загрузите файл формата CSV с информацией вида (sequence;specification).Разделитель - точка с запятой." name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
-                        uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
-                        accept=".csv" maxFileSize="10000000" mode="advanced">
+          <p-fileupload
+            title="Загрузите файл формата CSV с информацией вида (sequence;specification).Разделитель - точка с запятой."
+            name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
+            uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
+            accept=".csv" maxFileSize="10000000" mode="advanced">
             <ng-template #empty>
               <div>Перетащите csv файл для загрузки.</div>
             </ng-template>

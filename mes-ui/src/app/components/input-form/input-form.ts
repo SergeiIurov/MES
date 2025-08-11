@@ -16,6 +16,7 @@ import {AutoFocus} from 'primeng/autofocus';
 import {TableModule} from 'primeng/table';
 import {FileUpload, UploadEvent} from 'primeng/fileupload';
 import {Environment} from '../../environments/environment';
+import {JsonPipe} from '@angular/common';
 
 
 @Component({
@@ -34,7 +35,8 @@ import {Environment} from '../../environments/environment';
     StationEditDialog,
     AutoFocus,
     TableModule,
-    FileUpload
+    FileUpload,
+    JsonPipe
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -102,7 +104,8 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         this.form.addControl((station.id).toString(), new FormControl("", [
           // Validators.pattern('\\d{3}')
           Validators.minLength(3),
-          Validators.maxLength(7)
+          Validators.maxLength(7),
+          Validators.pattern('^[^ ].{1,5}[^ ]$')
         ]))
       })
 

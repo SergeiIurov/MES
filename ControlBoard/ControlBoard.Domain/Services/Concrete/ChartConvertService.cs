@@ -68,6 +68,10 @@ public class ChartConvertService(
                                 elem.Attribute("label")!.Value = $"{result ?? ""}";
                             }
                         }
+                        else
+                        {
+                            elem.Attribute("label")!.Value = $"{result ?? ""}";
+                        }
                     }
                 }
                 catch (Exception ex)

@@ -16,14 +16,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-//    .AddNegotiate();
-
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.FallbackPolicy = options.DefaultPolicy;
-//});
-
 builder.Services.Configure<CookieAuthenticationOptions>(o =>
 {
     o.LoginPath = PathString.Empty;
@@ -40,17 +32,6 @@ builder.Services.AddDbContext<AppDbContext>(ctx =>
     ctx.UseNpgsql(builder.Configuration.GetConnectionString("AuthConnection"))
         .UseLazyLoadingProxies();
 });
-
-//builder.Services.AddIdentity<ApplicationUser, IdentityRole>(o =>
-//    {
-//        o.Password.RequireDigit = false;
-//        o.Password.RequireNonAlphanumeric = false;
-//        o.Password.RequiredLength = 4;
-//        o.Password.RequireUppercase = false;
-//        o.Password.RequireLowercase = false;
-//    })
-//    .AddEntityFrameworkStores<AppDbContext>()
-//    .AddDefaultTokenProviders();
 
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>(o =>
 {

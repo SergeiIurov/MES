@@ -5,7 +5,7 @@ namespace ControlBoard.Domain.Services.Abstract;
 
 public interface IProcessStateAdvService
 {
-    Task SaveListAsync(List<ProcessStateAdvDto> list);
+    Task SaveListAsync(List<ProcessStateAdvDto> list, string userName);
     Task SaveSpecificationAsync(List<(string, string)> data);
     Task<List<Specification>> GetSpecifications();
     Task AddProcessStateAsync(ProcessStateAdvDto processState);

@@ -1,7 +1,6 @@
 ﻿using ControlBoard.DB.Entities;
 using ControlBoard.DB.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace ControlBoard.DB.Repositories.Concrete
 {

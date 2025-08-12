@@ -2,7 +2,6 @@
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
-using ControlBoard.Domain.Services.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -32,7 +31,7 @@ public class ControlBoardAdvController(
         try
         {
             logger.LogInformation($"Действие {nameof(SaveStateInfo)} запущено.");
-            await processStateAdvService.SaveListAsync(list);
+            await processStateAdvService.SaveListAsync(list, HttpContext.User.Identity.Name);
             await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
             logger.LogInformation($"Действие {nameof(SaveStateInfo)} завершено.");
         }

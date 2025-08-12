@@ -5,7 +5,6 @@ using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Text.Json;
 
 namespace ControlBoard.Domain.Services.Concrete
@@ -16,7 +15,7 @@ namespace ControlBoard.Domain.Services.Concrete
         ILogger<ProcessStateService> logger,
         IHistoryService historyService) : IProcessStateAdvService
     {
-        public async Task SaveListAsync(List<ProcessStateAdvDto> list)
+        public async Task SaveListAsync(List<ProcessStateAdvDto> list, string userName)
         {
             try
             {
@@ -44,6 +43,9 @@ namespace ControlBoard.Domain.Services.Concrete
                 logger.LogInformation("Информация сохранена в БД.");
 
                 logger.LogInformation("Подготовка записи истории.");
+
+
+
                 await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.OrderBy(ps => ps.Id).Select(ps => new
                 {
                     Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? null : ps.Value,
@@ -52,7 +54,8 @@ namespace ControlBoard.Domain.Services.Concrete
                     Area = ps.Station.Area.Name,
                     Station = ps.Station.Name,
                     ProductType = ps.ProductType.Name,
-                    ps.GroupId
+                    ps.GroupId,
+                    Login = userName
                 })));
 
                 logger.LogInformation("Запись истории выполнена.");

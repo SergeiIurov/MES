@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ControlBoard.DB;
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 

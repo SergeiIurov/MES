@@ -54,12 +54,7 @@ public class ChartConvertService(
                             int type = int.TryParse(elem.Attribute("type")?.Value, out int typeId) ? typeId : 0;
                             if (type != 0)
                             {
-                                string info = type switch
-                                {
-                                    1 => GetCabinType(spec.SpecificationStr),
-                                    2 => GetCarExecution(spec.SpecificationStr),
-                                    _ => ""
-                                };
+                                string info = ChartServices.GetProductType(spec?.SpecificationStr, type);
 
                                 elem.Attribute("label")!.Value = $"{result ?? ""}\n{info}";
                             }

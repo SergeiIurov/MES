@@ -49,7 +49,7 @@ namespace FileWatcherService
                     return;
                 }
                 string serverAddress = config?["url"] ?? string.Empty;
-                await Task.Delay(2000);
+                await Task.Delay(5000);
                 using StreamContent c = new(File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.None));
                 c.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
                 MultipartFormDataContent content = new() { { c, "file", fileName } };
@@ -77,7 +77,7 @@ namespace FileWatcherService
                 }
 
                 string serverAddress = $"{config?["url"]}/csv-data";
-                await Task.Delay(2000);
+                await Task.Delay(5000);
 
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 foreach (var line in File.ReadLines(fileName, Encoding.GetEncoding(1251)))

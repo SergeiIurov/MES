@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ControlBoard.DB.Entities;
+using ControlBoard.DB.Entities.Enums;
 
 namespace ControlBoard.Domain.Services
 {
@@ -14,6 +16,10 @@ namespace ControlBoard.Domain.Services
         /// <param name="spec">На вход подаётся спецификация</param>
         private static string GetCarExecution(string? spec)
         {
+            if (spec is null)
+            {
+                return "";
+            }
             return spec.Substring(4, 2) switch
             {
                 "00" => "ШАССИ",
@@ -30,6 +36,10 @@ namespace ControlBoard.Domain.Services
         /// <param name="spec">На вход подаётся спецификация </param>
         private static string GetCabinType(string? spec)
         {
+            if (spec is null)
+            {
+                return "";
+            }
             return spec.Substring(2, 1) switch
             {
                 "1" => "ККН",
@@ -41,12 +51,12 @@ namespace ControlBoard.Domain.Services
             };
         }
 
-        public static string GetProductType(string? spec, int type)
+        public static string GetProductType(string? spec, ProductTypes productType)
         {
-            return type switch
+            return productType switch
             {
-                1 => GetCabinType(spec),
-                2 => GetCarExecution(spec),
+                ProductTypes.Cabina => GetCabinType(spec),
+                ProductTypes.Execution => GetCarExecution(spec),
                 _ => ""
             };
         }

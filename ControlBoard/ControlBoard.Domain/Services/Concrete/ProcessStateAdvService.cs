@@ -6,6 +6,7 @@ using ControlBoard.Domain.Services.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using ControlBoard.DB.Entities.Enums;
 
 namespace ControlBoard.Domain.Services.Concrete
 {
@@ -44,19 +45,23 @@ namespace ControlBoard.Domain.Services.Concrete
 
                 logger.LogInformation("Подготовка записи истории.");
 
+                List<Specification> specificationList = await GetSpecifications();
 
-
-                await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.OrderBy(ps => ps.Id).Select(ps => new
-                {
-                    Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? null : ps.Value,
-                    ps.Created,
-                    ps.LastUpdated,
-                    Area = ps.Station.Area.Name,
-                    Station = ps.Station.Name,
-                    ProductType = ps.ProductType.Name,
-                    ps.GroupId,
-                    Login = userName
-                })));
+                await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.Include(s => s.Station).ToList().OrderBy(ps => ps.Id).Select(ps =>
+                 new
+                 {
+                     Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? null : ps.Value,
+                     ps.Created,
+                     ps.LastUpdated,
+                     Area = ps.Station.Area.Name,
+                     Station = ps.Station.Name,
+                     ProductType =
+                         ChartServices.GetProductType(
+                             specificationList.FirstOrDefault(s =>
+                                 s.SequenceNumber.Equals(ps.Value))?.SpecificationStr, ps.Station.ProductType ?? ProductTypes.NotData),
+                     ps.GroupId,
+                     Login = userName
+                 })));
 
                 logger.LogInformation("Запись истории выполнена.");
             }

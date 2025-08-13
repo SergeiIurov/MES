@@ -16,7 +16,8 @@ import {AutoFocus} from 'primeng/autofocus';
 import {TableModule} from 'primeng/table';
 import {FileUpload, UploadEvent} from 'primeng/fileupload';
 import {Environment} from '../../environments/environment';
-import {JsonPipe} from '@angular/common';
+import {Roles} from '../../enums/roles';
+import {ProductTypes} from '../../enums/ProductTypes';
 
 
 @Component({
@@ -35,8 +36,7 @@ import {JsonPipe} from '@angular/common';
     StationEditDialog,
     AutoFocus,
     TableModule,
-    FileUpload,
-    JsonPipe
+    FileUpload
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -55,6 +55,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   station: StationDto;
   items: MenuItem[] | undefined;
   fileUploadUrl = `${Environment.apiUrl}api/ControlBoardAdv/upload`;
+  productTypes = Object.keys(Roles).filter(k => +k + 1);
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -290,7 +291,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     this.visibleNewAreaDialog = false;
   }
 
-  saveNewStation(stationName: string, stationCode: number) {
+  saveNewStation(stationName: string, stationCode: number, productType: ProductTypes) {
     this.directoryService.isFree(0, stationCode).subscribe(isFree => {
       if (!isFree) {
         this.messageService.add({
@@ -313,7 +314,8 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
               id: 0,
               name: stationName,
               areaId: this.area.id,
-              chartElementId: +stationCode
+              chartElementId: +stationCode,
+              productType: +productType,
             }).subscribe(data => {
               this.createForm();
               this.visibleNewStationDialog = false;
@@ -429,4 +431,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   onUpload(event: UploadEvent) {
     this.messageService.add({severity: 'info', summary: 'Success', detail: 'Файл был успешно загружен.'});
   }
+
+  protected readonly Roles = Roles;
+  protected readonly ProductTypes = ProductTypes;
 }

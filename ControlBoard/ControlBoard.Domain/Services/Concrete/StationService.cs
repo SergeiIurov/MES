@@ -29,6 +29,7 @@ namespace ControlBoard.Domain.Services.Concrete
                 LastUpdated = DateTime.UtcNow,
                 Description = "",
                 IsDeleted = false,
+                ProductType = station.ProductType
             };
             await context.Stations.AddAsync(newStation);
 
@@ -75,6 +76,7 @@ namespace ControlBoard.Domain.Services.Concrete
                 s.Name = station.Name;
                 s.ChartElementId = station.ChartElementId;
                 s.LastUpdated = DateTime.UtcNow;
+                s.ProductType = station.ProductType;
                 await context.SaveChangesAsync();
             }
 

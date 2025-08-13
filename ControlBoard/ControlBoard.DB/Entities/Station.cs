@@ -1,9 +1,12 @@
-﻿namespace ControlBoard.DB.Entities
+﻿using ControlBoard.DB.Entities.Enums;
+
+namespace ControlBoard.DB.Entities
 {
     public class Station
     {
         public int Id { get; set; }
         public int ChartElementId { get; set; }
+        public ProductTypes? ProductType { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
         public DateTime Created { get; set; }

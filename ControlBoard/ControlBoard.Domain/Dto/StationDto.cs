@@ -1,4 +1,6 @@
-﻿namespace ControlBoard.Domain.Dto
+﻿using ControlBoard.DB.Entities.Enums;
+
+namespace ControlBoard.Domain.Dto
 {
     public class StationDto
     {
@@ -7,5 +9,6 @@
         public string? Name { get; set; }
         public int AreaId { get; set; }
         public string? AreaName { get; set; }
+        public ProductTypes? ProductType { get; set; }
     }
 }

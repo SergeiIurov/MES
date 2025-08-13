@@ -127,4 +127,11 @@ CREATE TABLE specification (
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20250806083300_AddedSpecificationTable', '9.0.6');
 
+ALTER TABLE stations ADD product_type integer;
+
+ALTER TABLE specification ALTER COLUMN specification_str DROP NOT NULL;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250813064024_AddedProductTypeColumnInStationsTable', '9.0.6');
+
 COMMIT;

@@ -2,7 +2,9 @@
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.Extensions.Logging;
 using System.Xml.Linq;
+using ControlBoard.DB;
 using ControlBoard.DB.Entities;
+using ControlBoard.DB.Entities.Enums;
 
 namespace ControlBoard.Domain.Services.Concrete;
 
@@ -16,6 +18,7 @@ namespace ControlBoard.Domain.Services.Concrete;
 public class ChartConvertService(
     IProcessStateRepository repository,
     IProcessStateAdvService processStateAdvService,
+    MesDbContext context,
     ILogger<ChartConvertService> logger) : IChartConvertService
 {
     /// <summary>
@@ -26,16 +29,14 @@ public class ChartConvertService(
     {
         List<Specification> specificationList = await processStateAdvService.GetSpecifications();
         logger.LogInformation($"Запуск метода {nameof(Convert)}.");
-        Dictionary<int, string> dict;
+        Dictionary<int, (string, ProductTypes?)> dict;
         List<ProcessState> processStates = await repository.GetLastProcessStateAsync();
 
         if (processStates.Any())
         {
             dict =
                 (await repository.GetLastProcessStateAsync()).ToDictionary(s => s.Station!.ChartElementId,
-                    d => d.Value == "null" ? "" : d.Value);
-
-
+                    d => (d.Value == "null" ? "" : d.Value, d.Station.ProductType));
 
             XElement root = XElement.Parse(from);
             var data = root.Descendants("object").Where(e => e.Attribute("sid") != null);
@@ -45,27 +46,25 @@ public class ChartConvertService(
                 try
                 {
                     if (dict.TryGetValue(int.TryParse(elem.Attribute("sid")?.Value, out int s) ? s : 0,
-                            out string result))
+                            out (string, ProductTypes?) result))
                     {
-                        Specification spec = specificationList.Find(val => val.SequenceNumber == result);
-                        if (specificationList.Exists(val => val.SequenceNumber == result))
+                        Specification spec = specificationList.Find(val => val.SequenceNumber == result.Item1);
+                        if (specificationList.Exists(val => val.SequenceNumber == result.Item1))
                         {
-                            var r = elem.Attribute("type")?.Value;
-                            int type = int.TryParse(elem.Attribute("type")?.Value, out int typeId) ? typeId : 0;
-                            if (type != 0)
+                            if (result.Item2 != null)
                             {
-                                string info = ChartServices.GetProductType(spec?.SpecificationStr, type);
+                                string info = ChartServices.GetProductType(spec.SpecificationStr, result.Item2.Value);
 
-                                elem.Attribute("label")!.Value = $"{result ?? ""}\n{info}";
+                                elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}\n{info}";
                             }
                             else
                             {
-                                elem.Attribute("label")!.Value = $"{result ?? ""}";
+                                elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}";
                             }
                         }
                         else
                         {
-                            elem.Attribute("label")!.Value = $"{result ?? ""}";
+                            elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}";
                         }
                     }
                 }

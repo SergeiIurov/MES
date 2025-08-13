@@ -14,10 +14,9 @@ namespace ControlBoard.DB.Repositories.Concrete
 
         public async Task<List<ProcessState>> GetLastProcessStateAsync()
         {
-            ProcessState? ps = await context.ProcessStates.OrderByDescending(s => s).FirstOrDefaultAsync();
-            if (ps != null)
+            if (context.ProcessStates.Any())
             {
-                return await context.ProcessStates.Where(s => s.GroupId == ps.GroupId).ToListAsync();
+                return await context.ProcessStates.ToListAsync();
             }
             else
             {

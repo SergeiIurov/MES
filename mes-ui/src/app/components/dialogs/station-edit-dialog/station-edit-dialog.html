@@ -10,8 +10,16 @@
     <input pInputText #stationCode [value]="originalData?.chartElementId" type="number" id="stationcode"
            class="flex-auto" autocomplete="off"/>
   </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="productType" class="font-semibold w-24">Тип продукта</label>
+    <select pInputText #productType id="productType" class="flex-auto" autocomplete="off" [value]="originalData?.productType">
+      @for (key of productTypes; track key) {
+        <option value="{{key}}">{{ ProductTypes[key] }}</option>
+      }
+    </select>
+  </div>
   <div class="flex justify-end gap-2">
-    <p-button label="Сохранить" (click)="edit(stationName.value,+stationCode.value)"/>
+    <p-button label="Сохранить" (click)="edit(stationName.value,+stationCode.value, +productType.value)"/>
     <p-button label="Отмена" severity="secondary" (click)="cancel()"/>
   </div>
 </p-dialog>

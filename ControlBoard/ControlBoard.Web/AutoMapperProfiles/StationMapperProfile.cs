@@ -13,7 +13,8 @@ namespace ControlBoard.Web.AutoMapperProfiles
                 ForMember(dist => dist.ChartElementId, opt => opt.MapFrom(src => src.ChartElementId)).
                 ForMember(dist => dist.Name, opt => opt.MapFrom(src => src.Name)).
                 ForMember(dist => dist.AreaId, opt => opt.MapFrom(src => src.Area.Id)).
-                ForMember(dist => dist.AreaName, opt => opt.MapFrom(src => src.Area.Name));
+                ForMember(dist => dist.AreaName, opt => opt.MapFrom(src => src.Area.Name)).
+                ForMember(dist => dist.ProductType, opt => opt.MapFrom(src => src.ProductType));
 
         }
     }

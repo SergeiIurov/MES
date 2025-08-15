@@ -4316,7 +4316,7 @@ var mxUtils =
      */
     confirm: function(message)
     {
-      //return confirm(message);
+      // return confirm(message);
     },
 
     /**

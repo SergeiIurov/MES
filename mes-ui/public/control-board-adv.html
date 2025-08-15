@@ -55,6 +55,7 @@
 <body>
 <div class="geEditor"></div>
 <script type="text/javascript">
+
   // Extends EditorUi to update I/O action states based on availability of backend
   (function () {
     var editorUiInit = EditorUi.prototype.init;
@@ -70,7 +71,19 @@
           this.editor.editable = false;
 
 
+
           this.editor.setGraphXml(mxUtils.parseXml(info).documentElement)
+          //this.editor.graph.view.setScale(0.5,0.4)
+          this.editor.graph.zoom(0.6,false)
+          this.editor.graph.gridEnabled = false;
+          this.editor.graph.showPageView = false;
+
+          this.editor.graph.view.validateBackground()
+
+
+
+
+
         })
       }
     };

@@ -10,7 +10,7 @@ import {Admin} from './components/admin/admin';
 
 export const routes: Routes = [
   {
-    path: '', component: ControlBoard, pathMatch: 'full', canActivate: [authGuard]
+    path: '', component: ControlBoardAdvanced, pathMatch: 'full', canActivate: [authGuard]
   },
   {
     path: 'login', component: Login
@@ -19,7 +19,7 @@ export const routes: Routes = [
     path: 'board-constructor', component: BoardConstructor, canActivate: [authGuard, authorizeGuard]
   },
   {
-    path: 'control-board', component: ControlBoardAdvanced, canActivate: [authGuard]
+    path: 'control-board', component: ControlBoard, canActivate: [authGuard]
   },
   {
     path: 'input-form', component: InputForm, canActivate: [authGuard, authorizeGuard]

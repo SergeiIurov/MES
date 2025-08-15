@@ -1,51 +1,59 @@
-<header class="header">
-  <nav class="bg-success">
-    <ul class="header-list">
-      @if (auth.isAuthenticated) {
-        <li>
-          <a class="btn btn-lg btn-success" pButton [routerLink]="['/']" [routerLinkActive]="'active'"
-             [routerLinkActiveOptions]="{exact:true}">
-            <span pButtonLabel>Доска контроля производства</span>
-          </a>
-        </li>
-        @if (auth.role === Roles[Roles.Admin]) {
+@if (auth.role !== Roles[Roles.User]) {
+  <header class="header">
+    <nav class="bg-success">
+      <ul class="header-list">
+        @if (auth.isAuthenticated) {
           <li>
-            <a class="btn btn-lg btn-success" pButton [routerLink]="['/board-constructor']"
-               [routerLinkActive]="'active'">
-              <span pButtonLabel>Конструктор</span>
+            <a class="btn btn-lg btn-success" pButton [routerLink]="['/']" [routerLinkActive]="'active'"
+               [routerLinkActiveOptions]="{exact:true}">
+              <span pButtonLabel>Доска контроля производства</span>
             </a>
           </li>
+          @if (auth.role === Roles[Roles.Admin]) {
+            <li>
+              <a class="btn btn-lg btn-success" pButton [routerLink]="['/board-constructor']"
+                 [routerLinkActive]="'active'">
+                <span pButtonLabel>Конструктор</span>
+              </a>
+            </li>
+          }
+          <!--          <li>-->
+            <!--            <a class="btn btn-lg btn-success" pButton [routerLink]="['/control-board']" [routerLinkActive]="'active'">-->
+            <!--              <span pButtonLabel>Доска контроля производства(adv)</span>-->
+            <!--            </a>-->
+            <!--          </li>-->
+          @if (auth.role === Roles[Roles.Admin] || auth.role == Roles[Roles.Operator]) {
+            <li>
+              <a class="btn btn-lg btn-success" pButton [routerLink]="['/input-form']" [routerLinkActive]="'active'">
+                <span pButtonLabel>Форма ввода данных</span>
+              </a>
+            </li>
+          }
+          @if (auth.role === Roles[Roles.Admin]) {
+            <li>
+              <a class="btn btn-lg btn-success" pButton [routerLink]="['/administration']"
+                 [routerLinkActive]="'active'">
+                <span pButtonLabel>Администрирование</span>
+              </a>
+            </li>
+          }
         }
-        <li>
-          <a class="btn btn-lg btn-success" pButton [routerLink]="['/control-board']" [routerLinkActive]="'active'">
-            <span pButtonLabel>Доска контроля производства(adv)</span>
-          </a>
-        </li>
-        @if (auth.role === Roles[Roles.Admin] || auth.role == Roles[Roles.Operator]) {
-          <li>
-            <a class="btn btn-lg btn-success" pButton [routerLink]="['/input-form']" [routerLinkActive]="'active'">
-              <span pButtonLabel>Форма ввода данных</span>
-            </a>
-          </li>
-        }
-        @if (auth.role === Roles[Roles.Admin]) {
-          <li>
-            <a class="btn btn-lg btn-success" pButton [routerLink]="['/administration']"
-               [routerLinkActive]="'active'">
-              <span pButtonLabel>Администрирование</span>
-            </a>
-          </li>
-        }
-      }
-    </ul>
+      </ul>
 
-    <div class="notify">
-      <span class="bg-info">{{ auth.name }}</span>
-      @if (auth.isAuthenticated) {
-        <a class="btn btn-group signout logout" (click)="logout()">Выйти</a>
-      }
+      <div class="notify">
+        <span class="bg-info">{{ auth.name }}</span>
+        @if (auth.isAuthenticated) {
+          <a class="btn btn-group signout logout" (click)="logout()">Выйти</a>
+        }
+      </div>
+      <app-information></app-information>
+    </nav>
+
+  </header>
+} @else {
+  @if (auth.isAuthenticated) {
+    <div class="exit">
+      <a (click)="logout()">Выйти</a>
     </div>
-    <app-information></app-information>
-  </nav>
-
-</header>
+  }
+}

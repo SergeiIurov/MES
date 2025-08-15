@@ -29,11 +29,15 @@
   z-index: 100;
 }
 
-.notify span{
+.notify span {
   width: 100px;
 }
 
 
-.active, .active:hover{
+.active, .active:hover {
   background-color: #31c228;
+}
+
+.exit {
+  text-align: right;
 }

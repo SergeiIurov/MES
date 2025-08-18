@@ -68,21 +68,23 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     this.form = new FormGroup({})
   }
 
+  onInput = e => {
+    this.hasDuplicate();
+
+    // if (e.target.value.length >= 3 && !this.hasDuplicate()) {
+    //   e.target.value = e.target.value.substring(0, 3);
+    //   if (mas[idx + 1]) {
+    //     mas[idx + 1].focus();
+    //     mas[idx + 1].select();
+    //   }
+    // }
+  }
+
   ngAfterViewChecked(): void {
     this.elements = this.frmBlock.nativeElement.querySelectorAll("form input")
     this.elements.forEach((element, idx, mas) => {
       element.addEventListener('input',
-        e => {
-          this.hasDuplicate();
-
-          // if (e.target.value.length >= 3 && !this.hasDuplicate()) {
-          //   e.target.value = e.target.value.substring(0, 3);
-          //   if (mas[idx + 1]) {
-          //     mas[idx + 1].focus();
-          //     mas[idx + 1].select();
-          //   }
-          // }
-        }
+        this.onInput
       )
     })
   }
@@ -220,7 +222,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     let d: any = this.findDuplicates(this.elements);
     let dups: any[] = []
 
-
     Object.values(d).forEach((value) => {
       let mas: any[] = (value as any[]);
       this.elements.forEach(e => e.classList.remove('signalDuplicate'));
@@ -347,6 +348,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   editStation(station: StationDto) {
+    console.log("sendStation", this.form.value)
     this.directoryService.updateStation(station).subscribe(data => {
       this.createForm();
       this.visibleEditStationDialog = false;

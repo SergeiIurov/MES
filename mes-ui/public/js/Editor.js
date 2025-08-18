@@ -485,7 +485,10 @@ Editor.prototype.readGraphState = function(node)
     this.graph.pageVisible = false;
   }
 
-  this.graph.pageBreaksVisible = this.graph.pageVisible;
+  // this.graph.pageBreaksVisible = this.graph.pageVisible;
+  //Удаление разрыва страницы
+  this.graph.pageBreaksVisible = false;
+
   this.graph.preferPageSize = this.graph.pageBreaksVisible;
 
   var pw = parseFloat(node.getAttribute('pageWidth'));

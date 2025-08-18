@@ -2,6 +2,7 @@
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
+using ControlBoard.Domain.Services.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -112,6 +113,28 @@ public class ControlBoardAdvController(
             await processStateAdvService.SaveSpecificationAsync(data);
 
             return Ok();
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message, e);
+            return BadRequest(ModelState);
+        }
+    }
+
+
+    /// <summary>
+    /// Возврат списка участков с содержищимися в них станциями.
+    /// </summary>
+    [HttpGet("specifications")]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<List<AreaDto>>> GetAreas()
+    {
+        try
+        {
+            logger.LogInformation($"Действие {nameof(GetAreas)} запущено.");
+            return Ok(mapper.Map<List<Specification>, IEnumerable<SpecificationDto>>(await processStateAdvService.GetSpecifications()));
         }
         catch (Exception e)
         {

@@ -18,6 +18,7 @@ import {FileUpload, UploadEvent} from 'primeng/fileupload';
 import {Environment} from '../../environments/environment';
 import {Roles} from '../../enums/roles';
 import {ProductTypes} from '../../enums/ProductTypes';
+import {SpecificationDto} from '../../Entities/SpecificationDto';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   items: MenuItem[] | undefined;
   fileUploadUrl = `${Environment.apiUrl}api/ControlBoardAdv/upload`;
   productTypes = Object.keys(Roles).filter(k => +k + 1);
+  specifications: SpecificationDto[];
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -121,7 +123,16 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       if (localStorage.getItem('formData') !== null) {
         this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       }
+      this.controlBoardService.getSpecificationList().subscribe(specificationList => {
 
+        const seq = []
+        Object.entries(this.form.value).forEach(([key, value]) => {
+          if (value.toString().trim()) {
+            seq.push(value);
+          }
+        })
+        this.specifications = specificationList.filter(s => seq.indexOf(s.sequenceNumber) === -1);
+      })
     });
   }
 
@@ -165,6 +176,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]
       if (!this.isWarning(info)) {
         this.controlBoardService.saveCurrentState(info).subscribe(d => {
+          this.createForm();
           this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
         })
       } else {

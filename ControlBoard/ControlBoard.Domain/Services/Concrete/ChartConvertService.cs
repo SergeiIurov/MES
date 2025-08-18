@@ -51,7 +51,7 @@ public class ChartConvertService(
                         Specification spec = specificationList.Find(val => val.SequenceNumber == result.Item1);
                         if (specificationList.Exists(val => val.SequenceNumber == result.Item1))
                         {
-                            if (result.Item2 != null)
+                            if (result.Item2 != null && result.Item2 != ProductTypes.NotData)
                             {
                                 string info = ChartServices.GetProductType(spec.SpecificationStr, result.Item2.Value);
 

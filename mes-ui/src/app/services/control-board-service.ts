@@ -4,6 +4,7 @@ import {Environment} from "../environments/environment"
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ProcessStateAdvDto} from '../Entities/ProcessStateAdvDto';
+import {SpecificationDto} from '../Entities/SpecificationDto';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,10 @@ export class ControlBoardService {
 
   getChart(): Observable<string> {
     return this.http.get(`${Environment.apiUrl}api/BoardConstructor/chart`, {responseType: "text"})
+  }
+
+  getSpecificationList(): Observable<SpecificationDto[]> {
+    return this.http.get<SpecificationDto[]>(`${Environment.apiUrl}api/ControlBoardAdv/specifications`)
   }
 
 }

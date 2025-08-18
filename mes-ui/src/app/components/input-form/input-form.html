@@ -1,11 +1,27 @@
 <div>
   <div class="card flex justify-center">
-    <p-toolbar class="mb-6">
-      <ng-template #start>
-        <p-button label="Добавить участок" icon="pi pi-plus" severity="primary" class="mr-2"
-                  (onClick)="openNewAreaDialog()"/>
-      </ng-template>
-    </p-toolbar>
+    <div class="row">
+      <div class="col-4">
+        <p-toolbar class="mb-6">
+          <ng-template #start>
+            <p-button label="Добавить участок" icon="pi pi-plus" severity="primary" class="mr-2"
+                      (onClick)="openNewAreaDialog()"/>
+          </ng-template>
+        </p-toolbar>
+      </div>
+      <div class="col-4">
+        <p-fileupload
+          title="Загрузите файл формата CSV с информацией вида (sequence;specification) с  разделителем 'запятая'."
+          name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
+          uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
+          accept=".csv" maxFileSize="10000000" mode="advanced">
+          <ng-template #empty>
+            <div>Перетащите csv файл для загрузки.</div>
+          </ng-template>
+        </p-fileupload>
+      </div>
+    </div>
+
     <!--Диалог для создания нового участка    -->
     <p-dialog header="Создание нового участка" [modal]="true" [(visible)]="visibleNewAreaDialog"
               [style]="{ width: '35rem' }">
@@ -94,9 +110,11 @@
                         <input [style]="{display:'inline',width:'90px'}" [formControlName]="s.id" class="form-control"
                                [maxLength]="7" [minlength]="3" type="text" [id]="s.chartElementId">
 
-                        <p-button [tabindex]="-1" size="small" title="Добавить станцию" icon="pi pi-plus" variant="text" severity="info"
+                        <p-button [tabindex]="-1" size="small" title="Добавить станцию" icon="pi pi-plus" variant="text"
+                                  severity="info"
                                   (click)="openNewStationDialog(a)"></p-button>
-                        <p-button [tabindex]="-1" size="small" title="Редактировать станцию" icon="pi pi-pencil" variant="text"
+                        <p-button [tabindex]="-1" size="small" title="Редактировать станцию" icon="pi pi-pencil"
+                                  variant="text"
                                   severity="info"
                                   (click)="openEditStationDialog(s)"></p-button>
                         <p-button [tabindex]="-1" size="small" title="Удалить станцию" icon="pi pi-minus" variant="text"
@@ -117,16 +135,24 @@
             </tbody>
           </table>
         </div>
+        <div class="col-1"></div>
         <div class="col-4">
-          <p-fileupload
-            title="Загрузите файл формата CSV с информацией вида (sequence;specification) с  разделителем 'запятая'."
-            name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
-            uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
-            accept=".csv" maxFileSize="10000000" mode="advanced">
-            <ng-template #empty>
-              <div>Перетащите csv файл для загрузки.</div>
-            </ng-template>
-          </p-fileupload>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>Номер автомобиля</th>
+              <th>Спецификация</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (spec of specifications; track spec.id) {
+                <tr>
+                  <td>{{ spec.sequenceNumber }}</td>
+                  <td>{{ spec.specificationStr }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
       </div>
       <div>

@@ -6,7 +6,6 @@
  */
 EditorUi = function (editor, container, lightbox, configData) {
   mxEventSource.call(this);
-
   this.destroyFunctions = [];
   this.editor = editor || new Editor();
   this.container = container || document.body;
@@ -2659,8 +2658,6 @@ EditorUi.prototype.setPageVisible = function (value) {
     graph.container.scrollLeft = graph.view.translate.x * graph.view.scale - tx;
     graph.container.scrollTop = graph.view.translate.y * graph.view.scale - ty;
   }
-
-  this.fireEvent(new mxEventObject('pageViewChanged'));
 };
 
 /**
@@ -3190,11 +3187,10 @@ EditorUi.prototype.createUi = function (configData, graph) {
     this.container.appendChild(this.sidebarContainer);
   }
   if (configData?.disableFormat) {
-    // Creates the format sidebar
-    //this.format = this.format = (this.editor.chromeless || !this.formatEnabled) ? null : this.createFormat(this.formatContainer);;
+    // Создание панели форматирования
+    // this.format = this.format = (this.editor.chromeless || !this.formatEnabled) ? null : this.createFormat(this.formatContainer);
     graph.gridEnabled = false;
     graph.enabled = false;
-
 
 
     //graph.view.validateBackground()

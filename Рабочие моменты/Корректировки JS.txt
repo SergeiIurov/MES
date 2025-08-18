@@ -1,0 +1,9 @@
+EditorUi
+
+// Создание панели форматирования
+    //this.format = this.format = (this.editor.chromeless || !this.formatEnabled) ? null : this.createFormat(this.formatContainer);
+
+
+Editor
+  //Удаление разрыва страницы
+  this.graph.pageBreaksVisible = false;

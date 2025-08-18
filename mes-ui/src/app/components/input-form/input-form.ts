@@ -348,7 +348,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   editStation(station: StationDto) {
-    console.log("sendStation", this.form.value)
     this.directoryService.updateStation(station).subscribe(data => {
       this.createForm();
       this.visibleEditStationDialog = false;

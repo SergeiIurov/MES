@@ -73,9 +73,9 @@
 
           this.editor.setGraphXml(mxUtils.parseXml(info).documentElement)
           //Масштабирование доски контроля производства
-          this.editor.graph.zoom(0.74, false)
-
-
+          // this.editor.graph.zoom(0.74, false)
+          //this.editor.graph.view.setScale(0.7)
+          this.editor.graph.fit();
           this.editor.graph.gridEnabled = false;
           this.editor.graph.view.validateBackground()
 

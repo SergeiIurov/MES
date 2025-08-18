@@ -66,6 +66,7 @@ builder.Services.AddAutoMapper(configAction =>
     configAction.AddProfile<ProductTypeMapperProfile>();
     configAction.AddProfile<ProcessStateAdvMapper>();
     configAction.AddProfile<SpecificationProfile>();
+    configAction.AddProfile<CarExecutionProfile>();
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

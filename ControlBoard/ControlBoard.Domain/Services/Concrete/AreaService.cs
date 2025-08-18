@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControlBoard.Domain.Services.Concrete
 {
-    public class AreaService(AreaRepository repository, ILogger<AreaService> logger, MesDbContext context) : IAreaService
+    public class AreaService(ILogger<AreaService> logger, MesDbContext context) : IAreaService
     {
         public async Task<List<Area>> GetAreasAsync()
         {

@@ -15,6 +15,7 @@ namespace ControlBoard.DB
         public DbSet<ControlBoardData> ControlBoardData { get; set; }
         public DbSet<HistoryInfo> HistoryInfo { get; set; }
         public DbSet<Specification> Specification { get; set; }
+        public DbSet<CarExecution> CarExecution { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +26,7 @@ namespace ControlBoard.DB
             modelBuilder.ApplyConfiguration(new ControlBoardDataConfiguration());
             modelBuilder.ApplyConfiguration(new HistoryInfoConfiguration());
             modelBuilder.ApplyConfiguration(new SpecificationConfiguration());
+            modelBuilder.ApplyConfiguration(new CarExecutionConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -125,17 +125,25 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       if (localStorage.getItem('formData') !== null) {
         this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       }
+
+    });
+    this.getSpecifications();
+  }
+
+  getSpecifications = () => {
+    setTimeout(() => {
       this.controlBoardService.getSpecificationList().subscribe(specificationList => {
 
         const seq = []
         Object.entries(this.form.value).forEach(([key, value]) => {
           if (value.toString().trim()) {
-            seq.push(value);
+            seq.push(value.toString().trim());
           }
         })
-        this.specifications = specificationList.filter(s => seq.indexOf(s.sequenceNumber) === -1);
+        this.specifications = specificationList.filter(s => seq.indexOf(s.sequenceNumber.trim()) === -1);
       })
-    });
+    }, 1000)
+
   }
 
   ngOnInit(): void {
@@ -163,6 +171,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         },
       }
     ];
+
     this.createForm();
   }
 

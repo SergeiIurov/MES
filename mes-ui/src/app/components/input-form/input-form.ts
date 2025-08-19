@@ -120,21 +120,18 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
             CorrectSeqValueValidator(this.fullSpecifications)
           ]))
         })
+
+        //Восстанавливаем значения формы с текущего состояния
+        this.controlBoardService.getCurrentState().subscribe(currentState => {
+          const object = Object.fromEntries(currentState.map(s => [s.stationId, s.value]));
+          this.form.setValue(object);
+        })
       })
-
-
-
-      //Восстанавливаем значения формы с текущего состояния
-      this.controlBoardService.getCurrentState().subscribe(currentState => {
-        const object = Object.fromEntries(currentState.map(s => [s.stationId, s.value]));
-        this.form.setValue(object);
-      })
-
 
       //При возврате на ранее покинутый компонент, восстанавливаем состояние формы
-      if (localStorage.getItem('formData') !== null) {
-        this.form.setValue(JSON.parse(localStorage.getItem('formData')));
-      }
+      // if (localStorage.getItem('formData') !== null) {
+      //   this.form.setValue(JSON.parse(localStorage.getItem('formData')));
+      // }
 
     });
     this.getSpecifications();

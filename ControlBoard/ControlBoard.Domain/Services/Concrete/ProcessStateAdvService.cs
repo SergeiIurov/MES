@@ -48,7 +48,7 @@ namespace ControlBoard.Domain.Services.Concrete
 
                 List<Specification> specificationList = await GetSpecifications();
 
-                await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.Include(s => s.Station).ToList().OrderBy(ps => ps.Id).Select(ps =>
+                await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.Include(s => s.Station).ToList().OrderBy(ps => ps.Id).Select(async ps =>
                  new
                  {
                      Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? null : ps.Value,
@@ -56,7 +56,7 @@ namespace ControlBoard.Domain.Services.Concrete
                      ps.LastUpdated,
                      Area = ps.Station.Area.Name,
                      Station = ps.Station.Name,
-                     ProductType =
+                     ProductType = await 
                          chartServices.GetProductTypeAsync(
                              specificationList.FirstOrDefault(s =>
                                  s.SequenceNumber.Equals(ps.Value))?.SpecificationStr, ps.Station.ProductType ?? ProductTypes.NotData),

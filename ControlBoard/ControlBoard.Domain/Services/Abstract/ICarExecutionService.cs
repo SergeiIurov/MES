@@ -12,7 +12,7 @@ namespace ControlBoard.Domain.Services.Abstract
     {
         Task<List<CarExecution>> GetCarExecutionsAsync();
         Task<CarExecution> AddCarExecutionAsync(CarExecutionDto carExecution);
-        Task DeleteExecutionAxync(int id);
+        Task DeleteExecutionAsync(int id);
         Task<CarExecution> UpdateCarExecutionAsync(CarExecutionDto carExecution);
     }
 }

@@ -1,8 +1,9 @@
 ﻿using ControlBoard.DB.Entities.Enums;
+using ControlBoard.Domain.Services.Abstract;
 
 namespace ControlBoard.Domain.Services
 {
-    public class ChartServices
+    public class ChartServices(ICarExecutionService carExecutionService)
     {
         /// <summary>
         /// Получение исполнения
@@ -25,10 +26,26 @@ namespace ControlBoard.Domain.Services
         }
 
         /// <summary>
+        /// Получение исполнения
+        /// </summary>
+        /// <param name="spec">На вход подаётся спецификация</param>
+        private async Task<string?> GetCarExecutionAsync(string? spec)
+        {
+            Dictionary<string, string?> dict =
+                (await carExecutionService.GetCarExecutionsAsync()).ToDictionary(ce => ce.Code, ce => ce.Name);
+            if (spec is null)
+            {
+                return "";
+            }
+
+            return dict.TryGetValue(spec.Substring(4, 2), out string? value) ? value : "";
+        }
+
+        /// <summary>
         /// Получение типа кабины
         /// </summary>
         /// <param name="spec">На вход подаётся спецификация </param>
-        private static string GetCabinType(string? spec)
+        private static string? GetCabinType(string? spec)
         {
             if (spec is null)
             {
@@ -45,12 +62,12 @@ namespace ControlBoard.Domain.Services
             };
         }
 
-        public static string GetProductType(string? spec, ProductTypes productType)
+        public async Task<string?> GetProductTypeAsync(string? spec, ProductTypes productType)
         {
             return productType switch
             {
                 ProductTypes.Cabina => GetCabinType(spec),
-                ProductTypes.Execution => GetCarExecution(spec),
+                ProductTypes.Execution => await GetCarExecutionAsync(spec),
                 _ => ""
             };
         }

@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {AreaDto} from '../Entities/AreaDto';
 import {StationDto} from '../Entities/StationDto';
 import {ProductTypeDto} from '../Entities/ProductTypeDto';
+import {CarExecutionDto} from '../Entities/CarExecutionDto';
 
 @Injectable({providedIn: 'root'})
 export class DirectoryService {
@@ -54,5 +55,21 @@ export class DirectoryService {
 
   getProductTypeList(): Observable<ProductTypeDto[]> {
     return this.http.get<ProductTypeDto[]>(`${Environment.apiUrl}api/Directory/product-types`)
+  }
+
+  getCarExecutionList(): Observable<CarExecutionDto[]> {
+    return this.http.get<CarExecutionDto[]>(`${Environment.apiUrl}api/Directory/carexecutions`)
+  }
+
+  addCarExecution(carExecution: CarExecutionDto): Observable<CarExecutionDto> {
+    return this.http.post<CarExecutionDto>(`${Environment.apiUrl}api/Directory/carexecutions`, carExecution)
+  }
+
+  deleteCarExecution(id: number): Observable<any> {
+    return this.http.delete<any>(`${Environment.apiUrl}api/Directory/carexecutions/${id}`)
+  }
+
+  updateCarExecution(carExecution: CarExecutionDto): Observable<CarExecutionDto> {
+    return this.http.put<CarExecutionDto>(`${Environment.apiUrl}api/Directory/carexecutions`, carExecution)
   }
 }

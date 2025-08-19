@@ -33,7 +33,7 @@ namespace ControlBoard.Domain.Services.Concrete
             return newCarExecution;
         }
 
-        public async Task DeleteExecutionAxync(int id)
+        public async Task DeleteExecutionAsync(int id)
         {
             context.CarExecution.Remove(new CarExecution() { Id = id });
             await context.SaveChangesAsync();

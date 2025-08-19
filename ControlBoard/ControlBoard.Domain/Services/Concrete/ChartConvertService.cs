@@ -19,6 +19,7 @@ public class ChartConvertService(
     IProcessStateRepository repository,
     IProcessStateAdvService processStateAdvService,
     MesDbContext context,
+    ChartServices chartService,
     ILogger<ChartConvertService> logger) : IChartConvertService
 {
     /// <summary>
@@ -53,7 +54,7 @@ public class ChartConvertService(
                         {
                             if (result.Item2 != null && result.Item2 != ProductTypes.NotData)
                             {
-                                string info = ChartServices.GetProductType(spec.SpecificationStr, result.Item2.Value);
+                                string? info =await chartService.GetProductTypeAsync(spec.SpecificationStr, result.Item2.Value);
 
                                 elem.Attribute("label")!.Value = $"{result.Item1 ?? ""}\n{info}";
                             }
@@ -81,36 +82,36 @@ public class ChartConvertService(
         return from;
     }
 
-    /// <summary>
-    /// Получение исполнения
-    /// </summary>
-    /// <param name="spec">На вход подаётся спецификация</param>
-    private static string GetCarExecution(string spec)
-    {
-        return spec.Substring(4, 2) switch
-        {
-            "00" => "ШАССИ",
-            "10" => "ТЯГАЧ",
-            "30" => "БОРТ",
-            "50" => "САМОСВАЛ",
-            _ => ""
-        };
-    }
+    ///// <summary>
+    ///// Получение исполнения
+    ///// </summary>
+    ///// <param name="spec">На вход подаётся спецификация</param>
+    //private static string GetCarExecution(string spec)
+    //{
+    //    return spec.Substring(4, 2) switch
+    //    {
+    //        "00" => "ШАССИ",
+    //        "10" => "ТЯГАЧ",
+    //        "30" => "БОРТ",
+    //        "50" => "САМОСВАЛ",
+    //        _ => ""
+    //    };
+    //}
 
-    /// <summary>
-    /// Получение типа кабины
-    /// </summary>
-    /// <param name="spec">На вход подаётся спецификация </param>
-    private static string GetCabinType(string spec)
-    {
-        return spec.Substring(2, 1) switch
-        {
-            "1" => "ККН",
-            "2" => "ККС",
-            "3" => "ДКН",
-            "4" => "ДКС",
-            "5" => "ДКВ",
-            _ => ""
-        };
-    }
+    ///// <summary>
+    ///// Получение типа кабины
+    ///// </summary>
+    ///// <param name="spec">На вход подаётся спецификация </param>
+    //private static string GetCabinType(string spec)
+    //{
+    //    return spec.Substring(2, 1) switch
+    //    {
+    //        "1" => "ККН",
+    //        "2" => "ККС",
+    //        "3" => "ДКН",
+    //        "4" => "ДКС",
+    //        "5" => "ДКВ",
+    //        _ => ""
+    //    };
+    //}
 }

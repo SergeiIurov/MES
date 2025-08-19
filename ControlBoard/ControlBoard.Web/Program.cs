@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog.Web;
 using System.Text;
+using ControlBoard.Domain.Services;
 using ControlBoard.Web.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -56,6 +57,8 @@ builder.Services.AddTransient<IChartConvertService, ChartConvertService>();
 builder.Services.AddScoped<ProductTypeRepository>();
 builder.Services.AddTransient<IProductTypeService, ProductTypeService>();
 builder.Services.AddTransient<IHistoryService, HistoryService>();
+builder.Services.AddTransient<ICarExecutionService, CarExecutionService>();
+builder.Services.AddTransient<ChartServices>();
 
 builder.Services.AddProblemDetails();
 

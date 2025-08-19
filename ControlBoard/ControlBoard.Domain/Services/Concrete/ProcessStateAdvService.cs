@@ -14,6 +14,7 @@ namespace ControlBoard.Domain.Services.Concrete
         IProcessStateRepository repository,
         MesDbContext context,
         ILogger<ProcessStateService> logger,
+        ChartServices chartServices,
         IHistoryService historyService) : IProcessStateAdvService
     {
         public async Task SaveListAsync(List<ProcessStateAdvDto> list, string userName)
@@ -56,7 +57,7 @@ namespace ControlBoard.Domain.Services.Concrete
                      Area = ps.Station.Area.Name,
                      Station = ps.Station.Name,
                      ProductType =
-                         ChartServices.GetProductType(
+                         chartServices.GetProductTypeAsync(
                              specificationList.FirstOrDefault(s =>
                                  s.SequenceNumber.Equals(ps.Value))?.SpecificationStr, ps.Station.ProductType ?? ProductTypes.NotData),
                      ps.GroupId,

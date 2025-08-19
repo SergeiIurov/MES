@@ -1,10 +1,11 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Dto;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using System.Net;
 
 namespace ControlBoard.Web.Controllers
 {
@@ -16,6 +17,8 @@ namespace ControlBoard.Web.Controllers
         IAreaService areaService,
         IProductTypeService productTypeService,
         IStationService stationService,
+        ICarExecutionService carExecutionService,
+        IHubContext<MesHub> hub,
         IMapper mapper) : ControllerBase
     {
         /// <summary>
@@ -236,7 +239,6 @@ namespace ControlBoard.Web.Controllers
         }
 
 
-
         /// <summary>
         /// Возврат списка типа продуктов.
         /// </summary>
@@ -259,5 +261,100 @@ namespace ControlBoard.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Возврат списка исполнения автомобилей.
+        /// </summary>
+        [HttpGet("carexecutions")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<List<CarExecutionDto>>> GetCarExecutions()
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(GetCarExecutions)} запущено.");
+                return Ok(mapper.Map<List<CarExecution>, IEnumerable<CarExecutionDto>>(
+                    await carExecutionService.GetCarExecutionsAsync()));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Создание нового исполнения автомобилей.
+        /// </summary>
+        [HttpPost("carexecutions")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult<CarExecutionDto>> AddCarExecution(CarExecutionDto carExecution)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(AddCarExecution)} запущено.");
+                OkObjectResult okObjectResult =
+                    Ok(mapper.Map<CarExecution, CarExecutionDto>(
+                        await carExecutionService.AddCarExecutionAsync(carExecution)));
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+                return okObjectResult;
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        /// <summary>
+        /// Удаление существующего исполнения.
+        /// </summary>
+        [HttpDelete("carexecutions/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult> DeleteCarExecution(int id)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(DeleteCarExecution)} запущено.");
+                await carExecutionService.DeleteExecutionAsync(id);
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Обновление существующего исполнения.
+        /// </summary>
+        [HttpPut("carexecutions")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult<CarExecutionDto>> UpdateCarExecution(CarExecutionDto carExecutionDto)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(UpdateCarExecution)} запущено.");
+                OkObjectResult okObjectResult = Ok(mapper.Map<CarExecution, CarExecutionDto>(
+                    await carExecutionService.UpdateCarExecutionAsync(carExecutionDto)));
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+                return okObjectResult;
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                return BadRequest(ModelState);
+            }
+        }
     }
 }

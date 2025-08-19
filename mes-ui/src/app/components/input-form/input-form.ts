@@ -19,6 +19,7 @@ import {Environment} from '../../environments/environment';
 import {Roles} from '../../enums/roles';
 import {ProductTypes} from '../../enums/ProductTypes';
 import {SpecificationDto} from '../../Entities/SpecificationDto';
+import {CorrectSeqValueValidator} from '../../validators/CorrectSeqValueValidator';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   fileUploadUrl = `${Environment.apiUrl}api/ControlBoardAdv/upload`;
   productTypes = Object.keys(Roles).filter(k => +k + 1);
   specifications: SpecificationDto[];
+  fullSpecifications: SpecificationDto[];
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -102,17 +104,25 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         this.areas.forEach(area => {
           area.stations.sort((a, b) => a.chartElementId - b.chartElementId);
         })
+
       })
 
       this.stations = stations;
-      this.stations.forEach(station => {
-        this.form.addControl((station.id).toString(), new FormControl("", [
-          // Validators.pattern('\\d{3}')
-          Validators.minLength(3),
-          Validators.maxLength(7),
-          Validators.pattern('^[^ ].{1,5}[^ ]$')
-        ]))
+
+      this.controlBoardService.getSpecificationList().subscribe(specifications => {
+        this.fullSpecifications = specifications;
+        this.stations.forEach(station => {
+          this.form.addControl((station.id).toString(), new FormControl("", [
+            // Validators.pattern('\\d{3}')
+            Validators.minLength(3),
+            Validators.maxLength(7),
+            Validators.pattern('^[^ ].{1,5}[^ ]$'),
+            CorrectSeqValueValidator(this.fullSpecifications)
+          ]))
+        })
       })
+
+
 
       //Восстанавливаем значения формы с текущего состояния
       this.controlBoardService.getCurrentState().subscribe(currentState => {
@@ -140,6 +150,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
             seq.push(value.toString().trim());
           }
         })
+        this.fullSpecifications = specificationList;
         this.specifications = specificationList.filter(s => seq.indexOf(s.sequenceNumber.trim()) === -1);
       })
     }, 1000)

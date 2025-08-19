@@ -121,11 +121,18 @@
                                   severity="danger"
                                   (click)="deleteStation(s)"></p-button>
                       </div>
-                      @if (form.get(s.id.toString()).errors && form.get(s.id.toString()).errors['pattern']) {
+                      @if (form.get(s.id.toString()).errors) {
                         <div>
-                          <span
-                            class="validation">{{ 'Поле должно содержать от 3 до 7 символов без концевых пробелов!' }}
+                          @if (form.get(s.id.toString()).errors['pattern']) {
+                            <span
+                              class="validation">{{ 'Поле должно содержать от 3 до 7 символов без концевых пробелов!' }}
                           </span>
+                          }
+                          @if (form.get(s.id.toString()).errors['keyNotFound']) {
+                            <span
+                              class="validation">{{ 'Значение последовательности не найдено в спецификации!' }}
+                          </span>
+                          }
                         </div>
                       }
                     </td>

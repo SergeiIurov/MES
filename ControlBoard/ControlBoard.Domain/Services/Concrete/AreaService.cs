@@ -2,7 +2,6 @@
 using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Services.Abstract;
 using Microsoft.Extensions.Logging;
-using ControlBoard.DB.Repositories.Concrete;
 using ControlBoard.Domain.Dto;
 using Microsoft.EntityFrameworkCore;
 

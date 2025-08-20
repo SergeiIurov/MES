@@ -1,4 +1,3 @@
-import {Roles} from '../enums/roles';
 import {ProductTypes} from '../enums/ProductTypes';
 
 export interface StationDto {

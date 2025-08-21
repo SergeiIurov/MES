@@ -33,11 +33,18 @@
   width: 100px;
 }
 
-
 .active, .active:hover {
   background-color: #31c228;
 }
 
 .exit {
-  text-align: right;
+  float: right;
+}
+
+.exit a {
+  font-weight: bold;
+}
+
+.exit a:hover {
+  cursor: pointer;
 }

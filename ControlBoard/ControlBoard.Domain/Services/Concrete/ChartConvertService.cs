@@ -19,7 +19,7 @@ public class ChartConvertService(
     IProcessStateRepository repository,
     IProcessStateAdvService processStateAdvService,
     MesDbContext context,
-    ChartServices chartService,
+    IChartServices chartService,
     ILogger<ChartConvertService> logger) : IChartConvertService
 {
     /// <summary>

@@ -14,7 +14,7 @@ namespace ControlBoard.Domain.Services.Concrete
         IProcessStateRepository repository,
         MesDbContext context,
         ILogger<ProcessStateService> logger,
-        ChartServices chartServices,
+        IChartServices chartServices,
         IHistoryService historyService) : IProcessStateAdvService
     {
         public async Task SaveListAsync(List<ProcessStateAdvDto> list, string userName)

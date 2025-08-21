@@ -2,17 +2,17 @@
           [style]="{ width: '25rem' }">
   <div class="flex items-center gap-4 mb-4">
     <label for="stationname" class="font-semibold w-24">Участок: </label>
-    <input pInputText #stationName [value]="originalData?.name" #data id="stationname" class="flex-auto"
+    <input pInputText #stationName [value]="originalData?.name" #data id="stationname" class="flex-auto form-control"
            autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="stationcode" class="font-semibold w-24">Код станции</label>
     <input pInputText #stationCode [value]="originalData?.chartElementId" type="number" id="stationcode"
-           class="flex-auto" autocomplete="off"/>
+           class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="productType" class="font-semibold w-24">Тип продукта</label>
-    <select pInputText #productType id="productType" class="flex-auto" autocomplete="off" [value]="originalData?.productType">
+    <select pInputText #productType id="productType" class="flex-auto form-control" autocomplete="off" [value]="originalData?.productType">
       @for (key of productTypes; track key) {
         <option value="{{key}}">{{ ProductTypes[key] }}</option>
       }

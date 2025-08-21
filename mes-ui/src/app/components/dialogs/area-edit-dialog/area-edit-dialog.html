@@ -2,11 +2,11 @@
           [style]="{ width: '25rem' }">
   <div class="flex items-center gap-4 mb-4">
     <label for="areaname" class="font-semibold w-24">Участок: </label>
-    <input pInputText [value]="originalData?.name" #areaName id="areaname" class="flex-auto" autocomplete="off"/>
+    <input pInputText [value]="originalData?.name" #areaName id="areaname" class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="areaname" class="font-semibold w-24">Диапазон: </label>
-    <input pInputText [value]="originalData?.range" #areaRange id="areaname" class="flex-auto" autocomplete="off"/>
+    <input pInputText [value]="originalData?.range" #areaRange id="areaname" class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex justify-end gap-2">
     <p-button label="Сохранить" (click)="edit(areaName.value, areaRange.value)"/>

@@ -27,11 +27,11 @@
               [style]="{ width: '35rem' }">
       <div class="flex items-center gap-4 mb-4">
         <label for="areaname" class="font-semibold w-24">Название</label>
-        <input [pAutoFocus]="true" pInputText #areaName id="areaname" class="flex-auto" autocomplete="off"/>
+        <input [pAutoFocus]="true" pInputText #areaName id="areaname" class="flex-auto form-control" autocomplete="off"/>
       </div>
       <div class="flex items-center gap-4 mb-4">
         <label for="range" class="font-semibold w-24">Диапазон ID для станций</label>
-        <input [pAutoFocus]="true" pInputText #areaRange id="range" class="flex-auto" autocomplete="off"/>
+        <input [pAutoFocus]="true" pInputText #areaRange id="range" class="flex-auto form-control" autocomplete="off"/>
       </div>
       <div class="flex justify-end gap-2">
         <p-button label="Сохранить" (click)="saveNewArea(areaName.value, areaRange.value)"/>
@@ -43,15 +43,15 @@
               [style]="{ width: '25rem' }">
       <div class="flex items-center gap-4 mb-4">
         <label for="stationname" class="font-semibold w-24">Название</label>
-        <input [pAutoFocus]="true" pInputText #stationName id="stationname" class="flex-auto" autocomplete="off"/>
+        <input [pAutoFocus]="true" pInputText #stationName id="stationname" class="flex-auto form-control" autocomplete="off"/>
       </div>
       <div class="flex items-center gap-4 mb-4">
         <label for="stationcode" class="font-semibold w-24">Код станции</label>
-        <input pInputText #stationCode type="number" id="stationcode" class="flex-auto" autocomplete="off"/>
+        <input pInputText #stationCode type="number" id="stationcode" class="flex-auto form-control" autocomplete="off"/>
       </div>
       <div class="flex items-center gap-4 mb-4">
         <label for="productType" class="font-semibold w-24">Тип продукта</label>
-        <select pInputText #productType id="productType" class="flex-auto" autocomplete="off">
+        <select pInputText #productType id="productType" class="flex-auto form-control" autocomplete="off">
           @for (key of productTypes; track key) {
             <option value="{{key}}">{{ ProductTypes[key] }}</option>
           }

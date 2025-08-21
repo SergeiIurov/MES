@@ -36,16 +36,24 @@
                 <span pButtonLabel>Администрирование</span>
               </a>
             </li>
+            <li>
+              <div class="notify">
+                <span class="bg-info">{{ auth.name }}</span>
+                @if (auth.isAuthenticated) {
+                  <a class="btn btn-group signout" (click)="logout()">Выйти</a>
+                }
+              </div>
+            </li>
           }
         }
       </ul>
 
-      <div class="notify">
-        <span class="bg-info">{{ auth.name }}</span>
-        @if (auth.isAuthenticated) {
-          <a class="btn btn-group signout logout" (click)="logout()">Выйти</a>
-        }
-      </div>
+<!--      <div class="notify">-->
+<!--        <span class="bg-info">{{ auth.name }}</span>-->
+<!--        @if (auth.isAuthenticated) {-->
+<!--          <a class="btn btn-group signout" (click)="logout()">Выйти</a>-->
+<!--        }-->
+<!--      </div>-->
       <app-information></app-information>
     </nav>
 

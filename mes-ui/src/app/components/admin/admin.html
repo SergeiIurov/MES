@@ -73,11 +73,11 @@
           [style]="{ width: '35rem' }">
   <div class="flex items-center gap-4 mb-4">
     <label for="login" class="font-semibold w-24">Логин:</label>
-    <input [pAutoFocus]="true" pInputText #loginName id="login" class="flex-auto" autocomplete="off"/>
+    <input [pAutoFocus]="true" pInputText #loginName id="login" class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="role" class="font-semibold w-24">Роль:</label>
-    <select pInputText #role id="role" class="flex-auto" autocomplete="off">
+    <select pInputText #role id="role" class="flex-auto form-control" autocomplete="off">
       @for (key of roles; track key) {
         <option value="{{key}}">{{ Roles[key] }}</option>
       }
@@ -85,7 +85,7 @@
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="password" class="font-semibold w-24">Пароль:</label>
-    <input pInputText #password id="password" type="password" class="flex-auto" autocomplete="off"/>
+    <input pInputText #password id="password" type="password" class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex justify-end gap-2">
     <p-button label="Сохранить"
@@ -98,12 +98,12 @@
           [style]="{ width: '35rem' }">
   <div class="flex items-center gap-4 mb-4">
     <label for="login" class="font-semibold w-24">Логин:</label>
-    <input [pAutoFocus]="true" pInputText #l disabled="true" [value]="login?.name" readonly id="login" class="flex-auto"
+    <input [pAutoFocus]="true" pInputText #l disabled="true" [value]="login?.name" readonly id="login" class="flex-auto form-control"
            autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="role" class="font-semibold w-24">Роль:</label>
-    <select pInputText #r id="role" class="flex-auto" [value]="login?.role" autocomplete="off">
+    <select pInputText #r id="role" class="flex-auto form-control" [value]="login?.role" autocomplete="off">
       @for (key of roles; track key) {
         <option value="{{key}}">{{ Roles[key] }}</option>
       }
@@ -121,12 +121,12 @@
   <div class="flex items-center gap-4 mb-4">
     <label for="login" class="font-semibold w-24">Старый пароль:</label>
     <input [pAutoFocus]="true" pInputText #oldPassword type="password" [value]="login?.name" id="oldPassword"
-           class="flex-auto" autocomplete="off"/>
+           class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="login" class="font-semibold w-24">Новый пароль:</label>
     <input [pAutoFocus]="true" pInputText #newPassword type="password" [value]="login?.name" id="newPassword"
-           class="flex-auto" autocomplete="off"/>
+           class="flex-auto form-control" autocomplete="off"/>
   </div>
 
   <div class="flex justify-end gap-2">
@@ -142,11 +142,11 @@
   <div class="flex items-center gap-4 mb-4">
     <label for="carExecutionCode" class="font-semibold w-24">Код:</label>
     <input [pAutoFocus]="true" pInputText #carExecutionCode id="carExecutionCode" [minLength]="2" [maxLength]="2"
-           class="flex-auto" autocomplete="off"/>
+           class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="carExecutionName" class="font-semibold w-24">Название:</label>
-    <input [pAutoFocus]="true" pInputText #carExecutionName id="carExecutionName" class="flex-auto" autocomplete="off"/>
+    <input [pAutoFocus]="true" pInputText #carExecutionName id="carExecutionName" class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex justify-end gap-2">
     <p-button label="Сохранить"
@@ -157,15 +157,15 @@
 <!--Диалог для изменения типа надстройки-->
 <p-dialog header="Изменить тип надстройки" [modal]="true" [(visible)]="changeCarExecutionVisible"
           [style]="{ width: '35rem' }">
-  <div class="flex items-center gap-4 mb-4">
+  <div  class="flex items-center gap-4 mb-4">
     <label for="carExecutionCodeChange" class="font-semibold w-24">Код:</label>
     <input [pAutoFocus]="true" pInputText #carExecutionCodeChange id="carExecutionCodeChange" [minLength]="2" [maxLength]="2"
-           [value]="carExecution?.code" class="flex-auto" autocomplete="off"/>
+           [value]="carExecution?.code" class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="carExecutionNameChange" class="font-semibold w-24">Название:</label>
     <input [pAutoFocus]="true" pInputText #carExecutionNameChange id="carExecutionNameChange"
-           [value]="carExecution?.name" class="flex-auto" autocomplete="off"/>
+           [value]="carExecution?.name" class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex justify-end gap-2">
     <p-button label="Сохранить"

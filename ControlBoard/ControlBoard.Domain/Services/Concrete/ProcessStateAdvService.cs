@@ -62,8 +62,9 @@ namespace ControlBoard.Domain.Services.Concrete
                                  s.SequenceNumber.Equals(ps.Value))?.SpecificationStr, ps.Station.ProductType ?? ProductTypes.NotData),
                      ps.GroupId,
                      Login = userName
-                 })));
+                 }).Select(val=>val.Result)));
 
+                
                 logger.LogInformation("Запись истории выполнена.");
             }
             catch (Exception e)

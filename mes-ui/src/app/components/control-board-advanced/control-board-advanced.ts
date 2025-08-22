@@ -1,5 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ControlBoardService} from '../../services/control-board-service';
+import {AuthService} from '../../services/auth-service';
+import {Roles} from '../../enums/roles';
 
 @Component({
   selector: 'app-control-board-advanced',
@@ -13,7 +15,8 @@ export class ControlBoardAdvanced implements OnInit, AfterViewInit {
   @ViewChild('refElem') elem: ElementRef;
 
 
-  constructor(private service: ControlBoardService) {
+  constructor(private service: ControlBoardService,
+              protected auth: AuthService) {
 
   }
 
@@ -29,4 +32,6 @@ export class ControlBoardAdvanced implements OnInit, AfterViewInit {
       this.elem.nativeElement.src = this.url + "?dummyVar=" + (new Date()).getTime();
     });
   }
+
+  protected readonly Roles = Roles;
 }

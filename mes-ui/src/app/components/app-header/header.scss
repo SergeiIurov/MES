@@ -38,7 +38,10 @@
 }
 
 .exit {
-  float: right;
+  position: fixed;
+  z-index: 1000;
+  top: 5px;
+  left: 5px;
 }
 
 .exit a {

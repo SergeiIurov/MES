@@ -44,10 +44,11 @@ namespace ControlBoard.Domain.Services.Concrete
 
                 logger.LogInformation("Информация сохранена в БД.");
 
-                logger.LogInformation("Подготовка записи истории.");
+                logger.LogInformation("Подготовка записи истории состояния доски контроля производства.");
 
                 List<Specification> specificationList = await GetSpecifications();
 
+                //Сразу при сохранении статуса доски контроля производства, выполняем запись истории.
                 await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.Include(s => s.Station).ToList().OrderBy(ps => ps.Id).Select(async ps =>
                  new
                  {
@@ -56,16 +57,16 @@ namespace ControlBoard.Domain.Services.Concrete
                      ps.LastUpdated,
                      Area = ps.Station.Area.Name,
                      Station = ps.Station.Name,
-                     ProductType = await 
+                     ProductType = await
                          chartServices.GetProductTypeAsync(
                              specificationList.FirstOrDefault(s =>
                                  s.SequenceNumber.Equals(ps.Value))?.SpecificationStr, ps.Station.ProductType ?? ProductTypes.NotData),
                      ps.GroupId,
                      Login = userName
-                 }).Select(val=>val.Result)));
+                 }).Select(val => val.Result)));
 
-                
-                logger.LogInformation("Запись истории выполнена.");
+
+                logger.LogInformation("Запись истории доски контроля производства выполнена.");
             }
             catch (Exception e)
             {
@@ -80,6 +81,8 @@ namespace ControlBoard.Domain.Services.Concrete
                 logger.LogInformation("Подготовка к удалению текущей спецификации.");
                 //Удаляем спецификацию
                 context.Database.ExecuteSql($"truncate table specification;");
+                logger.LogInformation("Текущая спецификация удалена.");
+
 
                 logger.LogInformation("Подготовка спецификации к сохранению в БД.");
 

@@ -10,4 +10,5 @@ public interface IProcessStateAdvService
     Task<List<Specification>> GetSpecifications();
     Task AddProcessStateAsync(ProcessStateAdvDto processState);
     Task<List<ProcessState>> GetProcessStatesAsync();
+    Task<bool> ChangeDisabledStatus(AreaDto areaDto);
 }

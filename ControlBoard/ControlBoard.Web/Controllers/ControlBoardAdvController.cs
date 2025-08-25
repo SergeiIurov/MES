@@ -141,4 +141,28 @@ public class ControlBoardAdvController(
             return BadRequest(ModelState);
         }
     }
+
+
+    /// <summary>
+    /// Изменение статуса активности участка.
+    /// </summary>
+    [HttpPost("change_disabled_status")]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<bool>> ChangeDisabledStatus(AreaDto areaDto)
+    {
+        try
+        {
+            logger.LogInformation($"Действие {nameof(ChangeDisabledStatus)} запущено.");
+            OkObjectResult result = Ok(processStateAdvService.ChangeDisabledStatus(areaDto));
+            await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+            return result;
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e.Message, e);
+            return BadRequest(ModelState);
+        }
+    }
 }

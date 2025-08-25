@@ -314,7 +314,13 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       });
       return;
     }
-    this.directoryService.addArea({name: areaName, id: 0, range: areaRange, stations: []}).subscribe(data => {
+    this.directoryService.addArea({
+      name: areaName,
+      id: 0,
+      range: areaRange,
+      stations: [],
+      isDisabled: false
+    }).subscribe(data => {
       this.createForm();
     })
 
@@ -464,4 +470,18 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
 
   protected readonly Roles = Roles;
   protected readonly ProductTypes = ProductTypes;
+
+  changeStatus(a: AreaDto) {
+   const area = this.areas.find(area => area.id == a.id);
+   if(area!==null){
+     area.isDisabled = !area.isDisabled;
+   }
+    this.controlBoardService.changeDisabledStatus(a).subscribe((data) => {
+      if (data['result']) {
+        this.messageService.add({severity: 'info', summary: 'Success', detail: `Участок "${a.name}" остановлен.`});
+      } else {
+        this.messageService.add({severity: 'info', summary: 'Success', detail: `Участок "${a.name}" запущен.`});
+      }
+    });
+  }
 }

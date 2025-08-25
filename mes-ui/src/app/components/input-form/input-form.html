@@ -94,6 +94,9 @@
                               (click)="openEditAreaDialog(a)"></p-button>
                     <p-button size="small" title="Удалить участок" icon="pi pi-minus" variant="text" severity="danger"
                               (click)="deleteArea(a)"></p-button>
+                    <br>
+                    <p-button  [title]="a.isDisabled?'Участок неактивен':'Участок активен'"  [icon]="a.isDisabled?'pi pi-times':'pi pi-check'"  [severity]="a.isDisabled?'danger':'success'"
+                              (click)="changeStatus(a)"></p-button>
                   </td>
                   @if (a.stations.length == 0) {
                     <td>

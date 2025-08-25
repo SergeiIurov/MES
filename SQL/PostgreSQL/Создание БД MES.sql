@@ -148,4 +148,9 @@ CREATE TABLE car_execution (
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20250818125044_AddedCarExecutionTable', '9.0.6');
 
+ALTER TABLE areas ADD is_disabled boolean NOT NULL DEFAULT FALSE;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250825052732_AddedIsDisabledFieldInAreaTable', '9.0.6');
+
 COMMIT;

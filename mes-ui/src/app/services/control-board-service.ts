@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ProcessStateAdvDto} from '../Entities/ProcessStateAdvDto';
 import {SpecificationDto} from '../Entities/SpecificationDto';
+import {AreaDto} from '../Entities/AreaDto';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,10 @@ export class ControlBoardService {
 
   getSpecificationList(): Observable<SpecificationDto[]> {
     return this.http.get<SpecificationDto[]>(`${Environment.apiUrl}api/ControlBoardAdv/specifications`)
+  }
+
+  changeDisabledStatus(area: AreaDto): Observable<Object> {
+    return this.http.post(`${Environment.apiUrl}api/ControlBoardAdv/change_disabled_status`, area)
   }
 
 }

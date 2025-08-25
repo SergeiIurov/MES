@@ -54,7 +54,9 @@ namespace ControlBoard.Web.Controllers
             try
             {
                 logger.LogInformation($"Действие {nameof(AddArea)} запущено.");
-                return Ok(mapper.Map<Area, AreaDto>(await areaService.AddAreaAsync(area)));
+                OkObjectResult result = Ok(mapper.Map<Area, AreaDto>(await areaService.AddAreaAsync(area)));
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+                return result;
             }
             catch (Exception e)
             {
@@ -77,6 +79,7 @@ namespace ControlBoard.Web.Controllers
             {
                 logger.LogInformation($"Действие {nameof(DeleteArea)} запущено.");
                 await areaService.DeleteAreaAxync(id);
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
                 return NoContent();
             }
             catch (Exception e)
@@ -99,7 +102,9 @@ namespace ControlBoard.Web.Controllers
             try
             {
                 logger.LogInformation($"Действие {nameof(UpdateArea)} запущено.");
-                return Ok(mapper.Map<Area, AreaDto>(await areaService.UpdateAreaAsync(area)));
+                OkObjectResult result = Ok(mapper.Map<Area, AreaDto>(await areaService.UpdateAreaAsync(area)));
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+                return result;
             }
             catch (Exception e)
             {
@@ -184,7 +189,9 @@ namespace ControlBoard.Web.Controllers
             try
             {
                 logger.LogInformation($"Действие {nameof(AddStation)} запущено.");
-                return Ok(mapper.Map<Station, StationDto>(await stationService.AddStationAsync(station)));
+                OkObjectResult result = Ok(mapper.Map<Station, StationDto>(await stationService.AddStationAsync(station)));
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+                return result;
             }
             catch (Exception e)
             {
@@ -207,6 +214,7 @@ namespace ControlBoard.Web.Controllers
             {
                 logger.LogInformation($"Действие {nameof(DeleteStation)} запущено.");
                 await stationService.DeleteStationAxync(id);
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
                 return NoContent();
             }
             catch (Exception e)
@@ -229,7 +237,10 @@ namespace ControlBoard.Web.Controllers
             try
             {
                 logger.LogInformation($"Действие {nameof(UpdateStation)} запущено.");
-                return Ok(mapper.Map<Station, StationDto>(await stationService.UpdateStationAsync(station)));
+
+                OkObjectResult result = Ok(mapper.Map<Station, StationDto>(await stationService.UpdateStationAsync(station)));
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+                return result;
             }
             catch (Exception e)
             {

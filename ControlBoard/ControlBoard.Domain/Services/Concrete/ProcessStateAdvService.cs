@@ -144,5 +144,28 @@ namespace ControlBoard.Domain.Services.Concrete
                 throw;
             }
         }
+
+        public async Task<bool> ChangeDisabledStatus(AreaDto areaDto)
+        {
+            Area area = context.Areas.Find(areaDto.Id);
+            try
+            {
+                logger.LogInformation($"Запуск метода {nameof(ChangeDisabledStatus)}.");
+                if (area != null)
+                {
+                    area.IsDisabled = !area.IsDisabled;
+                    context.SaveChanges();
+                    
+                    return area.IsDisabled;
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+                throw;
+            }
+        }
     }
 }

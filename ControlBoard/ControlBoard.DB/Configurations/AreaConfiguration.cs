@@ -17,6 +17,7 @@ namespace ControlBoard.DB.Configurations
             builder.Property(p => p.LastUpdated).HasColumnName("last_updated");
             builder.Property(p => p.IsDeleted).HasDefaultValue(false).HasColumnName("is_deleted");
             builder.Property(p => p.IsDisabled).HasDefaultValue(false).HasColumnName("is_disabled");
+            builder.Property(p => p.DisabledColor).HasDefaultValue("red").HasColumnName("disabled_color");
         }
     }
 }

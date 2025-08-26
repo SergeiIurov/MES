@@ -10,8 +10,8 @@
         //Диапазон допустимых значений ID для станций(для свойства ChartElementId)
         public string Range { get; set; }
         public bool IsDisabled { get; set; }
+        public string DisabledColor { get; set; }
         public bool IsDeleted { get; set; }
-
         public virtual ICollection<Station> Stations { get; set; }
     }
 }

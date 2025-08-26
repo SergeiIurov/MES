@@ -114,6 +114,28 @@ namespace ControlBoard.Web.Controllers
         }
 
         /// <summary>
+        /// Обновление цвета блокировки участка.
+        /// </summary>
+        [HttpPut("areas/set-disabled-color")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task UpdateDisabledColor(AreaColorInputData data)
+        {
+            try
+            {
+                logger.LogInformation($"Действие {nameof(UpdateDisabledColor)} запущено.");
+                await areaService.SetDisabledColorAsync(data.Id, data.Color);
+                await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+        }
+
+        /// <summary>
         /// Возврат списка станций.
         /// </summary>
         [HttpGet("stations")]
@@ -366,6 +388,12 @@ namespace ControlBoard.Web.Controllers
                 logger.LogError(e.Message, e);
                 return BadRequest(ModelState);
             }
+        }
+
+        public class AreaColorInputData
+        {
+            public int Id { get; set; }
+            public string Color { get; set; }
         }
     }
 }

@@ -12,7 +12,8 @@ namespace ControlBoard.Web.AutoMapperProfiles
                 .ForMember(dist => dist.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dist => dist.Range, opt => opt.MapFrom(src => src.Range))
                 .ForMember(dist => dist.Stations, opt => opt.MapFrom(src => src.Stations))
-                .ForMember(dist => dist.IsDisabled, opt => opt.MapFrom(src => src.IsDisabled));
+                .ForMember(dist => dist.IsDisabled, opt => opt.MapFrom(src => src.IsDisabled))
+                .ForMember(dist => dist.DisabledColor, opt => opt.MapFrom(src => src.DisabledColor));
         }
     }
 }

@@ -20,6 +20,7 @@ import {Roles} from '../../enums/roles';
 import {ProductTypes} from '../../enums/ProductTypes';
 import {SpecificationDto} from '../../Entities/SpecificationDto';
 import {CorrectSeqValueValidator} from '../../validators/CorrectSeqValueValidator';
+import {ColorSelector} from '../../common/color-selector/color-selector';
 
 
 @Component({
@@ -36,9 +37,9 @@ import {CorrectSeqValueValidator} from '../../validators/CorrectSeqValueValidato
     AreaEditDialog,
     ConfirmDialog,
     StationEditDialog,
-    AutoFocus,
-    TableModule,
-    FileUpload
+    AutoFocus, TableModule,
+    FileUpload,
+    ColorSelector
   ],
   templateUrl: './input-form.html',
   styleUrl: './input-form.scss'
@@ -46,6 +47,7 @@ import {CorrectSeqValueValidator} from '../../validators/CorrectSeqValueValidato
 export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   stations: StationDto[];
   areas: AreaDto[];
+  selectedColor: string;
   form: FormGroup;
   @ViewChild('frmBlock') frmBlock: ElementRef;
   elements: any[];
@@ -472,10 +474,10 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   protected readonly ProductTypes = ProductTypes;
 
   changeStatus(a: AreaDto) {
-   const area = this.areas.find(area => area.id == a.id);
-   if(area!==null){
-     area.isDisabled = !area.isDisabled;
-   }
+    const area = this.areas.find(area => area.id == a.id);
+    if (area !== null) {
+      area.isDisabled = !area.isDisabled;
+    }
     this.controlBoardService.changeDisabledStatus(a).subscribe((data) => {
       if (data['result']) {
         this.messageService.add({severity: 'info', summary: 'Success', detail: `Участок "${a.name}" остановлен.`});
@@ -483,5 +485,11 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         this.messageService.add({severity: 'info', summary: 'Success', detail: `Участок "${a.name}" запущен.`});
       }
     });
+  }
+
+  onSelectColor(areaId: number, color: string) {
+    this.directoryService.updateDisabledColor(areaId, color).subscribe(data => {
+      console.log('Обновление цвета выполнено')
+    })
   }
 }

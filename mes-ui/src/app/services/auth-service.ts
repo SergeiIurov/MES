@@ -51,11 +51,18 @@ export class AuthService {
     return this.http.post(`${Environment.apiUrl}api/Auth/`, {username, password}, {responseType: 'text'});
   }
 
+  logoutInner() {
+    console.log(this.name)
+    return this.http.post(`${Environment.apiUrl}api/Auth/logout`, {userName: this.name});
+  }
+
   logout() {
     this.token = '';
     localStorage.removeItem('access_token');
     localStorage.removeItem('name');
     localStorage.removeItem('role');
-    this.router.navigate(['/login']);
+    this.logoutInner().subscribe(() => {
+      this.router.navigate(['/login']);
+    })
   }
 }

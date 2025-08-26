@@ -27,7 +27,8 @@
               [style]="{ width: '35rem' }">
       <div class="flex items-center gap-4 mb-4">
         <label for="areaname" class="font-semibold w-24">Название</label>
-        <input [pAutoFocus]="true" pInputText #areaName id="areaname" class="flex-auto form-control" autocomplete="off"/>
+        <input [pAutoFocus]="true" pInputText #areaName id="areaname" class="flex-auto form-control"
+               autocomplete="off"/>
       </div>
       <div class="flex items-center gap-4 mb-4">
         <label for="range" class="font-semibold w-24">Диапазон ID для станций</label>
@@ -43,11 +44,13 @@
               [style]="{ width: '25rem' }">
       <div class="flex items-center gap-4 mb-4">
         <label for="stationname" class="font-semibold w-24">Название</label>
-        <input [pAutoFocus]="true" pInputText #stationName id="stationname" class="flex-auto form-control" autocomplete="off"/>
+        <input [pAutoFocus]="true" pInputText #stationName id="stationname" class="flex-auto form-control"
+               autocomplete="off"/>
       </div>
       <div class="flex items-center gap-4 mb-4">
         <label for="stationcode" class="font-semibold w-24">Код станции</label>
-        <input pInputText #stationCode type="number" id="stationcode" class="flex-auto form-control" autocomplete="off"/>
+        <input pInputText #stationCode type="number" id="stationcode" class="flex-auto form-control"
+               autocomplete="off"/>
       </div>
       <div class="flex items-center gap-4 mb-4">
         <label for="productType" class="font-semibold w-24">Тип продукта</label>
@@ -95,8 +98,13 @@
                     <p-button size="small" title="Удалить участок" icon="pi pi-minus" variant="text" severity="danger"
                               (click)="deleteArea(a)"></p-button>
                     <br>
-                    <p-button  [title]="a.isDisabled?'Участок неактивен':'Участок активен'"  [icon]="a.isDisabled?'pi pi-times':'pi pi-check'"  [severity]="a.isDisabled?'danger':'success'"
+                    <p-button [title]="a.isDisabled?'Участок неактивен':'Участок активен'"
+                              [icon]="a.isDisabled?'pi pi-times':'pi pi-check'"
+                              [severity]="a.isDisabled?'danger':'success'"
                               (click)="changeStatus(a)"></p-button>
+                    <label for="color-select">Установить цвет</label>
+                    <app-color-selector [selectedColor]="a.disabledColor"
+                                        (onSelectedColorChange)="onSelectColor(a.id,$event)"></app-color-selector>
                   </td>
                   @if (a.stations.length == 0) {
                     <td>

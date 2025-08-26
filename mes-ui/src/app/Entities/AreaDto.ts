@@ -5,5 +5,6 @@ export interface AreaDto {
   name: string;
   range: string;
   isDisabled: boolean;
+  disabledColor?: string;
   stations: StationDto[];
 }

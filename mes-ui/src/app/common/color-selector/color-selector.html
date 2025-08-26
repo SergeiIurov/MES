@@ -1,0 +1,7 @@
+<select name="color" #col id="color-select" (change)="changeColor(col.value)"
+        [ngStyle]="{backgroundColor:selectedColor}">
+
+  @for (color of options; track color) {
+    <option [value]="color" [ngStyle]="{backgroundColor:color}"></option>
+  }
+</select>

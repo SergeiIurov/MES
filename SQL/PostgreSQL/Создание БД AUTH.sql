@@ -93,4 +93,16 @@ CREATE UNIQUE INDEX "UserNameIndex" ON "AspNetUsers" ("NormalizedUserName");
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20250721092206_AuthInit', '9.0.6');
 
+ALTER TABLE "AspNetUsers" ADD "IsActive" boolean NOT NULL DEFAULT FALSE;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250825111145_AddedIsActiveField', '9.0.6');
+
+ALTER TABLE "AspNetUsers" ADD "ActiveUserName" text NOT NULL DEFAULT '';
+
+ALTER TABLE "AspNetUsers" ADD "MachineName" text NOT NULL DEFAULT '';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250826070129_AddedMachineNameAndActiveUserNameFields', '9.0.6');
+
 COMMIT;

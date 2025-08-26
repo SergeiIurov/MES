@@ -9,4 +9,4 @@ dotnet ef database update --project ControlBoard.web --startup-project ControlBo
 
 Получение скриптов для формирования БД
 dotnet ef migrations --project ControlBoard.db --startup-project ControlBoard.web  script --context MesDbContext
-dotnet ef migrations --project ControlBoard.web --startup-project ControlBoard.web --context AppDbContext script
+dotnet ef migrations --project ControlBoard.web --startup-project ControlBoard.web script --context AppDbContext 

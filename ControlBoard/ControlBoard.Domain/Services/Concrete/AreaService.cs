@@ -51,5 +51,15 @@ namespace ControlBoard.Domain.Services.Concrete
 
             return a;
         }
+
+        public async Task SetDisabledColorAsync(int id, string color)
+        {
+            Area a = await context.Areas.FindAsync(id);
+            if (a is not null)
+            {
+                a.DisabledColor = color;
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

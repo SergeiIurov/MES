@@ -22,11 +22,11 @@ namespace ControlBoard.Domain.ChartConverts
         public async Task<string> Convert(string chartInfo)
         {
             logger.LogInformation($"Запуск метода {nameof(Convert)}.");
-            Dictionary<int, bool> dict;
+            Dictionary<int, (bool, string)> dict;
             List<ProcessState> processStates = await repository.GetLastProcessStateAsync();
 
 
-            dict = context.Stations.Include(s => s.Area).ToDictionary(s => s.ChartElementId, s => s.Area.IsDisabled);
+            dict = context.Stations.Include(s => s.Area).ToDictionary(s => s.ChartElementId, s => (s.Area.IsDisabled, s.Area.DisabledColor));
 
 
             XElement root = XElement.Parse(chartInfo);
@@ -38,20 +38,20 @@ namespace ControlBoard.Domain.ChartConverts
             {
                 try
                 {
-                    if (dict.TryGetValue(int.TryParse(elem.Attribute("sid")?.Value, out int s) ? s : 0, out bool isDisabled))
+                    if (dict.TryGetValue(int.TryParse(elem.Attribute("sid")?.Value, out int s) ? s : 0, out (bool, string) disabledInfo))
                     {
-                        if (isDisabled)
+                        if (disabledInfo.Item1)
                         {
 
                             var d = elem.Element("mxCell").Attribute("style").Value;
 
                             if (Regex.IsMatch(d, pattern))
                             {
-                                elem.Element("mxCell").Attribute("style").Value = Regex.Replace(d, pattern, "fillColor=#FF0000;");
+                                elem.Element("mxCell").Attribute("style").Value = Regex.Replace(d, pattern, $"fillColor={disabledInfo.Item2};");
                             }
                             else
                             {
-                                elem.Element("mxCell").Attribute("style").Value = (d += "fillColor=#FF0000;");
+                                elem.Element("mxCell").Attribute("style").Value = (d += $"fillColor={disabledInfo.Item2};");
                             }
 
                         }

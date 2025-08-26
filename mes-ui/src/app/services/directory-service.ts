@@ -29,6 +29,11 @@ export class DirectoryService {
     return this.http.put<AreaDto>(`${Environment.apiUrl}api/Directory/areas`, area)
   }
 
+  updateDisabledColor(id: number, color: string): Observable<any> {
+    return this.http.put(`${Environment.apiUrl}api/Directory/areas/set-disabled-color`, {id: id, color: color})
+  }
+
+
   getStationList(): Observable<StationDto[]> {
     return this.http.get<StationDto[]>(`${Environment.apiUrl}api/Directory/stations`)
   }

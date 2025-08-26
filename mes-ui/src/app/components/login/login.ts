@@ -18,7 +18,7 @@ import {AutoFocus} from 'primeng/autofocus';
 })
 export class Login {
   loginForm: FormGroup;
-  msg = 'Неверное имя пользователя или пароль.'
+  msg = ''
   isLoginCorrect: boolean = true;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
@@ -41,6 +41,14 @@ export class Login {
         this.router.navigate(['/']);
       }
     }, error => {
+      console.log("test",);
+
+      const err = JSON.parse(error.error);
+      if (err.status === 401) {
+        this.msg = "Неверное имя пользователя или пароль.";
+      } else {
+        this.msg = JSON.parse(error.error).message;
+      }
       this.isLoginCorrect = false;
     });
   }

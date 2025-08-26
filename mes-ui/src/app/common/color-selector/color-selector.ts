@@ -11,7 +11,7 @@ import {NgStyle} from '@angular/common';
 })
 export class ColorSelector {
   @Input() selectedColor: string = 'red';
-  @Input() id: number = 0;
+  @Input() id: string = '';
   @Output() onSelectedColorChange: EventEmitter<string> = new EventEmitter();
 
   options = ['red', 'green', 'blue', 'purple', 'pink', 'yellow', 'black', 'orange', 'brown', 'darkblue', 'darkred', 'fuchsia', 'greenyellow'];

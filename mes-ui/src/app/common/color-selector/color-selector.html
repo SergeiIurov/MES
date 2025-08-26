@@ -1,4 +1,4 @@
-<select name="color" #col (change)="changeColor(col.value)"
+<select name="color" #col [id]="id" (change)="changeColor(col.value)"
         [ngStyle]="{backgroundColor:selectedColor}">
 
   @for (color of options; track color) {

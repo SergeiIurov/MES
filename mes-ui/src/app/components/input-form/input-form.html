@@ -102,8 +102,8 @@
                               [icon]="a.isDisabled?'pi pi-times':'pi pi-check'"
                               [severity]="a.isDisabled?'danger':'success'"
                               (click)="changeStatus(a)"></p-button>
-                    <label [for]="a.id">Установить цвет</label>
-                    <app-color-selector [id]="a.id" [selectedColor]="a.disabledColor"
+                    <label [for]="'_'+a.id">Установить цвет</label>
+                    <app-color-selector [id]="'_'+a.id" [selectedColor]="a.disabledColor"
                                         (onSelectedColorChange)="onSelectColor(a.id,$event)"></app-color-selector>
                   </td>
                   @if (a.stations.length == 0) {

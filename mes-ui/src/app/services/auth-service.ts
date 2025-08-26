@@ -57,11 +57,11 @@ export class AuthService {
   }
 
   logout() {
-    this.token = '';
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('name');
-    localStorage.removeItem('role');
     this.logoutInner().subscribe(() => {
+      this.token = '';
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('name');
+      localStorage.removeItem('role');
       this.router.navigate(['/login']);
     })
   }

@@ -142,7 +142,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   getSpecifications = () => {
     setTimeout(() => {
       this.controlBoardService.getSpecificationList().subscribe(specificationList => {
-
+        //Получаем в массив значения всех сиквенсов на форме
         const seq = []
         Object.entries(this.form.value).forEach(([key, value]) => {
           if (value.toString().trim()) {
@@ -150,6 +150,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
           }
         })
         this.fullSpecifications = specificationList;
+        //Оставляем только записи, которых нет в полях формы
         this.specifications = specificationList.filter(s => seq.indexOf(s.sequenceNumber.trim()) === -1);
       })
     }, 1000)

@@ -160,6 +160,8 @@
             <tr>
               <th>Номер автомобиля</th>
               <th>Спецификация</th>
+              <th>Дата начала сборки шасси</th>
+              <th>Дата установки кабины на шасси</th>
             </tr>
             </thead>
             <tbody>
@@ -167,6 +169,8 @@
                 <tr>
                   <td>{{ spec.sequenceNumber }}</td>
                   <td>{{ spec.specificationStr }}</td>
+                  <td>{{ spec.chassisAssemblyStartDate }}</td>
+                  <td>{{ spec.dateInstallationCabin }}</td>
                 </tr>
               }
             </tbody>

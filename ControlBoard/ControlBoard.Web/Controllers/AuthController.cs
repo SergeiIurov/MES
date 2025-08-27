@@ -29,7 +29,8 @@ public class AuthController(
 
         if (user is not null && user.IsActive)
         {
-            return BadRequest(new { Message = $"Учетная запись '{loginInfo.UserName}' используется на машине '{user.MachineName}', пользователем '{user.ActiveUserName}'." });
+            //return BadRequest(new { Message = $"Учетная запись '{loginInfo.UserName}' используется на машине '{user.MachineName}', пользователем '{user.ActiveUserName}'." });
+            return BadRequest(new { Message = $"Учетная запись '{loginInfo.UserName}' занята другим пользователем." });
         }
 
         if (user != null && (await signInManager.CheckPasswordSignInAsync(user, loginInfo.Password, true)).Succeeded)

@@ -158,4 +158,11 @@ ALTER TABLE areas ADD disabled_color text NOT NULL DEFAULT 'red';
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20250826053616_AddedDisabledColorFieldInAreaTable', '9.0.6');
 
+ALTER TABLE specification ADD chassis_assembly_start_data character varying(100);
+
+ALTER TABLE specification ADD date_installation_cabin_on_chassis character varying(100);
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250827092823_ExtendedSpecificationTable', '9.0.6');
+
 COMMIT;

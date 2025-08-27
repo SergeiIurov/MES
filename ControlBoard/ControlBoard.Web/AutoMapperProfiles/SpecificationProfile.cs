@@ -11,7 +11,9 @@ namespace ControlBoard.Web.AutoMapperProfiles
             CreateMap<Specification, SpecificationDto>()
                 .ForMember(dist => dist.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dist => dist.SequenceNumber, opt => opt.MapFrom(src => src.SequenceNumber))
-                .ForMember(dist => dist.SpecificationStr, opt => opt.MapFrom(src => src.SpecificationStr));
+                .ForMember(dist => dist.SpecificationStr, opt => opt.MapFrom(src => src.SpecificationStr))
+                .ForMember(dist => dist.ChassisAssemblyStartDate, opt => opt.MapFrom(src => src.ChassisAssemblyStartDate))
+                .ForMember(dist => dist.DateInstallationCabin, opt => opt.MapFrom(src => src.DateInstallationCabinOnСhassis));
         }
     }
 }

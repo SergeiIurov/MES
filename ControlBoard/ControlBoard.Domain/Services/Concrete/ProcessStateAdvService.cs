@@ -74,7 +74,7 @@ namespace ControlBoard.Domain.Services.Concrete
             }
         }
 
-        public async Task SaveSpecificationAsync(List<(string, string)> data)
+        public async Task SaveSpecificationAsync(List<(string, string, string, string)> data)
         {
             try
             {
@@ -93,6 +93,8 @@ namespace ControlBoard.Domain.Services.Concrete
                     {
                         SequenceNumber = s.Item1,
                         SpecificationStr = s.Item2,
+                        ChassisAssemblyStartDate = s.Item3,
+                        DateInstallationCabinOnСhassis = s.Item4,
                         Created = DateTime.UtcNow,
                         LastUpdated = DateTime.UtcNow,
                         IsDeleted = false
@@ -155,7 +157,7 @@ namespace ControlBoard.Domain.Services.Concrete
                 {
                     area.IsDisabled = !area.IsDisabled;
                     context.SaveChanges();
-                    
+
                     return area.IsDisabled;
                 }
 

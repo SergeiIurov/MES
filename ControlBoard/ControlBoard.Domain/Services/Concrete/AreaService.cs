@@ -25,6 +25,7 @@ namespace ControlBoard.Domain.Services.Concrete
                 LastUpdated = DateTime.UtcNow,
                 Description = "",
                 IsDeleted = false,
+                DisabledColor = area.DisabledColor
             };
             await context.Areas.AddAsync(newArea);
 

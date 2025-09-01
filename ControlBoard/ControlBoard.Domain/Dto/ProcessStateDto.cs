@@ -1,4 +1,7 @@
-﻿namespace ControlBoard.Domain.Dto
+﻿using ControlBoard.DB.Entities;
+using ControlBoard.DB.Entities.Enums;
+
+namespace ControlBoard.Domain.Dto
 {
     public class ProcessStateDto
     {
@@ -22,5 +25,6 @@
             }
         }
         public string? ProductTypeName { get; set; }
+        public ProductTypes ProductType { get; set; }
     }
 }

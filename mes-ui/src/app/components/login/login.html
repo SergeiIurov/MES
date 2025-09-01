@@ -10,11 +10,13 @@
     </div>
     <div class="btn-submit">
       <button pButton class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Войти</button>
+      <button  class="btn btn-secondary" (click)="enterOnlyRead($event)">Только просмотр</button>
       @if (!isLoginCorrect) {
         <p>
           <span class="alert alert-danger">{{ msg }}</span>
         </p>
       }
     </div>
+
   </form>
 </div>

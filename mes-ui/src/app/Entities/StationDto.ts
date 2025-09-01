@@ -1,4 +1,5 @@
 import {ProductTypes} from '../enums/ProductTypes';
+import {ProcessStateDto} from './ProcessStateDto';
 
 export interface StationDto {
   id: number;
@@ -7,4 +8,5 @@ export interface StationDto {
   areaId: number;
   areaName?: string;
   productType?: ProductTypes;
+  processStates?: ProcessStateDto[];
 }

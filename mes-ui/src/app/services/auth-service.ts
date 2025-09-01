@@ -52,7 +52,6 @@ export class AuthService {
   }
 
   logoutInner() {
-    console.log(this.name)
     return this.http.post(`${Environment.apiUrl}api/Auth/logout`, {userName: this.name});
   }
 
@@ -65,4 +64,5 @@ export class AuthService {
       this.router.navigate(['/login']);
     })
   }
+
 }

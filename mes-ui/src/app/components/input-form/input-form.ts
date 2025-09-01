@@ -63,6 +63,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   specifications: SpecificationDto[];
   fullSpecifications: SpecificationDto[];
 
+
   constructor(
     private confirmationService: ConfirmationService,
     private directoryService: DirectoryService,
@@ -73,7 +74,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   onInput = e => {
-    this.hasDuplicate();
+    //!!this.hasDuplicate();
 
     // if (e.target.value.length >= 3 && !this.hasDuplicate()) {
     //   e.target.value = e.target.value.substring(0, 3);
@@ -107,6 +108,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
           area.stations.sort((a, b) => a.chartElementId - b.chartElementId);
         })
 
+
       })
 
       this.stations = stations;
@@ -118,8 +120,9 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
             // Validators.pattern('\\d{3}')
             Validators.minLength(3),
             Validators.maxLength(7),
+            //Регулярное выражение ограничивающая ввод значения сиквенса длиной от 3 до 7 символов, без концевых пробелов
             Validators.pattern('^[^ ].{1,5}[^ ]$'),
-            CorrectSeqValueValidator(this.fullSpecifications)
+            CorrectSeqValueValidator(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this))
           ]))
         })
 
@@ -150,6 +153,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
           }
         })
         this.fullSpecifications = specificationList;
+
         //Оставляем только записи, которых нет в полях формы
         this.specifications = specificationList.filter(s => seq.indexOf(s.sequenceNumber.trim()) === -1);
       })
@@ -238,10 +242,13 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     return info.filter(s => s.value !== '' && s.value !== 'null').length === 0;
   }
 
+  clearDuplicateSignal() {
+    this.elements.forEach(e => e.classList.remove('signalDuplicate'));
+  }
+
   hasDuplicate(): boolean {
     let d: any = this.findDuplicates(this.elements);
     let dups: any[] = []
-
     Object.values(d).forEach((value) => {
       let mas: any[] = (value as any[]);
       this.elements.forEach(e => e.classList.remove('signalDuplicate'));
@@ -321,6 +328,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       name: areaName,
       id: 0,
       range: areaRange,
+      disabledColor: 'red',
       stations: [],
       isDisabled: false
     }).subscribe(data => {

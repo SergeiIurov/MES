@@ -144,6 +144,11 @@
                               class="validation">{{ 'Значение не найдено в списке автомобилей на производстве!' }}
                           </span>
                           }
+                          @if (form.get(s.id.toString()).errors['message']) {
+                            <span
+                              class="validation">{{ form.get(s.id.toString()).errors['message'] }}
+                          </span>
+                          }
                         </div>
                       }
                     </td>

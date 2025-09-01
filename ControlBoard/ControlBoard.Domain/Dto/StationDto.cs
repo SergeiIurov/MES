@@ -1,4 +1,5 @@
-﻿using ControlBoard.DB.Entities.Enums;
+﻿using ControlBoard.DB.Entities;
+using ControlBoard.DB.Entities.Enums;
 
 namespace ControlBoard.Domain.Dto
 {
@@ -10,5 +11,6 @@ namespace ControlBoard.Domain.Dto
         public int AreaId { get; set; }
         public string? AreaName { get; set; }
         public ProductTypes? ProductType { get; set; }
+        public IEnumerable<ProcessStateDto>? ProcessStates { get; set; }
     }
 }

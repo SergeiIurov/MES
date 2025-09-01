@@ -41,7 +41,6 @@ export class Login {
         this.router.navigate(['/']);
       }
     }, error => {
-      console.log("test",);
 
       const err = JSON.parse(error.error);
       if (err.status === 401) {
@@ -50,6 +49,22 @@ export class Login {
         this.msg = JSON.parse(error.error).message;
       }
       this.isLoginCorrect = false;
+    });
+  }
+
+  enterOnlyRead(e) {
+    this.loginForm.reset();
+    this.authService.login('user', 'user').subscribe(token => {
+      e.preventDefault();
+      this.authService.token = token;
+      const decodedToken = jwtDecode(token);
+      this.authService.name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+      this.authService.role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+
+      localStorage.setItem('access_token', token);
+      if (this.authService.isAuthenticated) {
+        this.router.navigate(['/']);
+      }
     });
   }
 }

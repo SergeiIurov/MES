@@ -14,27 +14,29 @@
         <tbody>
           @for (login of logins; track login.name) {
 
-            <tr>
-              <td>{{ login.name }}
-                <p-button size="small" title="Удалить пользователя" [disabled]="auth.name === login.name"
-                          icon="pi pi-minus" variant="text" severity="danger"
-                          (click)="deleteUser(login)"></p-button>
-              </td>
-              <td>{{ Roles[login.role] }}
-                <p-button size="small" [disabled]="auth.name === login.name" title="Сменить роль пользователя"
-                          icon="pi pi-pencil" variant="text"
-                          severity="info"
-                          (click)="openChangeRoleDialog(login)"></p-button>
-                <p-button size="small" title="Сменить пароль" icon="pi pi-check" variant="text"
-                          severity="info"
-                          (click)="openChangePasswordDialog(login)"></p-button>
-              </td>
-              <td>{{ login.isActive }}
-                <p-button size="small" title="Сменить активность" icon="pi pi-check" variant="text"
-                          severity="info"
-                          (click)="changeActivity(login)"></p-button>
-              </td>
-            </tr>
+            @if (login.role !== Roles.User) {
+              <tr>
+                <td>{{ login.name }}
+                  <p-button size="small" title="Удалить пользователя" [disabled]="auth.name === login.name"
+                            icon="pi pi-minus" variant="text" severity="danger"
+                            (click)="deleteUser(login)"></p-button>
+                </td>
+                <td>{{ Roles[login.role] }}
+                  <p-button size="small" [disabled]="auth.name === login.name" title="Сменить роль пользователя"
+                            icon="pi pi-pencil" variant="text"
+                            severity="info"
+                            (click)="openChangeRoleDialog(login)"></p-button>
+                  <p-button size="small" title="Сменить пароль" icon="pi pi-check" variant="text"
+                            severity="info"
+                            (click)="openChangePasswordDialog(login)"></p-button>
+                </td>
+                <td>{{ login.isActive }}
+                  <p-button size="small" title="Сменить активность" icon="pi pi-check" variant="text"
+                            severity="info"
+                            (click)="changeActivity(login)"></p-button>
+                </td>
+              </tr>
+            }
           }
         </tbody>
       </table>
@@ -85,7 +87,10 @@
     <label for="role" class="font-semibold w-24">Роль:</label>
     <select pInputText #role id="role" class="flex-auto form-control" autocomplete="off">
       @for (key of roles; track key) {
-        <option value="{{key}}">{{ Roles[key] }}</option>
+        @if (key !== Roles.User.toString()) {
+          <option value="{{key}}">{{ Roles[key] }}</option>
+        }
+
       }
     </select>
   </div>
@@ -112,7 +117,9 @@
     <label for="role" class="font-semibold w-24">Роль:</label>
     <select pInputText #r id="role" class="flex-auto form-control" [value]="login?.role" autocomplete="off">
       @for (key of roles; track key) {
-        <option value="{{key}}">{{ Roles[key] }}</option>
+        @if (key !== Roles.User.toString()) {
+          <option value="{{key}}">{{ Roles[key] }}</option>
+        }
       }
     </select>
   </div>

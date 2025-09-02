@@ -4,6 +4,7 @@ import {StationDto} from '../Entities/StationDto';
 import {ProductTypes} from '../enums/ProductTypes';
 
 //Валидатор для проверки наличия значения на форме в загруженном файле спецификации
+//Кроме этого выполняется проверка на соответствие бизнес-правилам при работе с формой.
 export function CorrectSeqValueValidator(specifications: SpecificationDto[] = [], station: StationDto, stations: StationDto[], hasDuplicate: () => boolean, clearDuplicateSignal: () => void): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     clearDuplicateSignal();

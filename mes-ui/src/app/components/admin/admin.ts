@@ -123,7 +123,12 @@ export class Admin implements OnInit {
   }
 
   changeRole(loginName: string, role: number) {
-    this.adminService.changeRole({name: this.login.name, role: this.login.role, password: ''}, role).subscribe(data => {
+    this.adminService.changeRole({
+      name: this.login.name,
+      role: this.login.role,
+      password: '',
+      isActive: false
+    }, role).subscribe(data => {
       const logName = this.logins.find(login => login.name === loginName);
       if (logName) {
         logName.role = role;
@@ -143,7 +148,8 @@ export class Admin implements OnInit {
     this.adminService.changePassword({
       name: this.login.name,
       role: 0,
-      password: oldPassword
+      password: oldPassword,
+      isActive: false
     }, newPassword).subscribe(data => {
       this.login = null;
       this.changePasswordDialogVisible = false;
@@ -217,6 +223,13 @@ export class Admin implements OnInit {
       this.carExecution = null;
       this.changeCarExecutionVisible = false;
       this.messageService.add({severity: 'success', summary: 'Update', detail: 'Тип надстройки успешно изменен.'});
+    })
+  }
+
+  changeActivity(login: LoginInfo) {
+    login.password = "";
+    this.adminService.changeActivity(login).subscribe(data => {
+      this.logins.find(l => l.name === login.name).isActive = data.isActive;
     })
   }
 }

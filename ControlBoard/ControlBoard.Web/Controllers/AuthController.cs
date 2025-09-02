@@ -38,7 +38,7 @@ public class AuthController(
             claim = (await userManager.GetClaimsAsync(user)).Where(c => c.Type == ClaimTypes.Role).FirstOrDefault();
             if (claim != null)
             {
-                if (claim.Value != MesRoles.User.ToString() && r.Any() && user.UserName != "superuser")
+                if (claim.Value != MesRoles.User.ToString() && r.Any() && user.UserName != AuthConstants.Superuser && user.UserName != r.First().UserName)
                 {
                     return BadRequest(new
                     {
@@ -48,12 +48,6 @@ public class AuthController(
                 }
             }
         }
-
-        //if (user is not null && user.IsActive)
-        //{
-        //    //return BadRequest(new { Message = $"Учетная запись '{loginInfo.UserName}' используется на машине '{user.MachineName}', пользователем '{user.ActiveUserName}'." });
-        //    return BadRequest(new { Message = $"Учетная запись '{loginInfo.UserName}' занята другим пользователем." });
-        //}
 
         if (user != null && (await signInManager.CheckPasswordSignInAsync(user, loginInfo.Password, true)).Succeeded)
         {
@@ -66,9 +60,6 @@ public class AuthController(
                     SecurityAlgorithms.HmacSha256));
 
             var res = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            var a = claim.Value is not null;
-            var b = claim.Value != MesRoles.User.ToString();
 
             user.IsActive = claim.Value is not null && claim.Value != MesRoles.User.ToString();
             user.MachineName = Environment.MachineName;

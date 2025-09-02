@@ -8,6 +8,7 @@
         <tr>
           <th>Пользователь</th>
           <th>Роль</th>
+          <th>Активность</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +28,11 @@
                 <p-button size="small" title="Сменить пароль" icon="pi pi-check" variant="text"
                           severity="info"
                           (click)="openChangePasswordDialog(login)"></p-button>
+              </td>
+              <td>{{ login.isActive }}
+                <p-button size="small" title="Сменить активность" icon="pi pi-check" variant="text"
+                          severity="info"
+                          (click)="changeActivity(login)"></p-button>
               </td>
             </tr>
           }
@@ -89,7 +95,7 @@
   </div>
   <div class="flex justify-end gap-2">
     <p-button label="Сохранить"
-              (click)="addUser({name:loginName.value.trim(),password:password.value.trim(),role:+role.value.trim()})"/>
+              (click)="addUser({name:loginName.value.trim(),password:password.value.trim(),role:+role.value.trim(),isActive:false})"/>
     <p-button label="Отмена" severity="secondary" (click)="newUserDialogVisible = false"/>
   </div>
 </p-dialog>
@@ -98,7 +104,8 @@
           [style]="{ width: '35rem' }">
   <div class="flex items-center gap-4 mb-4">
     <label for="login" class="font-semibold w-24">Логин:</label>
-    <input [pAutoFocus]="true" pInputText #l disabled="true" [value]="login?.name" readonly id="login" class="flex-auto form-control"
+    <input [pAutoFocus]="true" pInputText #l disabled="true" [value]="login?.name" readonly id="login"
+           class="flex-auto form-control"
            autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">
@@ -146,7 +153,8 @@
   </div>
   <div class="flex items-center gap-4 mb-4">
     <label for="carExecutionName" class="font-semibold w-24">Название:</label>
-    <input [pAutoFocus]="true" pInputText #carExecutionName id="carExecutionName" class="flex-auto form-control" autocomplete="off"/>
+    <input [pAutoFocus]="true" pInputText #carExecutionName id="carExecutionName" class="flex-auto form-control"
+           autocomplete="off"/>
   </div>
   <div class="flex justify-end gap-2">
     <p-button label="Сохранить"
@@ -157,9 +165,10 @@
 <!--Диалог для изменения типа надстройки-->
 <p-dialog header="Изменить тип надстройки" [modal]="true" [(visible)]="changeCarExecutionVisible"
           [style]="{ width: '35rem' }">
-  <div  class="flex items-center gap-4 mb-4">
+  <div class="flex items-center gap-4 mb-4">
     <label for="carExecutionCodeChange" class="font-semibold w-24">Код:</label>
-    <input [pAutoFocus]="true" pInputText #carExecutionCodeChange id="carExecutionCodeChange" [minLength]="2" [maxLength]="2"
+    <input [pAutoFocus]="true" pInputText #carExecutionCodeChange id="carExecutionCodeChange" [minLength]="2"
+           [maxLength]="2"
            [value]="carExecution?.code" class="flex-auto form-control" autocomplete="off"/>
   </div>
   <div class="flex items-center gap-4 mb-4">

@@ -1,6 +1,7 @@
 ﻿namespace ControlBoard.Web
 {
-    public class AuthConstants
+    public static class AuthConstants
     {
+        public const string Superuser = "superuser";
     }
 }

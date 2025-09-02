@@ -31,4 +31,8 @@ export class AdminService {
   changePassword(loginInfo: LoginInfo, newPassword: string): Observable<string> {
     return this.http.put<string>(`${Environment.apiUrl}api/admin/changepassword/${newPassword}`, loginInfo)
   }
+
+  changeActivity(loginInfo: LoginInfo): Observable<LoginInfo> {
+    return this.http.put<LoginInfo>(`${Environment.apiUrl}api/admin/ChangeActivity`, loginInfo)
+  }
 }

@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControlBoard.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class AdminController(UserManager<ApplicationUser?> userManager) : ControllerBase
+    public class AdminController(
+        UserManager<ApplicationUser?> userManager,
+        AppDbContext context) : ControllerBase
     {
         [HttpPost("CreateUser")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -24,7 +27,7 @@ namespace ControlBoard.Web.Controllers
                 ApplicationUser? user = await userManager.FindByNameAsync(userInfo.Name);
                 if (user == null)
                 {
-                    user = new ApplicationUser { UserName = userInfo.Name, ActiveUserName = "", MachineName = ""};
+                    user = new ApplicationUser { UserName = userInfo.Name, ActiveUserName = "", MachineName = "" };
                     var result = await userManager.CreateAsync(user, userInfo.Password);
                     if (result.Succeeded)
                     {
@@ -78,7 +81,8 @@ namespace ControlBoard.Web.Controllers
                 users.Add(new UserInfo()
                 {
                     Name = u.UserName,
-                    Role = MesRoles.TryParse(claim.Value, out MesRoles role) ? role : MesRoles.User
+                    Role = MesRoles.TryParse(claim.Value, out MesRoles role) ? role : MesRoles.User,
+                    IsActive = u.IsActive
                 });
             });
             return users;
@@ -90,7 +94,7 @@ namespace ControlBoard.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult> ChangePassworkd(UserInfo userInfo, string newPassword)
+        public async Task<ActionResult> ChangePassword(UserInfo userInfo, string newPassword)
         {
             ApplicationUser? appUser = await userManager.FindByNameAsync(userInfo.Name);
             if (appUser != null)
@@ -128,6 +132,35 @@ namespace ControlBoard.Web.Controllers
             }
 
             return BadRequest();
+        }
+
+        //Смена активности
+        [HttpPut("ChangeActivity")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult> ChangeActivity(UserInfo userInfo)
+        {
+            try
+            {
+
+                ApplicationUser? appUser = await context.Users.FirstOrDefaultAsync(u => u.UserName == userInfo.Name);
+                if (appUser != null)
+                {
+                    appUser.IsActive = !userInfo.IsActive;
+                    await context.SaveChangesAsync();
+
+                    return Ok(appUser);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ModelState);
+                throw;
+            }
+
+            return NotFound();
         }
     }
 }

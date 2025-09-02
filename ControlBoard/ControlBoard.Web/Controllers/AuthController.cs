@@ -27,16 +27,24 @@ public class AuthController(
     public async Task<ActionResult> Login(LoginInfo loginInfo)
     {
         ApplicationUser? user = await userManager.FindByNameAsync(loginInfo.UserName);
+
+        var r = context.UserClaims.Join(context.Users, uc => uc.UserId, u => u.Id, (us, u) => new { us.ClaimType, us.ClaimValue, u.UserName, u.IsActive }).
+            Where(info =>
+                (info.ClaimValue.Equals("Admin") || info.ClaimValue.Equals("Operator"))
+                && info.IsActive == true);
         Claim claim = null;
         if (user != null)
         {
             claim = (await userManager.GetClaimsAsync(user)).Where(c => c.Type == ClaimTypes.Role).FirstOrDefault();
             if (claim != null)
             {
-                if (claim.Value != MesRoles.User.ToString() && user.IsActive)
+                if (claim.Value != MesRoles.User.ToString() && r.Any() && user.UserName != "superuser")
                 {
                     return BadRequest(new
-                    { Message = $"Учетная запись '{loginInfo.UserName}' занята другим пользователем." });
+                    {
+                        Message = $"В настоящее время активен другой пользователь с учетной записью 'Admin' или 'Operator': {string.Join(", ", r.Select(u => u.UserName
+                    ))}"
+                    });
                 }
             }
         }

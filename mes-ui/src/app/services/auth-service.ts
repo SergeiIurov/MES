@@ -58,6 +58,8 @@ export class AuthService {
   logout() {
     this.logoutInner().subscribe(() => {
       this.token = '';
+      this.role = '';
+      this.name = '';
       localStorage.removeItem('access_token');
       localStorage.removeItem('name');
       localStorage.removeItem('role');

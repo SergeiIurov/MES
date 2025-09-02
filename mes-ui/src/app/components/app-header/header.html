@@ -28,6 +28,7 @@
                 <span pButtonLabel>Форма ввода данных</span>
               </a>
             </li>
+
           }
           @if (auth.role === Roles[Roles.Admin]) {
             <li>
@@ -36,16 +37,17 @@
                 <span pButtonLabel>Администрирование</span>
               </a>
             </li>
-            <li>
-              <div class="notify">
-                <span class="bg-info">{{ auth.name }}</span>
-                @if (auth.isAuthenticated) {
-                  <a class="btn btn-group signout" (click)="logout()">Выйти</a>
-                }
-              </div>
-            </li>
+
           }
         }
+        <li>
+          <div class="notify">
+            <span class="bg-info">{{ auth.name }}</span>
+            @if (auth.isAuthenticated) {
+              <a class="btn btn-group signout" (click)="logout()">Выйти</a>
+            }
+          </div>
+        </li>
       </ul>
 
 <!--      <div class="notify">-->

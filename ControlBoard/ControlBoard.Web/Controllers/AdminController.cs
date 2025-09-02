@@ -19,22 +19,30 @@ namespace ControlBoard.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult> CreateUser(UserInfo userInfo)
         {
-            ApplicationUser? user = await userManager.FindByNameAsync(userInfo.Name);
-            if (user == null)
+            try
             {
-                user = new ApplicationUser { UserName = userInfo.Name };
-                var result = await userManager.CreateAsync(user, userInfo.Password);
-                if (result.Succeeded)
+                ApplicationUser? user = await userManager.FindByNameAsync(userInfo.Name);
+                if (user == null)
                 {
-                    await userManager.AddClaimsAsync(user, [
-                        new Claim(ClaimTypes.Name, userInfo.Name),
+                    user = new ApplicationUser { UserName = userInfo.Name, ActiveUserName = "", MachineName = ""};
+                    var result = await userManager.CreateAsync(user, userInfo.Password);
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddClaimsAsync(user, [
+                            new Claim(ClaimTypes.Name, userInfo.Name),
                         new Claim(ClaimTypes.Role, userInfo.Role.ToString())
-                    ]);
-                    return Ok(userInfo);
+                        ]);
+                        return Ok(userInfo);
+                    }
                 }
-            }
 
-            return BadRequest();
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+
+            }
         }
 
         [HttpDelete("DeleteUser/{name}")]

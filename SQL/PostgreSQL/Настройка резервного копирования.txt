@@ -1,0 +1,2 @@
+C:\"Program Files"\PostgreSQL\17\bin\pg_dump -h localhost -p 5432 -U postgres -d MES -f "e:\data\MES_$(date +\%Y-\%m-\%d).sql"
+C:\"Program Files"\PostgreSQL\17\bin\pg_dump -h localhost -p 5432 -U postgres -d AUTH -f "e:\data\AUTH_$(date +\%Y-\%m-\%d).sql"

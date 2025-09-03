@@ -1,6 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {AuthService} from '../../services/auth-service';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {Information} from '../information/information';
 import {Roles} from '../../enums/roles';
 import {ButtonDirective, ButtonLabel} from 'primeng/button';
@@ -18,7 +18,7 @@ import {ButtonDirective, ButtonLabel} from 'primeng/button';
   styleUrl: './header.scss'
 })
 export class Header {
-  constructor(protected auth: AuthService) {
+  constructor(protected auth: AuthService, private router: Router) {
   }
 
   logout() {
@@ -26,4 +26,8 @@ export class Header {
   }
 
   protected readonly Roles = Roles;
+
+  login() {
+    this.router.navigate(['/login']);
+  }
 }

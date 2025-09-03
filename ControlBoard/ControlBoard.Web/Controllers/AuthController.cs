@@ -31,14 +31,16 @@ public class AuthController(
         var r = context.UserClaims.Join(context.Users, uc => uc.UserId, u => u.Id, (us, u) => new { us.ClaimType, us.ClaimValue, u.UserName, u.IsActive }).
             Where(info =>
                 (info.ClaimValue.Equals("Admin") || info.ClaimValue.Equals("Operator"))
-                && info.IsActive == true);
+                && info.IsActive == true && info.UserName != AuthConstants.Superuser);
         Claim claim = null;
         if (user != null)
         {
             claim = (await userManager.GetClaimsAsync(user)).Where(c => c.Type == ClaimTypes.Role).FirstOrDefault();
             if (claim != null)
             {
-                if (claim.Value != MesRoles.User.ToString() && r.Any() && user.UserName != AuthConstants.Superuser && user.UserName != r.First().UserName)
+                if (claim.Value != MesRoles.User.ToString() && r.Any()
+                                                            && user.UserName != AuthConstants.Superuser
+                                                            && user.UserName != r.First().UserName)
                 {
                     return BadRequest(new
                     {

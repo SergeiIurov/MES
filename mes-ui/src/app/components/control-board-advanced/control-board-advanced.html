@@ -1,6 +1,6 @@
 <div>
   <div class="border-card">
-    @if (auth.role === Roles[Roles.User]) {
+    @if (auth.role === Roles[Roles.User] || !auth.isAuthenticated) {
       <iframe width="100%" height="10000px" id="mainUser" #refElem></iframe>
     } @else {
       <iframe width="100%" height="10000px" id="main" #refElem></iframe>

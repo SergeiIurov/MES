@@ -1,4 +1,4 @@
-@if (auth.role !== Roles[Roles.User]) {
+@if (auth.role !== Roles[Roles.User] && auth.isAuthenticated) {
   <header class="header">
     <nav class="bg-success">
       <ul class="header-list">
@@ -61,9 +61,13 @@
 
   </header>
 } @else {
-  @if (auth.isAuthenticated) {
+<!--  @if (auth.isAuthenticated) {-->
+<!--    <div class="exit">-->
+<!--      <a (click)="logout()">Выйти</a>-->
+<!--    </div>-->
+<!--  }-->
     <div class="exit">
-      <a (click)="logout()">Выйти</a>
+      <a (click)="login()">Авторизоваться</a>
     </div>
-  }
+
 }

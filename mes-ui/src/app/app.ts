@@ -18,9 +18,10 @@ export class App {
   constructor(private auth: AuthService) {
   }
 
-  // @HostListener('window:beforeunload', ['$event'])
-  // onBeforeUnload($event: BeforeUnloadEvent) {
-  //   $event.preventDefault();
-  //   this.auth.logout();
-  // }
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload($event: BeforeUnloadEvent) {
+    $event.stopImmediatePropagation();
+    $event.preventDefault();
+    this.auth.logout();
+  }
 }

@@ -42,7 +42,8 @@ export class StationEditDialog {
           life: 5000
         });
       } else {
-        this.directoryService.isInRange(this.originalData.id, this.originalData.areaId, this.originalData.chartElementId).subscribe(isInRange => {
+        this.directoryService.isInRange(this.originalData.id, this.originalData.areaId, stationCode).subscribe(isInRange => {
+          debugger;
           if (!isInRange) {
             this.messageService.add({
               severity: 'warn',

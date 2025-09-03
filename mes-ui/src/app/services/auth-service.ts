@@ -63,7 +63,7 @@ export class AuthService {
       localStorage.removeItem('access_token');
       localStorage.removeItem('name');
       localStorage.removeItem('role');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], {queryParams: {hideAuthOnLogin: true}});
     })
   }
 

@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {AuthService} from '../../services/auth-service';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {Information} from '../information/information';
@@ -28,6 +28,9 @@ export class Header {
   protected readonly Roles = Roles;
 
   login() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {queryParams: {hideAuthOnLogin: true}});
   }
+
+  protected readonly localStorage = localStorage;
+  protected readonly JSON = JSON;
 }

@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth-service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
 import {jwtDecode} from 'jwt-decode';
 import {ButtonDirective} from 'primeng/button';
 import {AutoFocus} from 'primeng/autofocus';
@@ -16,16 +16,27 @@ import {AutoFocus} from 'primeng/autofocus';
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
-export class Login {
+export class Login implements OnInit {
   loginForm: FormGroup;
   msg = ''
   isLoginCorrect: boolean = true;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router,
+              private activatedRoute: ActivatedRoute) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
+
+
+  }
+
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['hideAuthOnLogin']) {
+        localStorage.setItem('hideAuthOnLogin', params['hideAuthOnLogin']);
+      }
+    })
   }
 
   login() {
@@ -62,6 +73,8 @@ export class Login {
       this.authService.role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
 
       localStorage.setItem('access_token', token);
+      localStorage.setItem('hideAuthOnLogin', JSON.stringify(false));
+
       if (this.authService.isAuthenticated) {
         this.router.navigate(['/']);
       }

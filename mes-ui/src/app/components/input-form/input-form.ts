@@ -116,14 +116,16 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       this.controlBoardService.getSpecificationList().subscribe(specifications => {
         this.fullSpecifications = specifications;
         this.stations.forEach(station => {
-          this.form.addControl((station.id).toString(), new FormControl("", [
+          let formControl = new FormControl("", [
             // Validators.pattern('\\d{3}')
             Validators.minLength(3),
             Validators.maxLength(7),
             //Регулярное выражение ограничивающая ввод значения сиквенса длиной от 3 до 7 символов, без концевых пробелов
             Validators.pattern('^[^ ].{1,5}[^ ]$'),
             CorrectSeqValueValidator(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this))
-          ]))
+          ]);
+          formControl['station'] = station;
+          this.form.addControl((station.id).toString(), formControl)
         })
 
         //Восстанавливаем значения формы с текущего состояния
@@ -196,7 +198,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     Object.entries(formData).forEach(([key, value]) => {
       info.push({stationId: key, value})
     })
-    if (!this.hasDuplicate()) {
+    if (true/*!this.hasDuplicate()*/) {
       this.notification.clearMessage()
       localStorage.removeItem('formData');
       info = [...info.map(i => ({stationId: +i.stationId, value: "" + i.value}))]

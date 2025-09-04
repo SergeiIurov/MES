@@ -43,7 +43,6 @@ export class StationEditDialog {
         });
       } else {
         this.directoryService.isInRange(this.originalData.id, this.originalData.areaId, stationCode).subscribe(isInRange => {
-          debugger;
           if (!isInRange) {
             this.messageService.add({
               severity: 'warn',

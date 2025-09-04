@@ -27,7 +27,7 @@ namespace ControlBoard.Web.Controllers
                 ApplicationUser? user = await userManager.FindByNameAsync(userInfo.Name);
                 if (user == null)
                 {
-                    user = new ApplicationUser { UserName = userInfo.Name, ActiveUserName = "", MachineName = "" };
+                    user = new ApplicationUser { UserName = userInfo.Name, ActiveUserName = "_", MachineName = "_" };
                     var result = await userManager.CreateAsync(user, userInfo.Password);
                     if (result.Succeeded)
                     {

@@ -24,7 +24,6 @@ export function CorrectSeqValueValidator(specifications: SpecificationDto[] = []
       vals.push(control.parent?.controls[c])
     }
 
-
     const value = control.value;
     const result = specifications.some(spec => spec.sequenceNumber.trim().toLowerCase() == value.trim().toLowerCase());
     if (!value) {
@@ -33,7 +32,7 @@ export function CorrectSeqValueValidator(specifications: SpecificationDto[] = []
       return {keyNotFound: true};
     } else {
       clearDuplicateSignal();
-      return check1(value, station.productType, specifications, isDuplicate(), stations, hasDuplicate);
+      return check1(value, station.productType, specifications, isDuplicate(), stations, hasDuplicate, control, vals);
     }
 
   }
@@ -41,37 +40,37 @@ export function CorrectSeqValueValidator(specifications: SpecificationDto[] = []
 
 //Если сотрудник вбивает один номер на станцию с типом продукта — кабина,
 //при этом по данному номеру отсутствует дата начала сборки шасси и дата установки кабины на шасси, в этом случае нет отклонения → строка из списка удаляется
-function check1(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean): {
+function check1(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]): {
   [message: string]: string
 } | null {
   if (productType === ProductTypes.Кабина && isFind(specifications, value, false, false)) {
     return null;
   } else {
 
-    return check2(value, productType, specifications, isDuplicate, stations, hasDuplicate);
+    return check2(value, productType, specifications, isDuplicate, stations, hasDuplicate, currentControl, controls);
   }
 }
 
 //Если сотрудник вбивает один номер на станцию с типом продукта — надстройки, при этом по данному номеру отсутствует дата начала сборки шасси,
 // в этом случае есть отклонение → строка из списка не должна удаляется, и должно появиться оповещение «отсутствует дата начала сборки шасси»
-function check2(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean): {
+function check2(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]): {
   [message: string]: string
 } | null {
   if (!isDuplicate && productType === ProductTypes.ТипНадстройки && isFind(specifications, value, false, undefined)) {
     return {message: "Отсутствует дата начала сборки шасси"};
   }
-  return check3(value, productType, specifications, isDuplicate, stations, hasDuplicate);
+  return check3(value, productType, specifications, isDuplicate, stations, hasDuplicate, currentControl, controls);
 }
 
 //Если сотрудник вбивает один номер на станцию с типом продукта — надстройки, при этом по данному номеру есть дата начала
 //сборки шасси и дата установки кабины на шасси, в этом случае нет отклонения → строка из списка удаляется
-function check3(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean): {
+function check3(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]): {
   [message: string]: string
 } | null {
   if (!isDuplicate && productType === ProductTypes.ТипНадстройки && isFind(specifications, value, true, true)) {
     return null;
   } else {
-    return check4(value, productType, specifications, isDuplicate, stations, hasDuplicate);
+    return check4(value, productType, specifications, isDuplicate, stations, hasDuplicate, currentControl, controls);
   }
 }
 
@@ -80,33 +79,34 @@ function check3(value: string, productType: ProductTypes, specifications: Specif
 //2) Если сотрудник вбивает два одинаковых номера на станции с типом продукта — надстройки, в этом случае есть
 // отклонение → должна сработать подсветка дубликата, строка из списка не удаляется
 
-function check4(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean): {
+function check4(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]): {
   [message: string]: string
 } | null {
-  if (isDuplicate && productType === ProductTypes.Кабина) {
+  if (isDuplicate && productType === ProductTypes.Кабина && isFind(specifications, value, undefined, undefined)) {
     const valCab = stations.flatMap(s => s.processStates).find(s =>
-      s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
-      s.productType === ProductTypes.Кабина &&
-      isFind(specifications, value, undefined, undefined))
+        s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
+        s.productType === ProductTypes.Кабина) &&
+      isFindInControlsWithSameType(currentControl, controls);
     if (valCab) {
       hasDuplicate();
       return {message: "Найдены продублированные значения"};
     }
   } else if (isDuplicate && productType === ProductTypes.ТипНадстройки && isFind(specifications, value, undefined, undefined)) {
     const addIn = stations.flatMap(s => s.processStates).find(s =>
-      s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
-      s.productType === ProductTypes.ТипНадстройки);
+        s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
+        s.productType === ProductTypes.ТипНадстройки) &&
+      isFindInControlsWithSameType(currentControl, controls);
     if (addIn) {
       hasDuplicate()
       return {message: "Найдены продублированные значения"};
     }
   }
-  return check5(value, productType, specifications, isDuplicate, stations, hasDuplicate);
+  return check5(value, productType, specifications, isDuplicate, stations, hasDuplicate, currentControl, controls);
 }
 
 //Если сотрудник вбивает два одинаковых номера, один номер на станцию с типом продукта — кабины, второй номер на станцию с типом продукта — надстройки, при этом по
 // данному номеру есть дата начала сборки шасси, но нет даты установки кабины на шасси, в этом случае нет отклонения → строка из списка удаляется
-function check5(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean): {
+function check5(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]): {
   [message: string]: string
 } | null {
   if (isDuplicate) {
@@ -126,7 +126,7 @@ function check5(value: string, productType: ProductTypes, specifications: Specif
         return null;
       }
     }
-    return check6(value, productType, specifications, isDuplicate, stations, hasDuplicate);
+    return check6(value, productType, specifications, isDuplicate, stations, hasDuplicate, currentControl, controls);
   }
   return null;
 }
@@ -134,7 +134,7 @@ function check5(value: string, productType: ProductTypes, specifications: Specif
 //Если сотрудник вбивает два одинаковых номера, один номер на станцию с типом продукта — кабины, второй номер на станцию с типом продукта — надстройки,
 //при этом по данному номеру есть дата начала
 //сборки шасси и есть дата установки кабины на шасси, в этом случае есть отклонение → должна сработать подсветка дубликата, строка из списка не удаляется
-function check6(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean): {
+function check6(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]): {
   [message: string]: string
 } | null {
   if (isDuplicate) {
@@ -146,7 +146,8 @@ function check6(value: string, productType: ProductTypes, specifications: Specif
       if (!valCab) {
         return null;
       }
-    } else if (isDuplicate && productType === ProductTypes.ТипНадстройки && isFind(specifications, value, true, true)) {
+    } else if (isDuplicate && productType === ProductTypes.ТипНадстройки &&
+      isFind(specifications, value, true, true)) {
       const addIn = stations.flatMap(s => s.processStates).find(s =>
         s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
         s.productType === ProductTypes.Кабина);
@@ -167,4 +168,12 @@ function isFind(specifications: SpecificationDto[], sequenceNumber: string, chas
     spec.sequenceNumber.trim().toLowerCase() == sequenceNumber.trim().toString().toLowerCase() &&
     (chassisAssemblyStartDate !== undefined ? (chassisAssemblyStartDate ? spec.chassisAssemblyStartDate !== null : spec.chassisAssemblyStartDate == null) : true) &&
     (dateInstallationCabin !== undefined ? (dateInstallationCabin ? spec.dateInstallationCabin !== null : spec.dateInstallationCabin == null) : true));
+}
+
+function isFindInControlsWithSameType(currentControl: AbstractControl, controls: AbstractControl[]): boolean {
+
+  let res = controls.some(ctrl => currentControl != ctrl &&
+    ctrl.value.trim().toLowerCase() == currentControl.value.trim().toLowerCase() &&
+    ctrl['station'].productType === currentControl['station'].productType);
+  return res;
 }

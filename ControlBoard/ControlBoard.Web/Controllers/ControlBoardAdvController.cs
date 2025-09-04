@@ -105,7 +105,9 @@ public class ControlBoardAdvController(
                 string[] mas = line.Split(';');
                 if (mas.Length == 4)
                 {
-                    data.Add((mas[0].PadLeft(3, '0'), mas[1], mas[2], mas[3]));
+                    data.Add((mas[0].PadLeft(3, '0'), mas[1]!, 
+                        !string.IsNullOrEmpty(mas[2].Trim()) ? mas[2].Trim() : null, 
+                        !string.IsNullOrEmpty(mas[3].Trim()) ? mas[3].Trim() : null));
                 }
             }
 

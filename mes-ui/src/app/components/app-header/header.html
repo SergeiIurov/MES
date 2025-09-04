@@ -66,11 +66,12 @@
     <!--      <a (click)="logout()">Выйти</a>-->
     <!--    </div>-->
     <!--  }-->
-  @if (!JSON.parse(localStorage.getItem("hideAuthOnLogin"))) {
-    <div class="exit">
-      <a (click)="login()">Авторизоваться</a>
-    </div>
+    <!--  @if (!JSON.parse(localStorage.getItem("hideAuthOnLogin"))) {-->
 
-  }
+  <div class="exit">
+    <a (click)="login()">Вход</a>
+  </div>
+
+  <!--  }-->
 
 }

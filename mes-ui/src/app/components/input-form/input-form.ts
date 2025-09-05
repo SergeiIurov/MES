@@ -104,6 +104,9 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
 
       this.directoryService.getAreaList().subscribe(areas => {
         this.areas = areas;
+
+        //Сортировка участков в зависимости от диапазона
+        this.areas.sort((a, b) => +a.range.match(/^(\d+).+(\d+)$/)[1] - +b.range.match(/^(\d+).+(\d+)$/)[1]);
         this.areas.forEach(area => {
           area.stations.sort((a, b) => a.chartElementId - b.chartElementId);
         })

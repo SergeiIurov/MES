@@ -15,7 +15,7 @@
           @for (login of logins; track login.name) {
 
             @if (login.role !== Roles.User) {
-              <tr>
+              <tr [class.active-role]="login.isActive">
                 <td>{{ login.name }}
                   <p-button size="small" title="Удалить пользователя" [disabled]="auth.name === login.name"
                             icon="pi pi-minus" variant="text" severity="danger"

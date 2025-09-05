@@ -117,11 +117,14 @@ function check5(value: string, productType: ProductTypes, specifications: Specif
         isFind(specifications, value, true, false))
       if (valCab) {
         return null;
+      } else {
+        return {message: "Кабина уже установлена на шасси"};
       }
     } else if (isDuplicate && productType === ProductTypes.ТипНадстройки && isFind(specifications, value, true, false)) {
       const addIn = stations.flatMap(s => s.processStates).find(s =>
-        s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
-        s.productType === ProductTypes.Кабина);
+          s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
+          s.productType === ProductTypes.Кабина) &&
+        isFind(specifications, value, true, false);
       if (addIn) {
         return null;
       }
@@ -137,12 +140,13 @@ function check5(value: string, productType: ProductTypes, specifications: Specif
 function check6(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]): {
   [message: string]: string
 } | null {
+  debugger;
   if (isDuplicate) {
-    if (isDuplicate && productType === ProductTypes.Кабина) {
+    if (isDuplicate && productType === ProductTypes.Кабина &&
+      isFind(specifications, value, true, true)) {
       const valCab = stations.flatMap(s => s.processStates).find(s =>
         s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
-        s.productType === ProductTypes.ТипНадстройки &&
-        isFind(specifications, value, true, true))
+        s.productType === ProductTypes.ТипНадстройки)
       if (!valCab) {
         return null;
       }

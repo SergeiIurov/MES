@@ -4,13 +4,13 @@
       <div class="col-4">
         <p-toolbar class="mb-6">
           <ng-template #start>
-            <p-button label="Добавить участок" icon="pi pi-plus" severity="primary" class="mr-2"
+            <p-button [tabindex]="-1" label="Добавить участок" icon="pi pi-plus" severity="primary" class="mr-2"
                       (onClick)="openNewAreaDialog()"/>
           </ng-template>
         </p-toolbar>
       </div>
       <div class="col-4">
-        <p-fileupload
+        <p-fileupload [tabindex]="-1"
           title="Загрузите файл формата CSV с информацией вида (sequence;specification) с  разделителем 'запятая'."
           name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
           uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
@@ -92,13 +92,13 @@
                   <td [attr.rowspan]="a.stations.length+1">{{ a.name }}
                     <br>{{ a.range.trim() ? '(' + a.range + ')' : null }}
 
-                    <p-button size="small" title="Редактировать участок" icon="pi pi-pencil" variant="text"
+                    <p-button [tabindex]="-1" size="small" title="Редактировать участок" icon="pi pi-pencil" variant="text"
                               severity="info"
                               (click)="openEditAreaDialog(a)"></p-button>
-                    <p-button size="small" title="Удалить участок" icon="pi pi-minus" variant="text" severity="danger"
+                    <p-button [tabindex]="-1" size="small" title="Удалить участок" icon="pi pi-minus" variant="text" severity="danger"
                               (click)="deleteArea(a)"></p-button>
                     <br>
-                    <p-button [title]="a.isDisabled?'Участок неактивен':'Участок активен'"
+                    <p-button [tabindex]="-1" [title]="a.isDisabled?'Участок неактивен':'Участок активен'"
                               [icon]="a.isDisabled?'pi pi-times':'pi pi-check'"
                               [severity]="a.isDisabled?'danger':'success'"
                               (click)="changeStatus(a)"></p-button>

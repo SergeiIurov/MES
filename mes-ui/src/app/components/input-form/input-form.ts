@@ -19,8 +19,13 @@ import {Environment} from '../../environments/environment';
 import {Roles} from '../../enums/roles';
 import {ProductTypes} from '../../enums/ProductTypes';
 import {SpecificationDto} from '../../Entities/SpecificationDto';
-import {CorrectSeqValueValidator} from '../../validators/CorrectSeqValueValidator';
 import {ColorSelector} from '../../common/color-selector/color-selector';
+import {CheckOnlyCabinaValidator} from '../../validators/CheckOnlyCabinaValidator';
+import {CheckOnlyChassisValidator} from '../../validators/CheckOnlyChassisValidator';
+import {CheckOnlyChassisWithTwoDatasValidator} from '../../validators/CheckOnlyChassisWithTwoDatasValidator';
+import {CheckDoubleCabinOrChassisValidator} from '../../validators/CheckDoubleCabinOrChassisValidator';
+import {CheckDoubleNumsOnlyStartData} from '../../validators/CheckDoubleNumsOnlyStartData';
+import {CheckDoubleNumsWithTwoDatas} from '../../validators/CheckDoubleNumsWithTwoDatas';
 
 
 @Component({
@@ -125,7 +130,12 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
             Validators.maxLength(7),
             //Регулярное выражение ограничивающая ввод значения сиквенса длиной от 3 до 7 символов, без концевых пробелов
             Validators.pattern('^[^ ].{1,5}[^ ]$'),
-            CorrectSeqValueValidator(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this))
+            new CheckOnlyCabinaValidator(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this)).validate,
+            new CheckOnlyChassisValidator(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this)).validate,
+            new CheckOnlyChassisWithTwoDatasValidator(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this)).validate,
+            new CheckDoubleCabinOrChassisValidator(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this)).validate,
+            new CheckDoubleNumsOnlyStartData(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this)).validate,
+            new CheckDoubleNumsWithTwoDatas(this.fullSpecifications, station, stations, this.hasDuplicate.bind(this), this.clearDuplicateSignal.bind(this)).validate
           ]);
           formControl['station'] = station;
           this.form.addControl((station.id).toString(), formControl)

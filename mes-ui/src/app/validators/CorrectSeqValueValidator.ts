@@ -140,7 +140,6 @@ function check5(value: string, productType: ProductTypes, specifications: Specif
 function check6(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]): {
   [message: string]: string
 } | null {
-  debugger;
   if (isDuplicate) {
     if (isDuplicate && productType === ProductTypes.Кабина &&
       isFind(specifications, value, true, true)) {

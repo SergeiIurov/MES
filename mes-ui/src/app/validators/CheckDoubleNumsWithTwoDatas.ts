@@ -20,20 +20,19 @@ export class CheckDoubleNumsWithTwoDatas extends BaseValidator {
     if (productType === ProductTypes.НеЗадано || !productType) {
       return {message: "Не задан тип продукта"};
     } else if (isDuplicate) {
-      debugger;
       if (isDuplicate && productType === ProductTypes.Кабина && this.isFind(specifications, value, undefined, true)) {
         const valCab = stations.flatMap(s => s.processStates).find(s =>
           (s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
             s.productType === ProductTypes.ТипНадстройки)) || this.isFindInControlsWithOtherType(currentControl, controls)
         if (valCab) {
-          return {message: "Кабина уже установлена на шасси"};
+          return {message: "Указана дата установки кабины на шасси"};
         }
       } else if (isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, undefined, true)) {
         const addIn = stations.flatMap(s => s.processStates).find(s =>
           (s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
             s.productType === ProductTypes.Кабина)) || this.isFindInControlsWithOtherType(currentControl, controls);
         if (addIn) {
-          return {message: "Кабина уже установлена на шасси"};
+          return {message: "Указана дата установки кабины на шасси"};
         }
       }
       // hasDuplicate();

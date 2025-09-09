@@ -16,14 +16,15 @@ export class CheckOnlyCabinaValidator extends BaseValidator {
   }
 
   override check(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]) {
-    if(productType === ProductTypes.НеЗадано || !productType) {
+    if (productType === ProductTypes.НеЗадано || !productType) {
       return {message: "Не задан тип продукта"};
-    }
-    else if (productType === ProductTypes.Кабина && this.isFind(specifications, value, false, false) && !isDuplicate) {
+    } else if (productType === ProductTypes.Кабина && this.isFind(specifications, value, false, false) && !isDuplicate) {
       return null;
-    } else {
+    } else if (productType === ProductTypes.Кабина && this.isFind(specifications, value, undefined, true) && !isDuplicate) {
 
-      return null;
+      ;
+      return {message: "Кабина уже установлена на шасси"}
     }
+    return null;
   }
 }

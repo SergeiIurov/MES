@@ -18,7 +18,7 @@ export class CheckOnlyChassisValidator extends BaseValidator {
   override check(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]) {
     if (productType === ProductTypes.НеЗадано || !productType) {
       return {message: "Не задан тип продукта"};
-    } else if (!isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, false, undefined)) {
+    } else if (!isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, false, false)) {
       return {message: "Отсутствует дата начала сборки шасси"};
     }
     return null;

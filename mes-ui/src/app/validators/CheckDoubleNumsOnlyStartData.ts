@@ -38,7 +38,7 @@ export class CheckDoubleNumsOnlyStartData extends BaseValidator {
           return null;
         }
       }
-      // return null;
+      // Принуждает вводить значения в два поля: "Надстройка" и "Кабина".
     } else if (!isDuplicate && productType === ProductTypes.Кабина && this.isFind(specifications, value, true, false)) {
       return {message: "Также укажите номер на станции с типом 'Надстройка'"};
     }

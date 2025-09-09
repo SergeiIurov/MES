@@ -18,6 +18,7 @@ export class App {
   constructor(private auth: AuthService) {
   }
 
+  //Принудительный выход из приложения при закрытии вкладки или браузера
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload($event: BeforeUnloadEvent) {
     $event.stopImmediatePropagation();

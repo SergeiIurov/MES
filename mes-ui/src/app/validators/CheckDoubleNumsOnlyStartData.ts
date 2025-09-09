@@ -5,7 +5,6 @@ import {SpecificationDto} from '../Entities/SpecificationDto';
 import {StationDto} from '../Entities/StationDto';
 import {ProductTypes} from '../enums/ProductTypes';
 import {AbstractControl} from '@angular/forms';
-import {ProcessStateDto} from '../Entities/ProcessStateDto';
 
 export class CheckDoubleNumsOnlyStartData extends BaseValidator {
   constructor(specifications: SpecificationDto[] = [],
@@ -39,7 +38,12 @@ export class CheckDoubleNumsOnlyStartData extends BaseValidator {
           return null;
         }
       }
-      return null;
+      // return null;
+    } else if (!isDuplicate && productType === ProductTypes.Кабина && this.isFind(specifications, value, true, false)) {
+      return {message: "Также укажите номер на станции с типом 'Надстройка'"};
+    }
+    else if (!isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, true, false)) {
+      return {message: "Также укажите номер на станции с типом 'Кабина'"};
     }
     return null;
   }

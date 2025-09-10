@@ -11,10 +11,10 @@
       </div>
       <div class="col-4">
         <p-fileupload [tabindex]="-1"
-          title="Загрузите файл формата CSV с информацией вида (sequence;specification) с  разделителем 'запятая'."
-          name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
-          uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
-          accept=".csv" maxFileSize="10000000" mode="advanced">
+                      title="Загрузите файл формата CSV с информацией вида (sequence;specification) с  разделителем 'запятая'."
+                      name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
+                      uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
+                      accept=".csv" maxFileSize="10000000" mode="advanced">
           <ng-template #empty>
             <div>Перетащите csv файл для загрузки.</div>
           </ng-template>
@@ -92,10 +92,12 @@
                   <td [attr.rowspan]="a.stations.length+1">{{ a.name }}
                     <br>{{ a.range.trim() ? '(' + a.range + ')' : null }}
 
-                    <p-button [tabindex]="-1" size="small" title="Редактировать участок" icon="pi pi-pencil" variant="text"
+                    <p-button [tabindex]="-1" size="small" title="Редактировать участок" icon="pi pi-pencil"
+                              variant="text"
                               severity="info"
                               (click)="openEditAreaDialog(a)"></p-button>
-                    <p-button [tabindex]="-1" size="small" title="Удалить участок" icon="pi pi-minus" variant="text" severity="danger"
+                    <p-button [tabindex]="-1" size="small" title="Удалить участок" icon="pi pi-minus" variant="text"
+                              severity="danger"
                               (click)="deleteArea(a)"></p-button>
                     <br>
                     <p-button [tabindex]="-1" [title]="a.isDisabled?'Участок неактивен':'Участок активен'"
@@ -132,21 +134,21 @@
                                   severity="danger"
                                   (click)="deleteStation(s)"></p-button>
                       </div>
-                      @if (form.get(s.id.toString()).errors) {
+                      @if (form.get(s.id.toString())?.errors) {
                         <div>
-                          @if (form.get(s.id.toString()).errors['pattern']) {
+                          @if (form.get(s.id.toString())?.errors['pattern']) {
                             <span
                               class="validation">{{ 'Поле должно содержать от 3 до 7 символов без концевых пробелов!' }}
                           </span>
                           }
-                          @if (form.get(s.id.toString()).errors['keyNotFound']) {
+                          @if (form.get(s.id.toString())?.errors['keyNotFound']) {
                             <span
                               class="validation">{{ 'Значение не найдено в списке автомобилей на производстве!' }}
                           </span>
                           }
-                          @if (form.get(s.id.toString()).errors['message']) {
+                          @if (form.get(s.id.toString())?.errors['message']) {
                             <span
-                              class="validation">{{ form.get(s.id.toString()).errors['message'] }}
+                              class="validation">{{ form.get(s.id.toString())?.errors['message'] }}
                           </span>
                           }
                         </div>

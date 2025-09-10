@@ -21,7 +21,7 @@ export abstract class BaseValidator implements Validator {
   }
 
   validate = (control: AbstractControl): ValidationErrors | null => {
-    this.clearDuplicateSignal();
+   //this.clearDuplicateSignal();
 
     this.control = control;
     this.vals = [];
@@ -30,7 +30,7 @@ export abstract class BaseValidator implements Validator {
     }
 
     const value = control.value;
-    const result = this.specifications.some(spec => spec.sequenceNumber.trim().toLowerCase() == value.trim().toLowerCase());
+    const result = this.specifications.some(spec => spec.sequenceNumber?.trim().toLowerCase() == value?.trim().toLowerCase());
     if (!value) {
       return null;
     } else if (!result && value.trim()) {
@@ -54,21 +54,21 @@ export abstract class BaseValidator implements Validator {
   protected isFindInControlsWithSameType(currentControl: AbstractControl, controls: AbstractControl[]): boolean {
     const res = controls.some(ctrl => currentControl != ctrl &&
       ctrl.value.trim().toLowerCase() == currentControl.value.trim().toLowerCase() &&
-      ctrl['station'].productType === currentControl['station'].productType);
+      ctrl['station'].productType === currentControl['station'].productType && ctrl['station'].productType !== ProductTypes.НеЗадано);
     return res;
   }
 
   protected isFindInControlsWithOtherType(currentControl: AbstractControl, controls: AbstractControl[]): boolean {
     const res = controls.some(ctrl => currentControl != ctrl &&
       ctrl.value.trim().toLowerCase() == currentControl.value.trim().toLowerCase() &&
-      ctrl['station'].productType !== currentControl['station'].productType);
+      ctrl['station'].productType !== currentControl['station'].productType && ctrl['station'].productType !== ProductTypes.НеЗадано);
     return res;
   }
 
   protected setValid(currentControl: AbstractControl, controls: AbstractControl[]): void {
     const res = controls.filter(ctrl => currentControl != ctrl &&
       ctrl.value.trim().toLowerCase() == currentControl.value.trim().toLowerCase() &&
-      ctrl['station'].productType !== currentControl['station'].productType);
+      ctrl['station'].productType !== currentControl['station'].productType && ctrl['station'].productType !== ProductTypes.НеЗадано);
     if (res) {
       res[0].setErrors(null);
     }

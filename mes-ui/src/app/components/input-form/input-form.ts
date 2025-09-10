@@ -105,6 +105,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   createForm() {
+    this.form = new FormGroup({});
     this.directoryService.getStationList().subscribe(stations => {
 
       this.directoryService.getAreaList().subscribe(areas => {
@@ -140,7 +141,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
           formControl['station'] = station;
           this.form.addControl((station.id).toString(), formControl)
         })
-
         //Восстанавливаем значения формы с текущего состояния
         this.controlBoardService.getCurrentState().subscribe(currentState => {
           const object = Object.fromEntries(currentState.map(s => [s.stationId, s.value]));
@@ -153,8 +153,8 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       //   this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       // }
 
+      this.getSpecifications();
     });
-    this.getSpecifications();
   }
 
   getSpecifications = () => {
@@ -206,6 +206,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   submitData() {
+
     let formData = this.form.value;
     let info = []
     Object.entries(formData).forEach(([key, value]) => {
@@ -239,6 +240,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
           ,
           accept: () => {
             this.controlBoardService.saveCurrentState(info).subscribe(d => {
+              this.createForm();
               this.messageService.add({severity: 'success', summary: 'Success', detail: 'Данные зафиксированы!'});
             })
           },
@@ -274,7 +276,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       }
     })
 
-    dups.filter(d => d.value !== '000').forEach(dup => dup.classList.add('signalDuplicate'));
+    //dups.filter(d => d.value !== '000').forEach(dup => dup.classList.add('signalDuplicate'));
     return dups.filter(d => d.value !== '000').length > 0;
   }
 
@@ -516,4 +518,5 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       console.log('Обновление цвета выполнено')
     })
   }
+
 }

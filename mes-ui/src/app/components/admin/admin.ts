@@ -226,9 +226,9 @@ export class Admin implements OnInit {
     })
   }
 
-  changeActivity(login: LoginInfo) {
+  resetActivity(login: LoginInfo) {
     login.password = "";
-    this.adminService.changeActivity(login).subscribe(data => {
+    this.adminService.resetActivity(login).subscribe(data => {
       this.logins.find(l => l.name === login.name).isActive = data.isActive;
     })
   }

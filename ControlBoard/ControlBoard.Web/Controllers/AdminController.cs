@@ -135,12 +135,12 @@ namespace ControlBoard.Web.Controllers
         }
 
         //Смена активности
-        [HttpPut("ChangeActivity")]
+        [HttpPut("ResetActivity")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult> ChangeActivity(UserInfo userInfo)
+        public async Task<ActionResult> ResetActivity(UserInfo userInfo)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace ControlBoard.Web.Controllers
                 ApplicationUser? appUser = await context.Users.FirstOrDefaultAsync(u => u.UserName == userInfo.Name);
                 if (appUser != null)
                 {
-                    appUser.IsActive = !userInfo.IsActive;
+                    appUser.IsActive = false;
                     await context.SaveChangesAsync();
 
                     return Ok(appUser);

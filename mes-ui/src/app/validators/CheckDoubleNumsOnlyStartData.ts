@@ -23,26 +23,29 @@ export class CheckDoubleNumsOnlyStartData extends BaseValidator {
         const valCab = stations.flatMap(s => s.processStates).find(s =>
           s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
           s.productType === ProductTypes.ТипНадстройки &&
-          this.isFind(specifications, value, true, false))
+          this.isFind(specifications, value, true, false)) || this.isFindInControlsWithOtherType(currentControl, controls)
         if (valCab) {
+          this.setValid(currentControl, controls);
           return null;
         } else {
-          return null;
+          return {message: "Найдены продублированные значения"};
         }
       } else if (isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, true, false)) {
         const addIn = stations.flatMap(s => s.processStates).find(s =>
           s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
           s.productType === ProductTypes.Кабина &&
-          this.isFind(specifications, value, true, false));
+          this.isFind(specifications, value, true, false)) || this.isFindInControlsWithOtherType(currentControl, controls);
         if (addIn) {
+          this.setValid(currentControl, controls);
           return null;
+        } else {
+          return {message: "Найдены продублированные значения"};
         }
       }
       // Принуждает вводить значения в два поля: "Надстройка" и "Кабина".
     } else if (!isDuplicate && productType === ProductTypes.Кабина && this.isFind(specifications, value, true, false)) {
       return {message: "Также укажите номер на станции с типом 'Надстройка'"};
-    }
-    else if (!isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, true, false)) {
+    } else if (!isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, true, false)) {
       return {message: "Также укажите номер на станции с типом 'Кабина'"};
     }
     return null;

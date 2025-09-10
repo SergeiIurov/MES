@@ -64,5 +64,15 @@ export abstract class BaseValidator implements Validator {
       ctrl['station'].productType !== currentControl['station'].productType);
     return res;
   }
+
+  protected setValid(currentControl: AbstractControl, controls: AbstractControl[]): void {
+    const res = controls.filter(ctrl => currentControl != ctrl &&
+      ctrl.value.trim().toLowerCase() == currentControl.value.trim().toLowerCase() &&
+      ctrl['station'].productType !== currentControl['station'].productType);
+    if (res) {
+      res[0].setErrors(null);
+    }
+  }
+
 }
 

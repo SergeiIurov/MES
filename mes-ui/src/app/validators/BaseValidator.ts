@@ -22,7 +22,7 @@ export abstract class BaseValidator implements Validator {
 
   validate = (control: AbstractControl): ValidationErrors | null => {
    //this.clearDuplicateSignal();
-
+    console.log("Validation")
     this.control = control;
     this.vals = [];
     for (const c in control.parent?.controls) {

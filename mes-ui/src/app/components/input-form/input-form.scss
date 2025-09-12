@@ -64,3 +64,16 @@ button[type="submit"] {
   width: 75px;
   height: 30px;
 }
+
+.errorInfo {
+  z-index: 1000;
+  position: fixed;
+  top: 15px;
+  left: 1000px;
+  font-size: 25px;
+}
+
+.errorInfo span {
+  color: red;
+  background-color: yellow;
+}

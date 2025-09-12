@@ -145,6 +145,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         this.controlBoardService.getCurrentState().subscribe(currentState => {
           const object = Object.fromEntries(currentState.map(s => [s.stationId, s.value]));
           this.form.setValue(object);
+
         })
       })
 
@@ -206,6 +207,9 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   submitData() {
+    if (!this.form.valid) {
+      return;
+    }
 
     let formData = this.form.value;
     let info = []

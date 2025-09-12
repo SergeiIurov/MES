@@ -20,9 +20,11 @@ export class CheckOnlyCabinaValidator extends BaseValidator {
       return {message: "Не задан тип продукта"};
     } else if (productType === ProductTypes.Кабина && this.isFind(specifications, value, false, false) && !isDuplicate) {
       return null;
-    } else if (productType === ProductTypes.Кабина && this.isFind(specifications, value, undefined, true) && !isDuplicate) {
-
-      ;
+    }
+    else if (productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, false, false) && isDuplicate) {
+      return  {message: "Отсутствует дата начала сборки шасси"};;
+    }
+    else if (productType === ProductTypes.Кабина && this.isFind(specifications, value, undefined, true) && !isDuplicate) {
       return {message: "Кабина уже установлена на шасси"}
     }
     return null;

@@ -95,7 +95,7 @@ public class ControlBoardAdvController(
     {
         try
         {
-            List<(string, string, string, string)> data = new List<(string, string, string, string)>();
+            List<(string, string, string, string,string)> data = new List<(string, string, string, string,string)>();
             logger.LogInformation($"Действие {nameof(UploadData)} запущено.");
             StreamReader reader = new StreamReader(file.OpenReadStream());
             reader.BaseStream.Position = 0;
@@ -103,11 +103,14 @@ public class ControlBoardAdvController(
             while ((line = reader.ReadLine()) != null)
             {
                 string[] mas = line.Split(';');
-                if (mas.Length == 4)
+                if (mas.Length == 5)
                 {
-                    data.Add((mas[0].PadLeft(3, '0'), mas[1]!, 
-                        !string.IsNullOrEmpty(mas[2].Trim()) ? mas[2].Trim() : null, 
-                        !string.IsNullOrEmpty(mas[3].Trim()) ? mas[3].Trim() : null));
+                    data.Add(
+                        (mas[0].PadLeft(3, '0'),
+                            mas[1],
+                            mas[2],
+                            !string.IsNullOrEmpty(mas[2].Trim()) ? mas[3].Trim() : null,
+                            !string.IsNullOrEmpty(mas[3].Trim()) ? mas[4].Trim() : null)!);
                 }
             }
 

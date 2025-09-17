@@ -11,6 +11,7 @@ namespace ControlBoard.DB.Configurations
             builder.ToTable("specification").HasQueryFilter(f => !f.IsDeleted);
             builder.Property(p => p.Id).HasColumnName("id");
             builder.Property(p => p.SequenceNumber).HasColumnName("sequence_number");
+            builder.Property(p => p.VinNumber).HasColumnName("vin_number");
             builder.Property(p => p.SpecificationStr).HasColumnName("specification_str");
             builder.Property(p => p.ChassisAssemblyStartDate).HasColumnName("chassis_assembly_start_data").HasMaxLength(100);
             builder.Property(p => p.DateInstallationCabinOnСhassis).HasColumnName("date_installation_cabin_on_chassis").HasMaxLength(100);

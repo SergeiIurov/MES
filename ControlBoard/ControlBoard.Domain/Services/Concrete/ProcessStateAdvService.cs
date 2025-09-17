@@ -74,7 +74,11 @@ namespace ControlBoard.Domain.Services.Concrete
             }
         }
 
-        public async Task SaveSpecificationAsync(List<(string, string, string, string)> data)
+        /// <summary>
+        /// Замена текущей спецификации новой, при этом прежняя удаляется.
+        /// </summary>
+        /// <param name="data">Загружаемые данные</param>
+        public async Task SaveSpecificationAsync(List<(string, string, string, string, string)> data)
         {
             try
             {
@@ -92,9 +96,10 @@ namespace ControlBoard.Domain.Services.Concrete
                     return new Specification()
                     {
                         SequenceNumber = s.Item1,
-                        SpecificationStr = s.Item2,
-                        ChassisAssemblyStartDate = s.Item3,
-                        DateInstallationCabinOnСhassis = s.Item4,
+                        VinNumber = s.Item2,
+                        SpecificationStr = s.Item3,
+                        ChassisAssemblyStartDate = s.Item4,
+                        DateInstallationCabinOnСhassis = s.Item5,
                         Created = DateTime.UtcNow,
                         LastUpdated = DateTime.UtcNow,
                         IsDeleted = false

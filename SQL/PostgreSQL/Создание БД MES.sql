@@ -165,4 +165,9 @@ ALTER TABLE specification ADD date_installation_cabin_on_chassis character varyi
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20250827092823_ExtendedSpecificationTable', '9.0.6');
 
+ALTER TABLE specification ADD vin_number text NOT NULL DEFAULT '';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250917080949_AddedVinNumberInSpecificationsTable', '9.0.6');
+
 COMMIT;

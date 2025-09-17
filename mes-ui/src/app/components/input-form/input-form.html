@@ -12,8 +12,8 @@
       <div class="col-4">
         <p-fileupload [tabindex]="-1"
                       title="Загрузите файл формата CSV с информацией вида (sequence;specification) с  разделителем 'запятая'."
-                      name="file" [url]="fileUploadUrl" chooseLabel="Выберите файл для загрузки"
-                      uploadLabel="Загрузить" cancelLabel="Отменить" (onUpload)="onUpload($event)" [multiple]="false"
+                      name="file" [customUpload]="true"  chooseLabel="Выберите файл для загрузки"
+                      uploadLabel="Загрузить" cancelLabel="Отменить" (uploadHandler)="onUpload($event)" [multiple]="false"
                       accept=".csv" maxFileSize="10000000" mode="advanced">
           <ng-template #empty>
             <div>Перетащите csv файл для загрузки.</div>

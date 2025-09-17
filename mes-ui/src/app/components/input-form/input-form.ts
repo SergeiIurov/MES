@@ -14,7 +14,7 @@ import {ConfirmDialog} from 'primeng/confirmdialog';
 import {StationEditDialog} from '../dialogs/station-edit-dialog/station-edit-dialog';
 import {AutoFocus} from 'primeng/autofocus';
 import {TableModule} from 'primeng/table';
-import {FileUpload, UploadEvent} from 'primeng/fileupload';
+import {FileUpload} from 'primeng/fileupload';
 import {Environment} from '../../environments/environment';
 import {Roles} from '../../enums/roles';
 import {ProductTypes} from '../../enums/ProductTypes';
@@ -154,11 +154,11 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
       //   this.form.setValue(JSON.parse(localStorage.getItem('formData')));
       // }
 
-      this.getSpecifications();
+      this.getSpecifications(1000);
     });
   }
 
-  getSpecifications = () => {
+  getSpecifications = (timeout = 0) => {
     setTimeout(() => {
       this.controlBoardService.getSpecificationList().subscribe(specificationList => {
         //Получаем в массив значения всех сиквенсов на форме
@@ -173,7 +173,7 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
         //Оставляем только записи, которых нет в полях формы
         this.specifications = specificationList.filter(s => seq.indexOf(s.sequenceNumber.trim()) === -1);
       })
-    }, 1000)
+    }, timeout)
 
   }
 
@@ -496,8 +496,28 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
-  onUpload(event: UploadEvent) {
-    this.messageService.add({severity: 'info', summary: 'Success', detail: 'Файл был успешно загружен.'});
+  // onUpload(event: UploadEvent) {
+  //   console.log("onUpload", event);
+  //   this.messageService.add({severity: 'info', summary: 'Success', detail: 'Файл был успешно загружен.'});
+  // }
+
+  onUpload(event) {
+    const file = event.files[0];
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+    this.controlBoardService.uploadFile(formData).subscribe(
+      () => {
+        this.messageService.add({severity: 'info', summary: 'Success', detail: 'Файл был успешно загружен.'});
+        this.createForm();
+      },
+      error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `Ошибка загрузки файла: '${error.error[''][0]}.'`
+        });
+      }
+    );
   }
 
   protected readonly Roles = Roles;
@@ -519,8 +539,6 @@ export class InputForm implements OnInit, OnDestroy, AfterViewChecked {
 
   onSelectColor(areaId: number, color: string) {
     this.directoryService.updateDisabledColor(areaId, color).subscribe(data => {
-      console.log('Обновление цвета выполнено')
     })
   }
-
 }

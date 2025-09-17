@@ -95,7 +95,7 @@ public class ControlBoardAdvController(
     {
         try
         {
-            List<(string, string, string, string,string)> data = new List<(string, string, string, string,string)>();
+            List<(string, string, string, string, string)> data = new List<(string, string, string, string, string)>();
             logger.LogInformation($"Действие {nameof(UploadData)} запущено.");
             StreamReader reader = new StreamReader(file.OpenReadStream());
             reader.BaseStream.Position = 0;
@@ -111,6 +111,11 @@ public class ControlBoardAdvController(
                             mas[2],
                             !string.IsNullOrEmpty(mas[2].Trim()) ? mas[3].Trim() : null,
                             !string.IsNullOrEmpty(mas[3].Trim()) ? mas[4].Trim() : null)!);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Загружаемый файл должен состоять из 5 столбцов");
+                    return BadRequest(ModelState);
                 }
             }
 

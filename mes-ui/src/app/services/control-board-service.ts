@@ -56,4 +56,8 @@ export class ControlBoardService {
     return this.http.post(`${Environment.apiUrl}api/ControlBoardAdv/change_disabled_status`, area)
   }
 
+  uploadFile(formData: FormData): Observable<any> {
+    return this.http.post(`${Environment.apiUrl}api/ControlBoardAdv/upload`, formData);
+  }
+
 }

@@ -112,8 +112,8 @@ public class ControlBoardAdvController(
                             (mas[0].PadLeft(3, '0'),
                                 mas[1],
                                 mas[2],
-                                !string.IsNullOrEmpty(mas[2].Trim()) ? mas[3].Trim() : null,
-                                !string.IsNullOrEmpty(mas[3].Trim()) ? mas[4].Trim() : null)!);
+                                !string.IsNullOrEmpty(mas[3].Trim()) ? mas[3].Trim() : null,
+                                !string.IsNullOrEmpty(mas[4].Trim()) ? mas[4].Trim() : null)!);
                     }
                     else
                     {

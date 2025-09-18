@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace ControlBoard.Web.Controllers;
 
@@ -20,7 +21,6 @@ public class ControlBoardAdvController(
     IMapper mapper,
     ILogger<ControlBoardController> logger) : ControllerBase
 {
-
     /// <summary>
     /// Сохранение нового состояния доски контроля производства.
     /// </summary>
@@ -53,7 +53,8 @@ public class ControlBoardAdvController(
         try
         {
             logger.LogInformation($"Действие {nameof(GetState)} запущено.");
-            return Ok(mapper.Map<List<ProcessState>, List<ProcessStateAdvDto>>(await processStateAdvService.GetProcessStatesAsync()));
+            return Ok(mapper.Map<List<ProcessState>, List<ProcessStateAdvDto>>(
+                await processStateAdvService.GetProcessStatesAsync()));
         }
         catch (Exception e)
         {
@@ -105,12 +106,20 @@ public class ControlBoardAdvController(
                 string[] mas = line.Split(';');
                 if (mas.Length == 5)
                 {
-                    data.Add(
-                        (mas[0].PadLeft(3, '0'),
-                            mas[1],
-                            mas[2],
-                            !string.IsNullOrEmpty(mas[2].Trim()) ? mas[3].Trim() : null,
-                            !string.IsNullOrEmpty(mas[3].Trim()) ? mas[4].Trim() : null)!);
+                    if (IsVinValid(mas[1]))
+                    {
+                        data.Add(
+                            (mas[0].PadLeft(3, '0'),
+                                mas[1],
+                                mas[2],
+                                !string.IsNullOrEmpty(mas[2].Trim()) ? mas[3].Trim() : null,
+                                !string.IsNullOrEmpty(mas[3].Trim()) ? mas[4].Trim() : null)!);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Найден некорректный VIN номер");
+                        return BadRequest(ModelState);
+                    }
                 }
                 else
                 {
@@ -130,6 +139,13 @@ public class ControlBoardAdvController(
         }
     }
 
+    //Проверка корректности VIN номера
+    private bool IsVinValid(string vin)
+    {
+        string pattern = @"^[a-zA-Z]{2}\d[a-zA-Z]\d{2}[a-zA-Z]\d{2}[a-zA-Z]{2}\d{6}$";
+        return Regex.IsMatch(vin, pattern);
+    }
+
 
     /// <summary>
     /// Возврат списка участков с содержищимися в них станциями.
@@ -143,7 +159,8 @@ public class ControlBoardAdvController(
         try
         {
             logger.LogInformation($"Действие {nameof(GetAreas)} запущено.");
-            return Ok(mapper.Map<List<Specification>, IEnumerable<SpecificationDto>>(await processStateAdvService.GetSpecifications()));
+            return Ok(mapper.Map<List<Specification>, IEnumerable<SpecificationDto>>(
+                await processStateAdvService.GetSpecifications()));
         }
         catch (Exception e)
         {

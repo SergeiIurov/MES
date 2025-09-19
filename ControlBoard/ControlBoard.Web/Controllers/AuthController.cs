@@ -40,7 +40,7 @@ public class AuthController(
             {
                 if (claim.Value != MesRoles.User.ToString() && r.Any()
                                                             && user.UserName != AuthConstants.Superuser
-                                                            && user.UserName != r.First().UserName)
+                                                            && (claim.Value == MesRoles.Operator.ToString() || claim.Value == MesRoles.Admin.ToString())  /*user.UserName != r.First().UserName*/)
                 {
                     return BadRequest(new
                     {

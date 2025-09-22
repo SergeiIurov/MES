@@ -20,7 +20,7 @@ export class CheckDoubleCabinOrChassisValidator extends BaseValidator {
   override check(value: string, productType: ProductTypes, specifications: SpecificationDto[], isDuplicate: boolean, stations: StationDto[], hasDuplicate: () => boolean, currentControl: AbstractControl, controls: AbstractControl[]) {
     if (productType === ProductTypes.НеЗадано || !productType) {
       return {message: "Не задан тип продукта"};
-    } else if (isDuplicate && productType === ProductTypes.Кабина && this.isFind(specifications, value, true, false)) {
+    }/* else if (isDuplicate && productType === ProductTypes.Кабина && this.isFind(specifications, value, true, false)) {
       const valCab = stations.flatMap(s => s.processStates).find(s =>
           (s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
             s.productType === ProductTypes.Кабина)) ||
@@ -29,7 +29,7 @@ export class CheckDoubleCabinOrChassisValidator extends BaseValidator {
         hasDuplicate();
         return null;
       }
-    } else if (isDuplicate && productType === ProductTypes.Кабина && this.isFind(specifications, value, undefined, undefined)) {
+    }*/ else if (isDuplicate && productType === ProductTypes.Кабина && this.isFind(specifications, value, undefined, undefined)) {
       const valCab = stations.flatMap(s => s.processStates).find(s =>
           (s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
             s.productType === ProductTypes.Кабина)) ||
@@ -38,15 +38,15 @@ export class CheckDoubleCabinOrChassisValidator extends BaseValidator {
         hasDuplicate();
         return {message: "Найдены продублированные значения"};
       }
-    } else if (isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, true, false)) {
-      const addIn = stations.flatMap(s => s.processStates).find(s =>
-          (s.value.trim().toLowerCase() == value.trim().toLowerCase() &&
-            s.productType === ProductTypes.ТипНадстройки)) ||
-        this.isFindInControlsWithSameType(currentControl, controls);
-      if (addIn) {
-        hasDuplicate()
-        return null;
+    } else if (isDuplicate &&/* productType === ProductTypes.ТипНадстройки &&*/ this.isFind(specifications, value, true, false)) {
+      const res = controls.filter(ctrl => /*currentControl != ctrl &&*/
+        ctrl.value.trim().toLowerCase() == currentControl.value.trim().toLowerCase() &&
+        ctrl['station'].productType === currentControl['station'].productType && ctrl['station'].productType !== ProductTypes.НеЗадано);
+      if (res.length > 1) {
+        return {message: "Найдены продублированные значения"};
       }
+
+      return null;
     } else if (isDuplicate && productType === ProductTypes.ТипНадстройки && this.isFind(specifications, value, undefined, undefined)) {
       const addIn = stations.flatMap(s => s.processStates).find(s =>
           (s.value.trim().toLowerCase() == value.trim().toLowerCase() &&

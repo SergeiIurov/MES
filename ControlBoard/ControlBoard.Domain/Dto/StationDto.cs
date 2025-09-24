@@ -1,5 +1,4 @@
-﻿using ControlBoard.DB.Entities;
-using ControlBoard.DB.Entities.Enums;
+﻿using ControlBoard.DB.Entities.Enums;
 
 namespace ControlBoard.Domain.Dto
 {

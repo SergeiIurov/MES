@@ -1,20 +1,9 @@
-using ControlBoard.DB;
-using ControlBoard.DB.Repositories.Abstract;
-using ControlBoard.DB.Repositories.Concrete;
-using ControlBoard.Domain.Services.Abstract;
-using ControlBoard.Domain.Services.Concrete;
 using ControlBoard.Web;
-using ControlBoard.Web.AutoMapperProfiles;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using NLog.Web;
 using System.Text;
-using ControlBoard.Domain.ChartConverts;
 using ControlBoard.Web.Auth;
 using ControlBoard.Web.ServiceExtensions;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 

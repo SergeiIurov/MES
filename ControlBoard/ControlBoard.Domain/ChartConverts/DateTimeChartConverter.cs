@@ -4,6 +4,9 @@ using System.Xml.Linq;
 
 namespace ControlBoard.Domain.ChartConverts
 {
+    /// <summary>
+    /// Класс для обработки графика с целью вывода даты/времени обновления состояния доски контроля производства.
+    /// </summary>
     public class DateTimeChartConverter(IProcessStateAdvService processStateAdvService,
         ILogger<DateTimeChartConverter> logger):IChartConverter
     {

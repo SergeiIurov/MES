@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace ControlBoard.Domain.ChartConverts
 {
+    /// <summary>
+    /// Класс для обработки графика с целью вывода данных по станциям.
+    /// </summary>
     public class DataChartConverter(IProcessStateRepository repository,
         IProcessStateAdvService processStateAdvService,
         MesDbContext context,

@@ -1,13 +1,5 @@
-﻿using ControlBoard.DB.Entities;
-using ControlBoard.DB.Repositories;
-using ControlBoard.Domain.Services.Abstract;
+﻿using ControlBoard.Domain.Services.Abstract;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ControlBoard.Domain.ChartConverts

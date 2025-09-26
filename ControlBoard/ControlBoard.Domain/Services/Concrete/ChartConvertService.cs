@@ -18,6 +18,7 @@ public class ChartConvertService(
     IProcessStateAdvService processStateAdvService,
     DataChartConverter dataChartConverter,
     DisabledChartConverter disabledChartConverter,
+    DateTimeChartConverter dateTimeChartConverter,
     MesDbContext context,
     IChartServices chartService,
     ILogger<ChartConvertService> logger) : IChartConvertService
@@ -28,6 +29,6 @@ public class ChartConvertService(
     /// <param name="from">Сырые данные со схемой доски контроля производства</param>
     public async Task<string> Convert(string from)
     {
-        return await disabledChartConverter.Convert(await dataChartConverter.Convert(from));
+        return await disabledChartConverter.Convert(await dataChartConverter.Convert(await dateTimeChartConverter.Convert(from)));
     }
 }

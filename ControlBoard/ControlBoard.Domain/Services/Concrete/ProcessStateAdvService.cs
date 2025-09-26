@@ -49,21 +49,23 @@ namespace ControlBoard.Domain.Services.Concrete
                 List<Specification> specificationList = await GetSpecifications();
 
                 //Сразу при сохранении статуса доски контроля производства, выполняем запись истории.
-                await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates.Include(s => s.Station).ToList().OrderBy(ps => ps.Id).Select(async ps =>
-                 new
-                 {
-                     Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? null : ps.Value,
-                     ps.Created,
-                     ps.LastUpdated,
-                     Area = ps.Station.Area.Name,
-                     Station = ps.Station.Name,
-                     ProductType = await
-                         chartServices.GetProductTypeAsync(
-                             specificationList.FirstOrDefault(s =>
-                                 s.SequenceNumber.Equals(ps.Value))?.SpecificationStr, ps.Station.ProductType ?? ProductTypes.NotData),
-                     ps.GroupId,
-                     Login = userName
-                 }).Select(val => val.Result)));
+                await historyService.WriteHistoryElementAsync(JsonSerializer.Serialize(context.ProcessStates
+                    .Include(s => s.Station).ToList().OrderBy(ps => ps.Id).Select(async ps =>
+                        new
+                        {
+                            Value = string.IsNullOrEmpty(ps.Value) || ps.Value.Equals("null") ? null : ps.Value,
+                            ps.Created,
+                            ps.LastUpdated,
+                            Area = ps.Station.Area.Name,
+                            Station = ps.Station.Name,
+                            ProductType = await
+                                chartServices.GetProductTypeAsync(
+                                    specificationList.FirstOrDefault(s =>
+                                        s.SequenceNumber.Equals(ps.Value))?.SpecificationStr,
+                                    ps.Station.ProductType ?? ProductTypes.NotData),
+                            ps.GroupId,
+                            Login = userName
+                        }).Select(val => val.Result)));
 
 
                 logger.LogInformation("Запись истории доски контроля производства выполнена.");
@@ -72,6 +74,15 @@ namespace ControlBoard.Domain.Services.Concrete
             {
                 logger.LogError(e.Message, e);
             }
+        }
+
+        /// <summary>
+        /// Получаем дату/время последнего обновления доски контроля производства
+        /// </summary>
+        /// <returns></returns>
+        public async Task<DateTime> GetLastUpdateAsync()
+        {
+            return await context.ProcessStates.Select(p => p.LastUpdated).FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -109,8 +120,6 @@ namespace ControlBoard.Domain.Services.Concrete
                 await context.SaveChangesAsync();
 
                 logger.LogInformation("Информация по спецификации сохранена в БД.");
-
-
             }
             catch (Exception e)
             {
@@ -127,7 +136,9 @@ namespace ControlBoard.Domain.Services.Concrete
         {
             await context.ProcessStates.AddAsync(new ProcessState
             {
-                Value = string.IsNullOrEmpty(processState.Value) || processState.Value.Equals("null") ? "" : processState.Value,
+                Value = string.IsNullOrEmpty(processState.Value) || processState.Value.Equals("null")
+                    ? ""
+                    : processState.Value,
                 Description = "",
                 Created = DateTime.UtcNow,
                 LastUpdated = DateTime.UtcNow,

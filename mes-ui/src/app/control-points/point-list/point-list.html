@@ -1,0 +1,10 @@
+<div class="info-card">
+  @for (station of stations; track station.id) {
+    <button (click)="currantStationName = station.name">{{ station.name }}</button>
+  }
+  @for (station of stations; track station.id) {
+    @if (currantStationName === station.name) {
+      <app-point-info [station]="station"></app-point-info>
+    }
+  }
+</div>

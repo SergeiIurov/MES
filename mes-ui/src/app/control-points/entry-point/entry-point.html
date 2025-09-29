@@ -1,0 +1,48 @@
+@if (showList) {
+  <div>
+    <div>
+      <h1>Выберите станцию</h1>
+    </div>
+<!--    <div>-->
+<!--      <p-select [options]="areas" [(ngModel)]="selectedArea" [checkmark]="true" optionLabel="name" [showClear]="true" placeholder="Выберите участок" class="w-full md:w-56" />-->
+<!--    </div>-->
+    <div class="row">
+      <div class="col-6">
+        <p-table [value]="stations"
+                 selectionMode="multiple" [(selection)]="selectedStations" dataKey="id"
+                 [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template #header>
+            <tr>
+              <th>ID</th>
+              <th>Участок</th>
+              <th>Станция</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-station>
+            <tr [pSelectableRow]="station">
+              <td>{{ station.chartElementId }}</td>
+              <td>{{ station.areaName }}</td>
+              <td>{{ station.name }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+    </div>
+    <div class="info-panel">
+      @for (station of selectedStations;track station.id) {
+        <p><strong><em>Выбрана станция "{{ station?.name }}(ID{{ station?.id }}"),
+          участок: "{{ station?.areaName }}".</em></strong></p>
+      }
+      <button pButton (click)="showList = !showList" pButtonLabel="Выбрать" [disabled]="!selectedStations"
+              severity="success">
+        <i class="pi pi-check" pButtonIcon></i>
+        <span pButtonLabel>Активировать точку сканирования</span>
+      </button>
+    </div>
+  </div>
+} @else {
+  <div class="parent-cointainer">
+    <app-point-list [stations]="selectedStations"></app-point-list>
+  </div>
+}

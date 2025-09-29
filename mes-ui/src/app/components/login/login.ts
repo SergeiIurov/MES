@@ -20,6 +20,7 @@ export class Login implements OnInit {
   loginForm: FormGroup;
   msg = ''
   isLoginCorrect: boolean = true;
+  returnUrl: string;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router,
               private activatedRoute: ActivatedRoute) {
@@ -36,6 +37,9 @@ export class Login implements OnInit {
       if (params['hideAuthOnLogin']) {
         localStorage.setItem('hideAuthOnLogin', params['hideAuthOnLogin']);
       }
+      if (params['returnUrl']) {
+        this.returnUrl = params['returnUrl'];
+      }
     })
   }
 
@@ -49,7 +53,11 @@ export class Login implements OnInit {
 
       localStorage.setItem('access_token', token);
       if (this.authService.isAuthenticated) {
-        this.router.navigate(['/']);
+        if (this.returnUrl) {
+          this.router.navigate([`/${this.returnUrl}`], {queryParams: {returnUrl: this.returnUrl}});
+        } else {
+          this.router.navigate(['/']);
+        }
       }
     }, error => {
 

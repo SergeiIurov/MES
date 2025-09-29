@@ -7,6 +7,8 @@ import {ControlBoardAdvanced} from './components/control-board-advanced/control-
 import {InputForm} from './components/input-form/input-form';
 import {authorizeGuard} from './services/authorize-guard';
 import {Admin} from './components/admin/admin';
+import {EntryPoint} from './control-points/entry-point/entry-point';
+import {authEntryPointGuard} from './services/auth-entry-point-guard';
 
 export const routes: Routes = [
   {
@@ -26,6 +28,9 @@ export const routes: Routes = [
   },
   {
     path: 'administration', component: Admin, canActivate: [authGuard, authorizeGuard]
+  },
+  {
+    path: 'scan', component: EntryPoint, canActivate: [authEntryPointGuard]
   },
   {
     path: '**', redirectTo: '/'

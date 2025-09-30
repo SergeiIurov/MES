@@ -129,6 +129,40 @@ namespace ControlBoard.DB.Migrations
                     b.ToTable("car_execution", (string)null);
                 });
 
+            modelBuilder.Entity("ControlBoard.DB.Entities.CommonSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated");
+
+                    b.Property<int>("LineCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1)
+                        .HasColumnName("line_count");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("common_settings", (string)null);
+                });
+
             modelBuilder.Entity("ControlBoard.DB.Entities.ControlBoardData", b =>
                 {
                     b.Property<int>("Id")

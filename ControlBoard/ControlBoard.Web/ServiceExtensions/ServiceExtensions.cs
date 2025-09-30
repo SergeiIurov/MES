@@ -3,7 +3,9 @@ using ControlBoard.DB.Repositories.Abstract;
 using ControlBoard.DB.Repositories.Concrete;
 using ControlBoard.Domain.ChartConverts;
 using ControlBoard.Domain.Services.Abstract;
+using ControlBoard.Domain.Services.Abstract.Settings;
 using ControlBoard.Domain.Services.Concrete;
+using ControlBoard.Domain.Services.Concrete.Settings;
 using ControlBoard.Web.Auth;
 using ControlBoard.Web.AutoMapperProfiles;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -64,6 +66,7 @@ namespace ControlBoard.Web.ServiceExtensions
             services.AddTransient<DataChartConverter>();
             services.AddTransient<DisabledChartConverter>();
             services.AddTransient<DateTimeChartConverter>();
+            services.AddTransient<ISettingsService, SettingsService>();
 
             services.AddProblemDetails();
 

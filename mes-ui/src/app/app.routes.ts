@@ -1,14 +1,16 @@
 import {Routes} from '@angular/router';
 import {ControlBoard} from './components/control-board/control-board';
-import {authGuard} from './services/auth-guard';
+import {authGuard} from './services/guards/auth-guard';
 import {Login} from './components/login/login';
 import {BoardConstructor} from './components/constructor/board-constructor';
 import {ControlBoardAdvanced} from './components/control-board-advanced/control-board-advanced';
 import {InputForm} from './components/input-form/input-form';
-import {authorizeGuard} from './services/authorize-guard';
+import {authorizeGuard} from './services/guards/authorize-guard';
 import {Admin} from './components/admin/admin';
 import {EntryPoint} from './control-points/entry-point/entry-point';
-import {authEntryPointGuard} from './services/auth-entry-point-guard';
+import {authEntryPointGuard} from './services/guards/auth-entry-point-guard';
+import {StartComponent} from './app-settings/start-component/start-component';
+import {authStartSettingsGuard} from './services/guards/authStartSettingsGuard';
 
 export const routes: Routes = [
   {
@@ -31,6 +33,9 @@ export const routes: Routes = [
   },
   {
     path: 'scan', component: EntryPoint, canActivate: [authEntryPointGuard]
+  },
+  {
+    path: 'start-settings', component: StartComponent, canActivate: [authStartSettingsGuard]
   },
   {
     path: '**', redirectTo: '/'

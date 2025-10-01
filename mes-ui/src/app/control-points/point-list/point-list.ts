@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {StationDto} from '../../Entities/StationDto';
 import {PointInfo} from '../point-info/point-info';
 
@@ -10,7 +10,11 @@ import {PointInfo} from '../point-info/point-info';
   templateUrl: './point-list.html',
   styleUrl: './point-list.scss'
 })
-export class PointList implements AfterViewInit {
+export class PointList implements AfterViewInit ,OnInit {
+  ngOnInit(): void {
+    this.currantStationName = this.stations[0].name;
+
+  }
   ngAfterViewInit(): void {
     this.inputRef.nativeElement.focus();
   }

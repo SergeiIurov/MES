@@ -1,7 +1,7 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot} from '@angular/router';
-import {AuthService} from './auth-service';
-import {Roles} from '../enums/roles';
+import {AuthService} from '../auth-service';
+import {Roles} from '../../enums/roles';
 
 export const authorizeGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const authService = inject(AuthService);

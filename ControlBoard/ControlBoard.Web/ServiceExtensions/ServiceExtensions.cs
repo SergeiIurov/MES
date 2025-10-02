@@ -79,6 +79,7 @@ namespace ControlBoard.Web.ServiceExtensions
                 configAction.AddProfile<SpecificationProfile>();
                 configAction.AddProfile<CarExecutionProfile>();
                 configAction.AddProfile<ProcessStateMapperProfile>();
+                configAction.AddProfile<ScanningPointMapperProfile>();
             });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

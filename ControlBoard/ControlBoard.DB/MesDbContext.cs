@@ -17,6 +17,7 @@ namespace ControlBoard.DB
         public DbSet<Specification> Specification { get; set; }
         public DbSet<CarExecution> CarExecution { get; set; }
         public DbSet<CommonSettings> CommonSettings { get; set; }
+        public DbSet<ScanningPoint> ScanningPoints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,7 @@ namespace ControlBoard.DB
             modelBuilder.ApplyConfiguration(new SpecificationConfiguration());
             modelBuilder.ApplyConfiguration(new CarExecutionConfiguration());
             modelBuilder.ApplyConfiguration(new CommonSettingsConfiguration());
+            modelBuilder.ApplyConfiguration(new ScanningPointConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

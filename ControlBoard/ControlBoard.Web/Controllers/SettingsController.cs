@@ -1,10 +1,5 @@
-﻿using AutoMapper;
-using ControlBoard.DB.Entities;
-using ControlBoard.Domain.Dto;
-using ControlBoard.Domain.Services.Abstract;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using System.Net;
 using ControlBoard.Domain.Services.Abstract.Settings;
 

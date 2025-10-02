@@ -67,6 +67,7 @@ namespace ControlBoard.Web.ServiceExtensions
             services.AddTransient<DisabledChartConverter>();
             services.AddTransient<DateTimeChartConverter>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IScanningPointService, ScanningPointService>();
 
             services.AddProblemDetails();
 

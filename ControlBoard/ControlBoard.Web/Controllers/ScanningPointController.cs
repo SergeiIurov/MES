@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using ControlBoard.DB.Entities;
 using ControlBoard.Domain.Services.Abstract.Settings;
 
 namespace ControlBoard.Web.Controllers
@@ -8,23 +9,23 @@ namespace ControlBoard.Web.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class SettingsController(
-        ILogger<SettingsController> logger,
-        ISettingsService settingsService) : ControllerBase
+    public class ScanningPointsController(
+        ILogger<ScanningPointsController> logger,
+        IScanningPointService scanningPointService) : ControllerBase
     {
         /// <summary>
-        /// Возврат числа линий
+        /// Возврат списка точек сканирования.
         /// </summary>
-        [HttpGet("line-count")]
+        [HttpGet("scanning-points")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<int>> GetLineCount()
+        public async Task<ActionResult<IEnumerable<ScanningPoint>>> GetScanningPoints()
         {
             try
             {
-                logger.LogInformation($"Действие {nameof(GetLineCount)} запущено.");
-                return Ok(await settingsService.GetLineCountAsync());
+                logger.LogInformation($"Действие {nameof(GetScanningPoints)} запущено.");
+                return Ok(await scanningPointService.GetScanningPointsAsync());
             }
             catch (Exception e)
             {

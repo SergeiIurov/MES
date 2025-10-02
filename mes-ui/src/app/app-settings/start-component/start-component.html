@@ -3,11 +3,15 @@
   <div>
     <strong>Выбор окна:</strong>
     <div>
-      <p-select [options]="windowsList" [(ngModel)]="selectedWindow" [checkmark]="true" optionLabel="name" (onClear)="onClear()"
+      <p-select [options]="windowsList" [(ngModel)]="selectedWindow" [checkmark]="true" optionLabel="name"
+                (onClear)="onClear()"
                 [showClear]="true" placeholder="Выберите окно для работы" class="w-full md:w-56"/>
     </div>
+
     @if (selectedWindow?.code === "ScanPointsSetting") {
-      <app-scan-points-setting></app-scan-points-setting>
+      <div class="setting-card">
+        <app-scan-points-setting></app-scan-points-setting>
+      </div>
     }
   </div>
 </div>

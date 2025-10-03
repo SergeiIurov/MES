@@ -1,9 +1,53 @@
 <div>
   <div>
     <fieldset>
-      <legend>Настройка точек сканирования</legend>
-      <p-select [options]="lines" [(ngModel)]="selectedLine" [checkmark]="true" optionLabel="name"
-                [showClear]="true" placeholder="Выберите линию для работы" class="w-full md:w-56"/>
+      <legend>Настройка точек сканирования <span [style]="{float:'right'}">{{ date|date:'dd.MM.yyyy HH:mm:ss' }}</span>
+      </legend>
+      <div class="row">
+        <div class="col-12">
+          <div class="caption">
+      <span class="caption-ctrl">
+        Линия
+      </span>
+            <p-select [options]="lines" [(ngModel)]="selectedLine" [checkmark]="true" optionLabel="name"
+                      [showClear]="true" placeholder="Выберите линию для работы" class="w-full md:w-56"/>
+            <button class="btn btn-dark refresh" (click)="updateScanningPoints();">Обновить</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p-table [value]="scanPoints|scanPointsLineFilter:selectedLine?.code"
+                   selectionMode="single" [(selection)]="selectedScanPoint" dataKey="id"
+                   [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template #header>
+              <tr>
+                <th>№П/П</th>
+                <th>Линия</th>
+                <th>Код ТС</th>
+                <th>Наименование ТС</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-scanpoint>
+              <tr [pSelectableRow]="scanpoint">
+                <td>{{ scanpoint.orderNum }}</td>
+                <td>{{ scanpoint.lineNumber }}</td>
+                <td>{{ scanpoint.codeTs }}</td>
+                <td>{{ scanpoint.name }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+      </div>
+      <div class="del-block">
+        <button class="btn btn-dark">Удалить</button>
+      </div>
+      <div class="edit-block">
+        <button [style]="{marginRight:'10px'}" class="btn btn-dark">Создать</button>
+        <button [style]="{marginRight:'10px'}" class="btn btn-dark">Создать на основании</button>
+        <button class="btn btn-dark">Изменить</button>
+      </div>
     </fieldset>
 
   </div>

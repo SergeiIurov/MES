@@ -33,7 +33,7 @@ namespace ControlBoard.Domain.Services.Concrete
             return newArea;
         }
 
-        public async Task DeleteAreaAxync(int id)
+        public async Task DeleteAreaAsync(int id)
         {
             context.Areas.Remove(new Area() { Id = id });
             await context.SaveChangesAsync();

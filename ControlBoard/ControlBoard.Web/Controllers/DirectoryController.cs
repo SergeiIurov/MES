@@ -78,7 +78,7 @@ namespace ControlBoard.Web.Controllers
             try
             {
                 logger.LogInformation($"Действие {nameof(DeleteArea)} запущено.");
-                await areaService.DeleteAreaAxync(id);
+                await areaService.DeleteAreaAsync(id);
                 await hub.Clients.All.SendAsync("сontrolBoardInfoUpdated");
                 return NoContent();
             }

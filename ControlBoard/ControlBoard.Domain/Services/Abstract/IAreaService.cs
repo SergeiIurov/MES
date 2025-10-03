@@ -7,7 +7,7 @@ namespace ControlBoard.Domain.Services.Abstract
     {
         Task<List<Area>> GetAreasAsync();
         Task<Area> AddAreaAsync(AreaDto area);
-        Task DeleteAreaAxync(int id);
+        Task DeleteAreaAsync(int id);
         Task<Area> UpdateAreaAsync(AreaDto area);
         Task SetDisabledColorAsync(int id, string color);
     }

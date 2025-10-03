@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {StationDto} from '../../Entities/StationDto';
 import {PointInfo} from '../point-info/point-info';
+import {StationDto} from '../../../Entities/StationDto';
 
 @Component({
   selector: 'app-point-list',

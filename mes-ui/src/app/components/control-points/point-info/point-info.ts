@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {StationDto} from '../../Entities/StationDto';
+import {StationDto} from '../../../Entities/StationDto';
 
 @Component({
   selector: 'app-point-info',

@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {Select} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
-import {SettingsService} from '../../services/settings/settings-service';
+import {SettingsService} from '../../../services/settings/settings-service';
+import {ScanningPointService} from '../../../services/settings/scanning-point-service';
 
 @Component({
   selector: 'app-scan-points-setting',
@@ -23,7 +24,8 @@ export class ScanPointsSetting implements OnInit {
 
   constructor(
     private title: Title,
-    private settingService: SettingsService) {
+    private settingService: SettingsService,
+    private scanningPointService: ScanningPointService) {
     title.setTitle('MES_Настройка точек сканирования');
   }
 

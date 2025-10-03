@@ -7,10 +7,10 @@ import {ControlBoardAdvanced} from './components/control-board-advanced/control-
 import {InputForm} from './components/input-form/input-form';
 import {authorizeGuard} from './services/guards/authorize-guard';
 import {Admin} from './components/admin/admin';
-import {EntryPoint} from './control-points/entry-point/entry-point';
 import {authEntryPointGuard} from './services/guards/auth-entry-point-guard';
-import {StartComponent} from './app-settings/start-component/start-component';
 import {authStartSettingsGuard} from './services/guards/authStartSettingsGuard';
+import {EntryPoint} from './components/control-points/entry-point/entry-point';
+import {StartComponent} from './components/app-settings/start-component/start-component';
 
 export const routes: Routes = [
   {

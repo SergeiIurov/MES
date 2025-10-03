@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {DirectoryService} from '../../services/directory-service';
-import {StationDto} from '../../Entities/StationDto';
 import {TableModule} from 'primeng/table';
 import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {PointList} from '../point-list/point-list';
 import {FormsModule} from '@angular/forms';
+import {DirectoryService} from '../../../services/directory-service';
+import {StationDto} from '../../../Entities/StationDto';
 
 interface AreaData {
   name: string;

@@ -18,6 +18,8 @@ namespace ControlBoard.DB
         public DbSet<CarExecution> CarExecution { get; set; }
         public DbSet<CommonSettings> CommonSettings { get; set; }
         public DbSet<ScanningPoint> ScanningPoints { get; set; }
+        public DbSet<ProductionProcess> ProductionProcesses { get; set; }
+        public DbSet<ProductionProcessLine> ProductionProcessLines { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +33,8 @@ namespace ControlBoard.DB
             modelBuilder.ApplyConfiguration(new CarExecutionConfiguration());
             modelBuilder.ApplyConfiguration(new CommonSettingsConfiguration());
             modelBuilder.ApplyConfiguration(new ScanningPointConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductionProcessConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductionProcessLineConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

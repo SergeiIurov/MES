@@ -22,7 +22,12 @@ namespace ControlBoard.DB.Entities
         
         //Комментарий
         public string Comment { get; set; }
-        
+        public DateTime Created { get; set; }
+
+        public DateTime LastUpdated { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         public virtual List<ProductionProcessLine> ProcessLines { get; set; } = new List<ProductionProcessLine>();
     }
 }

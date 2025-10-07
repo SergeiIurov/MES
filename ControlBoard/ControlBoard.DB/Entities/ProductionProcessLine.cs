@@ -28,7 +28,13 @@ namespace ControlBoard.DB.Entities
         public int ProductionProcessId { get; set; }
         
         public int ScanningPointId { get; set; }
-        
+
+        public DateTime Created { get; set; }
+
+        public DateTime LastUpdated { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         public virtual ProductionProcess ProductionProcess { get; set; }
         
         public virtual ScanningPoint ScanningPoint { get; set; }
